@@ -6,6 +6,10 @@ on:
     - cron: "30 6 1,16 * *"
   workflow_dispatch: {}
 
+concurrency:
+  group: ponatinib-digest-main
+  cancel-in-progress: false
+
 jobs:
   run-digest:
     runs-on: ubuntu-latest
@@ -30,22 +34,24 @@ jobs:
       - name: Run digest
         run: |
           python ponatinib_digest.py
+
       - name: Save reports in repo
         run: |
           mkdir -p reports
           cp output/weekly_digest.md reports/latest_digest.md
-          cp output/weekly_digest.html reports/latest_digest.html
-      - name: Upload report artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: ponatinib-asciminib-cml-digest
-          path: output/weekly_digest.md
+          if [ -f output/weekly_digest.html ]; then
+            cp output/weekly_digest.html reports/latest_digest.html
+          fi
+
       - name: Commit report files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          git add reports/latest_digest.md reports/latest_digest.html
+          git add reports/latest_digest.md
+          if [ -f reports/latest_digest.html ]; then
+            git add reports/latest_digest.html
+          fi
 
           if git diff --cached --quiet; then
             echo "Nessuna modifica ai report"
@@ -55,3 +61,9 @@ jobs:
           git commit -m "Update reports [skip ci]"
           git pull --rebase origin main
           git push origin main
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ponatinib-asciminib-cml-digest
+          path: output/
