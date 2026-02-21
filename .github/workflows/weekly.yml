@@ -47,15 +47,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Metti da parte eventuali file modificati non legati ai report (es. sqlite)
-          git stash push --include-untracked -m "temp-before-report-push" || true
+          # Aggiorna prima dal remoto
+          git pull --rebase origin main
 
-          # Rimetti i report appena creati nella cartella reports
-          cp output/weekly_digest.md reports/latest_digest.md
-          if [ -f output/weekly_digest.html ]; then
-            cp output/weekly_digest.html reports/latest_digest.html
-          fi
-
+          # Aggiungi solo i report
           git add reports/latest_digest.md
           if [ -f reports/latest_digest.html ]; then
             git add reports/latest_digest.html
@@ -67,9 +62,7 @@ jobs:
           fi
 
           git commit -m "Update reports [skip ci]"
-          git pull --rebase origin main
           git push origin main
-
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
         with:
