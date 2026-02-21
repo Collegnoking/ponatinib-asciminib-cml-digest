@@ -43,10 +43,19 @@ jobs:
             cp output/weekly_digest.html reports/latest_digest.html
           fi
 
-      - name: Commit report files
+      -      - name: Commit report files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          # Metti da parte eventuali file modificati non legati ai report (es. sqlite)
+          git stash push --include-untracked -m "temp-before-report-push" || true
+
+          # Rimetti i report appena creati nella cartella reports
+          cp output/weekly_digest.md reports/latest_digest.md
+          if [ -f output/weekly_digest.html ]; then
+            cp output/weekly_digest.html reports/latest_digest.html
+          fi
 
           git add reports/latest_digest.md
           if [ -f reports/latest_digest.html ]; then
