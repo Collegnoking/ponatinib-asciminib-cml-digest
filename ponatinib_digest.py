@@ -495,7 +495,9 @@ def main(days=15):
 
     md = build_markdown(new_articles, days=days)
     OUT_MD.write_text(md, encoding="utf-8")
-
+    out_html = OUT_DIR / "weekly_digest.html"
+    html_text = markdown_to_simple_html(md)
+    out_html.write_text(html_text, encoding="utf-8")
     mark_seen(con, new_articles)
 
     print(f"Trovati {len(articles)} articoli, nuovi {len(new_articles)}.")
