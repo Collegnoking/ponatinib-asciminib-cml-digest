@@ -6,18 +6,21 @@ import requests
 import re
 from html import unescape
 from xml.etree import ElementTree as ET
+import html as html_lib
 
-# NCBI E-utilities: meglio mettere una tua email vera
+# Metti una tua email vera (consigliato da NCBI)
 Entrez.email = "tuamail@example.com"
 
-# QUERY AGGIORNATA: Ponatinib o Asciminib nella LMC
-QUERY = '((ponatinib OR iclusig OR AP24534) OR (asciminib OR scemblix OR ABL001)) AND ("chronic myeloid leukemia" OR CML OR "leucemia mieloide cronica")'
+# Query: stretta + fallback
+QUERY_STRICT = '((ponatinib OR iclusig OR AP24534) OR (asciminib OR scemblix OR ABL001)) AND (("chronic myeloid leukemia") OR CML OR ("chronic myelogenous leukemia"))'
+QUERY_FALLBACK = '(ponatinib OR asciminib) AND (CML OR "chronic myeloid leukemia")'
 
 BASE_DIR = Path(__file__).parent
 DB_PATH = BASE_DIR / "ponatinib_digest.sqlite"
 OUT_DIR = BASE_DIR / "output"
 OUT_DIR.mkdir(exist_ok=True)
 OUT_MD = OUT_DIR / "weekly_digest.md"
+OUT_HTML = OUT_DIR / "weekly_digest.html"
 
 EUROPE_PMC_SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 EUROPE_PMC_FULLTEXT_XML = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
@@ -43,17 +46,30 @@ def pubmed_search_last_days(days=15, retmax=300):
     mindate = start.strftime("%Y/%m/%d")
     maxdate = today.strftime("%Y/%m/%d")
 
-    handle = Entrez.esearch(
-        db="pubmed",
-        term=QUERY,
-        mindate=mindate,
-        maxdate=maxdate,
-        datetype="pdat",
-        retmax=retmax,
-        sort="pub+date"
-    )
-    res = Entrez.read(handle)
-    return res["IdList"]
+    def run_search(term):
+        handle = Entrez.esearch(
+            db="pubmed",
+            term=term,
+            mindate=mindate,
+            maxdate=maxdate,
+            datetype="edat",   # entry date: meglio per rassegna periodica
+            retmax=retmax,
+            sort="pub+date"
+        )
+        res = Entrez.read(handle)
+        return res["IdList"]
+
+    # Ricerca stretta
+    ids_strict = run_search(QUERY_STRICT)
+    print(f"Ricerca stretta: trovati {len(ids_strict)} PMID")
+
+    # Fallback se zero
+    if len(ids_strict) == 0:
+        ids_fallback = run_search(QUERY_FALLBACK)
+        print(f"Fallback: trovati {len(ids_fallback)} PMID")
+        return ids_fallback
+
+    return ids_strict
 
 
 def pubmed_fetch_details(pmids):
@@ -78,7 +94,7 @@ def pubmed_fetch_details(pmids):
         doi = ""
         if "ELocationID" in article:
             for eloc in article["ELocationID"]:
-                if eloc.attributes.get("EIdType") == "doi":
+                if getattr(eloc, "attributes", {}).get("EIdType") == "doi":
                     doi = str(eloc)
 
         articles.append({
@@ -215,7 +231,7 @@ def europe_pmc_find_pmcid(pmid=None, doi=None):
         if pmcid and str(is_oa).upper() == "Y":
             return pmcid
 
-    # fallback
+    # fallback (alcuni record hanno pmcid ma flag non chiaro)
     for rec in results:
         pmcid = rec.get("pmcid")
         if pmcid:
@@ -314,7 +330,6 @@ def build_markdown(articles, days=15):
         lines.append("✅ Nessun nuovo articolo nel periodo.\n")
         return "\n".join(lines)
 
-    # Raggruppa per tag
     grouped = {"Ponatinib": [], "Asciminib": [], "Entrambi": [], "Altro": []}
     for a in articles:
         tag = tag_topic(a["title"], a.get("abstract", ""))
@@ -361,16 +376,14 @@ def build_markdown(articles, days=15):
 
     return "\n".join(lines)
 
+
 def markdown_to_simple_html(md_text: str) -> str:
     """
     Conversione semplice Markdown -> HTML (senza librerie extra).
-    Non è perfetta, ma è leggibile e gratuita.
+    Non è perfetta, ma è leggibile.
     """
-    import html
-
     lines = md_text.splitlines()
     html_lines = []
-
     in_ul = False
 
     def close_ul():
@@ -382,69 +395,55 @@ def markdown_to_simple_html(md_text: str) -> str:
     for raw in lines:
         line = raw.rstrip()
 
-        # Riga vuota
         if not line.strip():
             close_ul()
             html_lines.append("<p></p>")
             continue
 
-        # Separatore ---
         if line.strip() == "---":
             close_ul()
             html_lines.append("<hr>")
             continue
 
-        # Titoli
         if line.startswith("### "):
             close_ul()
-            txt = html.escape(line[4:])
-            txt = txt.replace("**", "")
+            txt = html_lib.escape(line[4:])
+            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
             html_lines.append(f"<h3>{txt}</h3>")
             continue
+
         if line.startswith("## "):
             close_ul()
-            txt = html.escape(line[3:])
-            txt = txt.replace("**", "")
+            txt = html_lib.escape(line[3:])
+            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
             html_lines.append(f"<h2>{txt}</h2>")
             continue
+
         if line.startswith("# "):
             close_ul()
-            txt = html.escape(line[2:])
-            txt = txt.replace("**", "")
+            txt = html_lib.escape(line[2:])
+            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
             html_lines.append(f"<h1>{txt}</h1>")
             continue
 
-        # Bullet list
         if line.startswith("- "):
             if not in_ul:
                 html_lines.append("<ul>")
                 in_ul = True
-            item = html.escape(line[2:])
 
-            # grassetto **...**
-            item = item.replace("**", "<b>", 1).replace("**", "</b>", 1) if item.count("**") >= 2 else item
-
-            # link plain PubMed (molto semplice)
-            if "https://pubmed.ncbi.nlm.nih.gov/" in item:
-                # prova a linkare tutta la URL fino a spazio
-                import re
-                item = re.sub(
-                    r'(https://pubmed\.ncbi\.nlm\.nih\.gov/\d+/)',
-                    r'<a href="\1" target="_blank">\1</a>',
-                    item
-                )
-
+            item = html_lib.escape(line[2:])
+            item = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", item)
+            item = re.sub(
+                r'(https://pubmed\.ncbi\.nlm\.nih\.gov/\d+/)',
+                r'<a href="\1" target="_blank">\1</a>',
+                item
+            )
             html_lines.append(f"<li>{item}</li>")
             continue
 
-        # Testo normale + grassetto
         close_ul()
-        txt = html.escape(line)
-
-        # converte **...** in <b>...</b> in modo semplice
-        import re
+        txt = html_lib.escape(line)
         txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-
         html_lines.append(f"<p>{txt}</p>")
 
     close_ul()
@@ -465,6 +464,7 @@ def markdown_to_simple_html(md_text: str) -> str:
       max-width: 900px;
       padding: 0 16px;
       color: #222;
+      background: #fff;
     }}
     h1, h2, h3 {{ line-height: 1.2; }}
     h1 {{ border-bottom: 2px solid #ddd; padding-bottom: 8px; }}
@@ -475,11 +475,7 @@ def markdown_to_simple_html(md_text: str) -> str:
     hr {{ margin: 22px 0; border: none; border-top: 1px solid #ddd; }}
     a {{ color: #0b57d0; text-decoration: none; }}
     a:hover {{ text-decoration: underline; }}
-    code {{
-      background: #f4f4f4;
-      padding: 2px 4px;
-      border-radius: 4px;
-    }}
+    p {{ margin: 8px 0; }}
   </style>
 </head>
 <body>
@@ -487,22 +483,33 @@ def markdown_to_simple_html(md_text: str) -> str:
 </body>
 </html>
 """
+
+
 def main(days=15):
     con = init_db()
+
     pmids = pubmed_search_last_days(days=days)
+    print("Numero PMID trovati:", len(pmids))
+    print("Primi PMID:", pmids[:10])
+
     articles = pubmed_fetch_details(pmids)
     new_articles = filter_new(con, articles)
 
+    print(f"Trovati {len(articles)} articoli, nuovi {len(new_articles)}.")
+
     md = build_markdown(new_articles, days=days)
     OUT_MD.write_text(md, encoding="utf-8")
-    out_html = OUT_DIR / "weekly_digest.html"
+
     html_text = markdown_to_simple_html(md)
-    out_html.write_text(html_text, encoding="utf-8")
+    OUT_HTML.write_text(html_text, encoding="utf-8")
+
     mark_seen(con, new_articles)
 
-    print(f"Trovati {len(articles)} articoli, nuovi {len(new_articles)}.")
-    print(f"Creato file: {OUT_MD}")
+    print(f"Creato file Markdown: {OUT_MD}")
+    print(f"Creato file HTML: {OUT_HTML}")
 
 
 if __name__ == "__main__":
-    main(days=15)
+    # TEST: 60 giorni per verificare che trovi articoli.
+    # Quando confermi che funziona, rimetti 15.
+    main(days=60)
