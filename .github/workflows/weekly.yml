@@ -30,10 +30,28 @@ jobs:
       - name: Run digest
         run: |
           python ponatinib_digest.py
-
+      - name: Save reports in repo
+        run: |
+          mkdir -p reports
+          cp output/weekly_digest.md reports/latest_digest.md
+          cp output/weekly_digest.html reports/latest_digest.html
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
         with:
           name: ponatinib-asciminib-cml-digest
           path: output/weekly_digest.md
+      - name: Commit report files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
+          git add reports/latest_digest.md reports/latest_digest.html
+
+          if git diff --cached --quiet; then
+            echo "Nessuna modifica ai report"
+            exit 0
+          fi
+
+          git commit -m "Update reports [skip ci]"
+          git pull --rebase origin main
+          git push origin main
