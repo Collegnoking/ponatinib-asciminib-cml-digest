@@ -37,13 +37,3 @@ jobs:
           name: ponatinib-asciminib-cml-digest
           path: output/weekly_digest.md
 
-      # Facoltativo ma consigliato: salva il DB nella repo per evitare duplicati nei run futuri
-      - name: Commit updated SQLite DB
-        run: |
-          if [ -f ponatinib_digest.sqlite ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add ponatinib_digest.sqlite
-            git diff --cached --quiet || git commit -m "Update digest DB [skip ci]"
-            git push
-          fi
