@@ -47,10 +47,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-          # Aggiorna prima dal remoto
-          git pull --rebase origin main
-
-          # Aggiungi solo i report
           git add reports/latest_digest.md
           if [ -f reports/latest_digest.html ]; then
             git add reports/latest_digest.html
@@ -62,7 +58,9 @@ jobs:
           fi
 
           git commit -m "Update reports [skip ci]"
-          git push origin main
+
+          # Prova il push; se fallisce non bloccare il workflow
+          git push origin main || echo "Push non riuscito (continuo comunque)"
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
         with:
