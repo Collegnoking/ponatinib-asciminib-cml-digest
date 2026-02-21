@@ -1,0 +1,49 @@
+name: Ponatinib / Asciminib CML digest
+
+on:
+  schedule:
+    # Giorno 1 e 16 di ogni mese alle 06:30 UTC
+    - cron: "30 6 1,16 * *"
+  workflow_dispatch: {}
+
+jobs:
+  run-digest:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run digest
+        run: |
+          python ponatinib_digest.py
+
+      - name: Upload report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ponatinib-asciminib-cml-digest
+          path: output/weekly_digest.md
+
+      # Facoltativo ma consigliato: salva il DB nella repo per evitare duplicati nei run futuri
+      - name: Commit updated SQLite DB
+        run: |
+          if [ -f ponatinib_digest.sqlite ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add ponatinib_digest.sqlite
+            git diff --cached --quiet || git commit -m "Update digest DB [skip ci]"
+            git push
+          fi
