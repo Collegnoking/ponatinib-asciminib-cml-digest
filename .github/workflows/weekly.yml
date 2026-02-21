@@ -2,7 +2,6 @@ name: Ponatinib / Asciminib CML digest
 
 on:
   schedule:
-    # Giorno 1 e 16 di ogni mese alle 06:30 UTC
     - cron: "30 6 1,16 * *"
   workflow_dispatch: {}
 
@@ -43,7 +42,7 @@ jobs:
             cp output/weekly_digest.html reports/latest_digest.html
           fi
 
-      -      - name: Commit report files
+      - name: Commit report files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
