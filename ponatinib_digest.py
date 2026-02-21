@@ -361,7 +361,132 @@ def build_markdown(articles, days=15):
 
     return "\n".join(lines)
 
+def markdown_to_simple_html(md_text: str) -> str:
+    """
+    Conversione semplice Markdown -> HTML (senza librerie extra).
+    Non è perfetta, ma è leggibile e gratuita.
+    """
+    import html
 
+    lines = md_text.splitlines()
+    html_lines = []
+
+    in_ul = False
+
+    def close_ul():
+        nonlocal in_ul
+        if in_ul:
+            html_lines.append("</ul>")
+            in_ul = False
+
+    for raw in lines:
+        line = raw.rstrip()
+
+        # Riga vuota
+        if not line.strip():
+            close_ul()
+            html_lines.append("<p></p>")
+            continue
+
+        # Separatore ---
+        if line.strip() == "---":
+            close_ul()
+            html_lines.append("<hr>")
+            continue
+
+        # Titoli
+        if line.startswith("### "):
+            close_ul()
+            txt = html.escape(line[4:])
+            txt = txt.replace("**", "")
+            html_lines.append(f"<h3>{txt}</h3>")
+            continue
+        if line.startswith("## "):
+            close_ul()
+            txt = html.escape(line[3:])
+            txt = txt.replace("**", "")
+            html_lines.append(f"<h2>{txt}</h2>")
+            continue
+        if line.startswith("# "):
+            close_ul()
+            txt = html.escape(line[2:])
+            txt = txt.replace("**", "")
+            html_lines.append(f"<h1>{txt}</h1>")
+            continue
+
+        # Bullet list
+        if line.startswith("- "):
+            if not in_ul:
+                html_lines.append("<ul>")
+                in_ul = True
+            item = html.escape(line[2:])
+
+            # grassetto **...**
+            item = item.replace("**", "<b>", 1).replace("**", "</b>", 1) if item.count("**") >= 2 else item
+
+            # link plain PubMed (molto semplice)
+            if "https://pubmed.ncbi.nlm.nih.gov/" in item:
+                # prova a linkare tutta la URL fino a spazio
+                import re
+                item = re.sub(
+                    r'(https://pubmed\.ncbi\.nlm\.nih\.gov/\d+/)',
+                    r'<a href="\1" target="_blank">\1</a>',
+                    item
+                )
+
+            html_lines.append(f"<li>{item}</li>")
+            continue
+
+        # Testo normale + grassetto
+        close_ul()
+        txt = html.escape(line)
+
+        # converte **...** in <b>...</b> in modo semplice
+        import re
+        txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+
+        html_lines.append(f"<p>{txt}</p>")
+
+    close_ul()
+
+    body = "\n".join(html_lines)
+
+    return f"""<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Rassegna Ponatinib / Asciminib CML</title>
+  <style>
+    body {{
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 24px auto;
+      max-width: 900px;
+      padding: 0 16px;
+      color: #222;
+    }}
+    h1, h2, h3 {{ line-height: 1.2; }}
+    h1 {{ border-bottom: 2px solid #ddd; padding-bottom: 8px; }}
+    h2 {{ margin-top: 28px; border-bottom: 1px solid #eee; padding-bottom: 4px; }}
+    h3 {{ margin-top: 22px; }}
+    ul {{ margin-top: 6px; margin-bottom: 10px; }}
+    li {{ margin-bottom: 6px; }}
+    hr {{ margin: 22px 0; border: none; border-top: 1px solid #ddd; }}
+    a {{ color: #0b57d0; text-decoration: none; }}
+    a:hover {{ text-decoration: underline; }}
+    code {{
+      background: #f4f4f4;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }}
+  </style>
+</head>
+<body>
+{body}
+</body>
+</html>
+"""
 def main(days=15):
     con = init_db()
     pmids = pubmed_search_last_days(days=days)
