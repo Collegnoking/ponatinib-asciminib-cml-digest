@@ -722,4 +722,4 @@ def main(days=15):
 if __name__ == "__main__":
     # TEST: 60 giorni per verificare che trovi articoli.
     # Quando confermi che funziona, rimetti 15.
-    main(days=60)
+    main(days=30)
