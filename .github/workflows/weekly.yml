@@ -41,7 +41,28 @@ jobs:
           if [ -f output/weekly_digest.html ]; then
             cp output/weekly_digest.html reports/latest_digest.html
           fi
-
+      - name: Send email with report
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: ${{ secrets.SMTP_SERVER }}
+          server_port: ${{ secrets.SMTP_PORT }}
+          username: ${{ secrets.SMTP_USERNAME }}
+          password: ${{ secrets.SMTP_PASSWORD }}
+          subject: "Newsletter CML – Ponatinib/Asciminib (ultimi 30 giorni)"
+          to: ${{ secrets.EMAIL_TO }}
+          from: ${{ secrets.EMAIL_FROM }}
+          body: |
+            Ciao,
+            
+            in allegato trovi la newsletter (ultimi 30 giorni).
+            
+            - File HTML: aprilo e leggi come una pagina web
+            - File MD: versione testuale
+            
+            (Generato automaticamente da GitHub Actions)
+          attachments: |
+            reports/latest_digest.html
+            reports/latest_digest.md
       - name: Commit report files
         run: |
           git config user.name "github-actions[bot]"
