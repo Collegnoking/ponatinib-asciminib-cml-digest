@@ -319,51 +319,261 @@ def tag_topic(title, abstract):
         return "Asciminib"
     return "Altro"
 
+def detect_study_type(title: str, abstract: str) -> str:
+    t = f"{title} {abstract}".lower()
 
+    # guideline / consensus
+    if "guideline" in t or "consensus" in t or "recommendation" in t:
+        return "Linee guida / consenso"
+
+    # systematic review / meta
+    if "systematic review" in t or "meta-analysis" in t or "metaanalysis" in t:
+        return "Revisione sistematica / meta-analisi"
+
+    # review
+    if "review" in t or "narrative review" in t or "special report" in t:
+        return "Review"
+
+    # trial
+    if "randomized" in t or "phase ii" in t or "phase iii" in t or "clinical trial" in t or "open-label" in t:
+        return "Trial clinico"
+
+    # real-world / observational
+    if "real-world" in t or "observational" in t or "cohort" in t or "registry" in t or "routine clinical practice" in t:
+        return "Real-world / osservazionale"
+
+    # pharmacovigilance
+    if "eudravigilance" in t or "disproportionality" in t or "spontaneous reports" in t:
+        return "Farmacovigilanza"
+
+    # preclinico / in vitro
+    if "cell" in t or "cells" in t or "k562" in t or "mouse" in t or "mice" in t or "in vitro" in t:
+        return "Preclinico / laboratorio"
+
+    # case reports
+    if "case report" in t or "two cases" in t:
+        return "Case report"
+
+    return "Altro"
+
+
+def impact_score(title: str, abstract: str) -> int:
+    """Punteggio semplice e trasparente: serve per ordinare il Top 5."""
+    t = f"{title} {abstract}".lower()
+    stype = detect_study_type(title, abstract)
+
+    score = 0
+    # base per tipo studio
+    base = {
+        "Linee guida / consenso": 8,
+        "Trial clinico": 7,
+        "Real-world / osservazionale": 6,
+        "Revisione sistematica / meta-analisi": 5,
+        "Farmacovigilanza": 5,
+        "Review": 4,
+        "Case report": 2,
+        "Preclinico / laboratorio": 2,
+        "Altro": 3
+    }
+    score += base.get(stype, 3)
+
+    # booster "clinicamente strategici"
+    boosters = [
+        ("tfr", 2), ("treatment-free", 2), ("treatment free", 2),
+        ("mr4", 2), ("mr4.5", 2), ("deep molecular", 2),
+        ("t315i", 2),
+        ("arterial", 2), ("vascular", 2), ("cardio", 2), ("stroke", 2),
+        ("anticoagul", 1),
+        ("dose", 1), ("15 mg", 1), ("30 mg", 1), ("reduced dose", 1),
+        ("resistance", 1), ("intoleran", 1),
+        ("sequenc", 1), ("switch", 1)
+    ]
+    for key, add in boosters:
+        if key in t:
+            score += add
+
+    # piccolo malus: troppo preclinico
+    if stype == "Preclinico / laboratorio":
+        score -= 1
+
+    return max(score, 0)
+
+
+def clinical_buckets(title: str, abstract: str) -> list[str]:
+    """Ritorna 1+ categorie cliniche per raggruppare in modo 'strategico'."""
+    t = f"{title} {abstract}".lower()
+    buckets = []
+
+    if "t315i" in t or "mutation" in t or "resistance" in t:
+        buckets.append("Resistenza / T315I / mutazioni")
+
+    if "tfr" in t or "treatment-free" in t or "treatment free" in t or "discontinu" in t or "stop" in t:
+        buckets.append("TFR / stop terapia")
+
+    if "dose" in t or "15 mg" in t or "30 mg" in t or "reduced dose" in t or "consolidation" in t:
+        buckets.append("Dose strategy / consolidamento")
+
+    if "vascular" in t or "arterial" in t or "cardio" in t or "stroke" in t or "pulmonary" in t or "thrombo" in t or "anticoagul" in t:
+        buckets.append("Safety e comorbidità")
+
+    if "first-line" in t or "second-line" in t or "third-line" in t or "sequenc" in t or "switch" in t:
+        buckets.append("Sequencing / linee di terapia")
+
+    if "real-world" in t or "routine clinical practice" in t or "registry" in t:
+        buckets.append("Real-world (utilità pratica)")
+
+    if "review" in t or "guideline" in t or "consensus" in t:
+        buckets.append("Sintesi (review/linee guida)")
+
+    if not buckets:
+        buckets.append("Altro")
+
+    return buckets
+
+
+def make_executive_takeaways(articles: list[dict]) -> tuple[list[str], list[str], list[str]]:
+    """
+    Genera 3 takeaway + watchlist + action list, usando semplici conteggi per categoria.
+    """
+    # conteggi per bucket
+    bucket_count = {}
+    for a in articles:
+        for b in clinical_buckets(a["title"], a.get("abstract", "")):
+            bucket_count[b] = bucket_count.get(b, 0) + 1
+
+    # ordina bucket per frequenza
+    top_buckets = sorted(bucket_count.items(), key=lambda x: x[1], reverse=True)
+
+    takeaways = []
+    if top_buckets:
+        # takeaway 1: bucket più frequente
+        b1, n1 = top_buckets[0]
+        takeaways.append(f"Nel periodo emergono soprattutto temi su **{b1}** (n={n1}).")
+    if len(top_buckets) > 1:
+        b2, n2 = top_buckets[1]
+        takeaways.append(f"Secondo filone: **{b2}** (n={n2}).")
+    if len(top_buckets) > 2:
+        b3, n3 = top_buckets[2]
+        takeaways.append(f"Terzo filone: **{b3}** (n={n3}).")
+
+    while len(takeaways) < 3:
+        takeaways.append("Nessun trend dominante: rassegna eterogenea nel periodo.")
+
+    # watchlist (cosa monitorare)
+    watchlist = []
+    for key in ["TFR / stop terapia", "Safety e comorbidità", "Resistenza / T315I / mutazioni"]:
+        if bucket_count.get(key, 0) > 0:
+            watchlist.append(f"Monitorare evoluzione su **{key}** (nuovi segnali/dati).")
+    if not watchlist:
+        watchlist = ["Monitorare nuovi dati su efficacia e safety in CP-CML (linee successive)."]
+
+    # action list (azioni pratiche)
+    actions = []
+    if bucket_count.get("Safety e comorbidità", 0) > 0:
+        actions.append("Rivedere/rafforzare **monitoraggio cardiovascolare e interazioni** (es. anticoagulanti) nei pazienti in TKI.")
+    if bucket_count.get("Dose strategy / consolidamento", 0) > 0 or bucket_count.get("TFR / stop terapia", 0) > 0:
+        actions.append("Valutare criteri interni per **consolidamento / de-escalation / TFR** nei pazienti in deep response.")
+    if bucket_count.get("Resistenza / T315I / mutazioni", 0) > 0:
+        actions.append("Verificare percorso di **test mutazionale** e criteri di switch nelle resistenze (incl. T315I).")
+    if not actions:
+        actions = ["Nessuna azione immediata: mantenere sorveglianza e aggiornare la rassegna al prossimo ciclo."]
+
+    return takeaways[:3], watchlist[:3], actions[:3]
 def build_markdown(articles, days=15):
     today = datetime.utcnow().strftime("%Y-%m-%d")
     lines = []
-    lines.append(f"# Ponatinib / Asciminib nella LMC – Rassegna quindicinale (ultimi {days} giorni)")
+    lines.append(f"# Ponatinib / Asciminib nella LMC – Report strategico quindicinale (ultimi {days} giorni)")
     lines.append(f"_Generata il: {today}_\n")
 
     if not articles:
         lines.append("✅ Nessun nuovo articolo nel periodo.\n")
         return "\n".join(lines)
 
-    grouped = {"Ponatinib": [], "Asciminib": [], "Entrambi": [], "Altro": []}
+    # --- Executive brief ---
+    takeaways, watchlist, actions = make_executive_takeaways(articles)
+
+    lines.append("## Executive brief\n")
+    lines.append("**3 takeaway (cosa conta davvero):**")
+    for t in takeaways:
+        lines.append(f"- {t}")
+    lines.append("")
+    lines.append("**Watchlist (cosa tenere d’occhio):**")
+    for w in watchlist:
+        lines.append(f"- {w}")
+    lines.append("")
+    lines.append("**Action list (cosa fare in pratica):**")
+    for a in actions:
+        lines.append(f"- {a}")
+    lines.append("\n---\n")
+
+    # --- Top 5 per impatto ---
+    scored = []
     for a in articles:
-        tag = tag_topic(a["title"], a.get("abstract", ""))
-        grouped[tag].append(a)
+        s = impact_score(a["title"], a.get("abstract", ""))
+        stype = detect_study_type(a["title"], a.get("abstract", ""))
+        scored.append((s, stype, a))
 
-    total = len(articles)
-    lines.append(f"## Nuovi articoli: {total}\n")
+    scored.sort(key=lambda x: x[0], reverse=True)
+    top5 = scored[:5]
 
-    for section in ["Ponatinib", "Asciminib", "Entrambi", "Altro"]:
-        section_articles = grouped.get(section, [])
-        if not section_articles:
-            continue
+    lines.append("## Top 5 da leggere subito (ordinati per impatto)\n")
+    for rank, (s, stype, a) in enumerate(top5, start=1):
+        pmid = a["pmid"]
+        doi = a["doi"] if a["doi"] else "DOI non riportato"
+        title = a["title"] if a["title"] else "(Titolo non disponibile)"
+        pubmed_link = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
+        buckets = ", ".join(clinical_buckets(title, a.get("abstract", "")))
 
-        lines.append(f"## {section} ({len(section_articles)})\n")
+        lines.append(f"### {rank}) {title}")
+        lines.append(f"- **Impact score**: {s} | **Tipo**: {stype}")
+        lines.append(f"- **Focus clinico**: {buckets}")
+        lines.append(f"- PMID: {pmid} | {doi}")
+        lines.append(f"- Link PubMed: {pubmed_link}")
+        lines.append("")
+        # mini-riassunto già esistente
+        abs_bullets = summarize_abstract_free(a.get("abstract", ""))
+        for b in abs_bullets:
+            lines.append(f"- {b}")
+        lines.append("\n---\n")
 
-        for a in section_articles:
+    # --- Raggruppamento per domande cliniche ---
+    bucket_map = {}
+    for a in articles:
+        for b in clinical_buckets(a["title"], a.get("abstract", "")):
+            bucket_map.setdefault(b, []).append(a)
+
+    # Ordina bucket per numero articoli
+    bucket_order = sorted(bucket_map.items(), key=lambda x: len(x[1]), reverse=True)
+
+    lines.append("## Evidenze per domande cliniche\n")
+    for bucket, items in bucket_order:
+        lines.append(f"### {bucket} ({len(items)})\n")
+
+        # ordina gli item del bucket per impatto
+        items_sorted = sorted(items, key=lambda x: impact_score(x["title"], x.get("abstract", "")), reverse=True)
+
+        for a in items_sorted:
             pmid = a["pmid"]
             doi = a["doi"] if a["doi"] else "DOI non riportato"
             title = a["title"] if a["title"] else "(Titolo non disponibile)"
             abstract = a.get("abstract", "")
             pubmed_link = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 
-            abs_bullets = summarize_abstract_free(abstract)
-
+            # OA info + riassunti (già nel tuo flusso)
             pmcid = europe_pmc_find_pmcid(pmid=pmid, doi=a.get("doi"))
             oa_bullets = get_oa_fulltext_summary(pmcid) if pmcid else None
 
-            lines.append(f"### {title}")
+            stype = detect_study_type(title, abstract)
+            s = impact_score(title, abstract)
+
+            lines.append(f"#### {title}")
+            lines.append(f"- Impact score: {s} | Tipo: {stype}")
             lines.append(f"- PMID: {pmid} | {doi}")
             lines.append(f"- Link PubMed: {pubmed_link}")
             lines.append(f"- Open Access (Europe PMC/PMC): {'sì (' + pmcid + ')' if pmcid else 'non rilevato'}")
             lines.append("")
             lines.append("**Mini-riassunto (da abstract, estrattivo):**")
-            for b in abs_bullets:
+            for b in summarize_abstract_free(abstract):
                 lines.append(f"- {b}")
 
             if oa_bullets:
