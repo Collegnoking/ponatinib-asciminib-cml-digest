@@ -1,5 +1,5 @@
 # Ponatinib / Asciminib nella LMC – Report strategico quindicinale (ultimi 30 giorni)
-_Generata il: 2026-02-23_
+_Generata il: 2026-02-26_
 
 ## Executive brief
 
@@ -66,6 +66,18 @@ _Generata il: 2026-02-23_
 - Tipo di studio/popolazione: Resistance to tyrosine kinase inhibitors (TKIs) remains a major challenge in breakpoint cluster region (BCR)::Abelson 1 (ABL1)-driven leukaemias.
 - Risultato chiave: Viability, cytotoxicity, and caspase-3/7 activity were assessed following single-agent treatment with asciminib, ponatinib, bortezomib, or panobinostat.
 - Rilevanza clinica: Asciminib showed reduced potency in resistant models and a right-shifted dose-response curve in T315I cells, whereas ponatinib retained activity across BCR::ABL1 variants.
+
+---
+
+### 5) Secondary Chronic Myeloid Leukemia in the Blast Phase With Mixed Phenotype After Radiation Therapy: A Case Report.
+- **Impact score**: 1 | **Tipo**: Preclinico / laboratorio
+- **Focus clinico**: Altro
+- PMID: 41737783 | DOI non riportato
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41737783/
+
+- Tipo di studio/popolazione: A 55‐year‐old woman underwent hysterectomy and pelvic radiation for cervical cancer, which remains in remission.
+- Risultato chiave: Following induction therapy, sequential therapy with blinatumomab and ponatinib achieved qualitatively PCR‐negative minor <i>BCR::ABL1</i> transcripts, indicating that residual transcripts below the qualitative assay's detection limit were undetectable.
+- Rilevanza clinica: She received an allogeneic bone marrow transplant and remains well with PCR‐negative minor <i>BCR::ABL1</i> at 15 months after transplantation.
 
 ---
 
@@ -214,6 +226,27 @@ _Generata il: 2026-02-23_
 - Risultato principale (full text OA): Asciminib is a STAMP inhibitor approved for CML [18].
 - Dettaglio utile (full text OA): (A) CML cell lines (K562, K562 PR, K562 IR, Ba/F3 asc‐R, Ba/F3 PR, Ba/F3 BCR::ABL, and Ba/F3 T315I) were exposed to asciminib (0–1 μM) for 72 h, and cell viability was measured using the Cell Counting Kit‐8 (CCK‐8) assay.
 - Messaggio clinico (full text OA): A prior clinical trial explored the combination of a proteasome inhibitor with an HDAC inhibitor in a phase I dose‐escalation study involving belinostat and bortezomib in adult patients with acute leukaemia, myelodysplastic syndromes, or blast‐crisis CML [27].
+
+---
+
+### Altro (1)
+
+#### Secondary Chronic Myeloid Leukemia in the Blast Phase With Mixed Phenotype After Radiation Therapy: A Case Report.
+- Impact score: 1 | Tipo: Preclinico / laboratorio
+- PMID: 41737783 | DOI non riportato
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41737783/
+- Open Access (Europe PMC/PMC): sì (PMC12928080)
+
+**Mini-riassunto (da abstract, estrattivo):**
+- Tipo di studio/popolazione: A 55‐year‐old woman underwent hysterectomy and pelvic radiation for cervical cancer, which remains in remission.
+- Risultato chiave: Following induction therapy, sequential therapy with blinatumomab and ponatinib achieved qualitatively PCR‐negative minor <i>BCR::ABL1</i> transcripts, indicating that residual transcripts below the qualitative assay's detection limit were undetectable.
+- Rilevanza clinica: She received an allogeneic bone marrow transplant and remains well with PCR‐negative minor <i>BCR::ABL1</i> at 15 months after transplantation.
+
+**Riassunto aggiuntivo (full text Open Access, estrattivo):**
+- Metodi (full text OA): non riportato.
+- Risultato principale (full text OA): non riportato.
+- Dettaglio utile (full text OA): non riportato.
+- Messaggio clinico (full text OA): One study indicated that the standardized incidence ratio of CML is not increased in patients who receive radiation therapy alone for cervical cancer [18].
 
 ---
 
