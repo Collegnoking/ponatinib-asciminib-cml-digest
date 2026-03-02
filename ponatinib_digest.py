@@ -598,6 +598,7 @@ def markdown_to_simple_html(md_text: str) -> str:
     lines = md_text.splitlines()
     html_lines = []
     in_ul = False
+    return "<html><body><pre>" + md_text + "</pre></body></html>"
 def markdown_to_simple_pdf(md_text: str, out_path: Path):
     """
     Crea un PDF semplice e leggibile a partire dal testo Markdown.
@@ -809,7 +810,16 @@ def main(days=15):
     OUT_MD.write_text(md, encoding="utf-8")
 
     html_text = markdown_to_simple_html(md)
-    OUT_HTML.write_text(html_text, encoding="utf-8")
+
+# Paracadute: se per qualsiasi motivo html_text è None, crea HTML minimale
+if not isinstance(html_text, str) or not html_text.strip():
+    html_text = f"""<!doctype html>
+<html lang="it">
+<head><meta charset="utf-8"><title>Newsletter</title></head>
+<body><pre>{md}</pre></body>
+</html>"""
+
+OUT_HTML.write_text(html_text, encoding="utf-8")
     out_pdf = OUT_DIR / "weekly_digest.pdf"
     markdown_to_simple_pdf(md, out_pdf)
     print(f"Creato file PDF: {out_pdf}")
