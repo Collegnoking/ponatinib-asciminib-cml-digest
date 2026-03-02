@@ -15,7 +15,7 @@ from reportlab.lib.utils import simpleSplit
 
 
 # Metti una tua email vera (consigliato da NCBI)
-Entrez.email = "tuamail@example.com"
+Entrez.email = "nbattaglia@incyte.com"
 
 # Query: stretta + fallback
 QUERY_STRICT = '((ponatinib OR iclusig OR AP24534) OR (asciminib OR scemblix OR ABL001)) AND (("chronic myeloid leukemia") OR CML OR ("chronic myelogenous leukemia"))'
