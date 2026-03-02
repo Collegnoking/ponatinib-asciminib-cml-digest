@@ -1,21 +1,21 @@
-# Ponatinib / Asciminib nella LMC – Report strategico quindicinale (ultimi 30 giorni)
-_Generata il: 2026-03-01_
+# Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi 30 giorni)
+_Generata il: 2026-03-02_
 
-## Executive brief
+## Newsletter interna – sintesi operativa
 
-**3 takeaway (cosa conta davvero):**
+**Messaggi chiave (da leggere in 60 secondi):**
 - Nel periodo emergono soprattutto temi su **Altro** (n=2).
 - Secondo filone: **Resistenza / T315I / mutazioni** (n=2).
 - Terzo filone: **Safety e comorbidità** (n=1).
 
-**Watchlist (cosa tenere d’occhio):**
-- Monitorare evoluzione su **Safety e comorbidità** (nuovi segnali/dati).
-- Monitorare evoluzione su **Resistenza / T315I / mutazioni** (nuovi segnali/dati).
-
-**Action list (cosa fare in pratica):**
+**Cosa cambia per noi (azioni pratiche):**
 - Rivedere/rafforzare **monitoraggio cardiovascolare e interazioni** (es. anticoagulanti) nei pazienti in TKI.
 - Valutare criteri interni per **consolidamento / de-escalation / TFR** nei pazienti in deep response.
 - Verificare percorso di **test mutazionale** e criteri di switch nelle resistenze (incl. T315I).
+
+**Safety radar (segnali/interazioni da monitorare):**
+- Monitorare evoluzione su **Safety e comorbidità** (nuovi segnali/dati).
+- Monitorare evoluzione su **Resistenza / T315I / mutazioni** (nuovi segnali/dati).
 
 ---
 
@@ -45,20 +45,8 @@ _Generata il: 2026-03-01_
 
 ---
 
-### 3) The Care and Cure of the Leukemias in 2026.
-- **Impact score**: 1 | **Tipo**: Preclinico / laboratorio
-- **Focus clinico**: Altro
-- PMID: 41761287 | 10.1002/ajh.70247
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41761287/
-
-- Tipo di studio/popolazione: Currently, most leukemias are effectively treated with immunotherapies (highly effective monoclonal antibodies targeting CD19 [blinatumomab], or CD22 [inotuzumab ozogamicin]), BCR::ABL1 tyrosine kinase inhibitors (TKIs; e.g., dasatinib, ponatinib), Bruton TKIs (e.g., ibrutinib, acalabrutinib), BCL-2 inhibitors (venetoclax), IDH1/2 inhibitors (ivosidenib, olutasidenib, and enasidenib), FLT3 inhibitors (e.g., midostaurin, quizartinib, and gilteritinib), menin inhibitors (revumenib, ziftomenib), and chimeric antigen receptor T-cell therapies.
-- Risultato chiave: The BCR::ABL1 TKIs resulted in normal life expectancy in chronic myeloid leukemia.
-- Rilevanza clinica: Notable advances have also been made in AML with targeted therapies, although some subsets (older/unfit patients for intensive chemotherapy, complex karyotype, TP53-mutated, KMT2A-rearranged, and treated secondary AML) still have unfavorable outcomes.
-
----
-
-### 4) Secondary Chronic Myeloid Leukemia in the Blast Phase With Mixed Phenotype After Radiation Therapy: A Case Report.
-- **Impact score**: 1 | **Tipo**: Preclinico / laboratorio
+### 3) Secondary Chronic Myeloid Leukemia in the Blast Phase With Mixed Phenotype After Radiation Therapy: A Case Report.
+- **Impact score**: 2 | **Tipo**: Case report
 - **Focus clinico**: Altro
 - PMID: 41737783 | 10.1002/jha2.70249
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41737783/
@@ -69,25 +57,24 @@ _Generata il: 2026-03-01_
 
 ---
 
-## Evidenze per domande cliniche
-
-### Altro (2)
-
-#### The Care and Cure of the Leukemias in 2026.
-- Impact score: 1 | Tipo: Preclinico / laboratorio
+### 4) The Care and Cure of the Leukemias in 2026.
+- **Impact score**: 1 | **Tipo**: Preclinico / laboratorio
+- **Focus clinico**: Altro
 - PMID: 41761287 | 10.1002/ajh.70247
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41761287/
-- Open Access (Europe PMC/PMC): non rilevato
 
-**Mini-riassunto (da abstract, estrattivo):**
 - Tipo di studio/popolazione: Currently, most leukemias are effectively treated with immunotherapies (highly effective monoclonal antibodies targeting CD19 [blinatumomab], or CD22 [inotuzumab ozogamicin]), BCR::ABL1 tyrosine kinase inhibitors (TKIs; e.g., dasatinib, ponatinib), Bruton TKIs (e.g., ibrutinib, acalabrutinib), BCL-2 inhibitors (venetoclax), IDH1/2 inhibitors (ivosidenib, olutasidenib, and enasidenib), FLT3 inhibitors (e.g., midostaurin, quizartinib, and gilteritinib), menin inhibitors (revumenib, ziftomenib), and chimeric antigen receptor T-cell therapies.
 - Risultato chiave: The BCR::ABL1 TKIs resulted in normal life expectancy in chronic myeloid leukemia.
 - Rilevanza clinica: Notable advances have also been made in AML with targeted therapies, although some subsets (older/unfit patients for intensive chemotherapy, complex karyotype, TP53-mutated, KMT2A-rearranged, and treated secondary AML) still have unfavorable outcomes.
 
 ---
 
+## Evidenze per domande cliniche
+
+### Altro (2)
+
 #### Secondary Chronic Myeloid Leukemia in the Blast Phase With Mixed Phenotype After Radiation Therapy: A Case Report.
-- Impact score: 1 | Tipo: Preclinico / laboratorio
+- Impact score: 2 | Tipo: Case report
 - PMID: 41737783 | 10.1002/jha2.70249
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41737783/
 - Open Access (Europe PMC/PMC): sì (PMC12928080)
@@ -102,6 +89,19 @@ _Generata il: 2026-03-01_
 - Risultato principale (full text OA): non riportato.
 - Dettaglio utile (full text OA): non riportato.
 - Messaggio clinico (full text OA): One study indicated that the standardized incidence ratio of CML is not increased in patients who receive radiation therapy alone for cervical cancer [18].
+
+---
+
+#### The Care and Cure of the Leukemias in 2026.
+- Impact score: 1 | Tipo: Preclinico / laboratorio
+- PMID: 41761287 | 10.1002/ajh.70247
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41761287/
+- Open Access (Europe PMC/PMC): non rilevato
+
+**Mini-riassunto (da abstract, estrattivo):**
+- Tipo di studio/popolazione: Currently, most leukemias are effectively treated with immunotherapies (highly effective monoclonal antibodies targeting CD19 [blinatumomab], or CD22 [inotuzumab ozogamicin]), BCR::ABL1 tyrosine kinase inhibitors (TKIs; e.g., dasatinib, ponatinib), Bruton TKIs (e.g., ibrutinib, acalabrutinib), BCL-2 inhibitors (venetoclax), IDH1/2 inhibitors (ivosidenib, olutasidenib, and enasidenib), FLT3 inhibitors (e.g., midostaurin, quizartinib, and gilteritinib), menin inhibitors (revumenib, ziftomenib), and chimeric antigen receptor T-cell therapies.
+- Risultato chiave: The BCR::ABL1 TKIs resulted in normal life expectancy in chronic myeloid leukemia.
+- Rilevanza clinica: Notable advances have also been made in AML with targeted therapies, although some subsets (older/unfit patients for intensive chemotherapy, complex karyotype, TP53-mutated, KMT2A-rearranged, and treated secondary AML) still have unfavorable outcomes.
 
 ---
 
