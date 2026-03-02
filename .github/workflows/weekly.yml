@@ -41,6 +41,7 @@ jobs:
           if [ -f output/weekly_digest.html ]; then
             cp output/weekly_digest.html reports/latest_digest.html
           fi
+          cp output/weekly_digest.pdf reports/latest_digest.pdf
       - name: Send email with report
         uses: dawidd6/action-send-mail@v3
         with:
@@ -63,6 +64,7 @@ jobs:
           attachments: |
             reports/latest_digest.html
             reports/latest_digest.md
+            reports/latest_digest.pdf
       - name: Commit report files
         run: |
           git config user.name "github-actions[bot]"
