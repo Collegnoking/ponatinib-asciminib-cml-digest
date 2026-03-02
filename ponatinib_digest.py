@@ -7,10 +7,13 @@ import re
 from html import unescape
 from xml.etree import ElementTree as ET
 import html as html_lib
+
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
 from reportlab.pdfgen import canvas
 from reportlab.lib.utils import simpleSplit
+
+
 # Metti una tua email vera (consigliato da NCBI)
 Entrez.email = "tuamail@example.com"
 
@@ -22,13 +25,18 @@ BASE_DIR = Path(__file__).parent
 DB_PATH = BASE_DIR / "ponatinib_digest.sqlite"
 OUT_DIR = BASE_DIR / "output"
 OUT_DIR.mkdir(exist_ok=True)
+
 OUT_MD = OUT_DIR / "weekly_digest.md"
 OUT_HTML = OUT_DIR / "weekly_digest.html"
+OUT_PDF = OUT_DIR / "weekly_digest.pdf"
 
 EUROPE_PMC_SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 EUROPE_PMC_FULLTEXT_XML = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
 
 
+# -----------------------------
+# DB (deduplica)
+# -----------------------------
 def init_db():
     con = sqlite3.connect(DB_PATH)
     con.execute("""
@@ -43,7 +51,29 @@ def init_db():
     return con
 
 
-def pubmed_search_last_days(days=15, retmax=300):
+def filter_new(con, articles):
+    new = []
+    for a in articles:
+        cur = con.execute("SELECT 1 FROM seen WHERE pmid=?", (a["pmid"],))
+        if cur.fetchone() is None:
+            new.append(a)
+    return new
+
+
+def mark_seen(con, articles):
+    now = datetime.utcnow().isoformat()
+    for a in articles:
+        con.execute(
+            "INSERT OR IGNORE INTO seen(pmid, doi, title, first_seen) VALUES (?,?,?,?)",
+            (a["pmid"], a["doi"], a["title"], now)
+        )
+    con.commit()
+
+
+# -----------------------------
+# PubMed
+# -----------------------------
+def pubmed_search_last_days(days=30, retmax=300):
     today = datetime.utcnow().date()
     start = today - timedelta(days=days)
     mindate = start.strftime("%Y/%m/%d")
@@ -55,18 +85,16 @@ def pubmed_search_last_days(days=15, retmax=300):
             term=term,
             mindate=mindate,
             maxdate=maxdate,
-            datetype="edat",   # entry date: meglio per rassegna periodica
+            datetype="edat",   # entry date: ottimo per rassegne periodiche
             retmax=retmax,
             sort="pub+date"
         )
         res = Entrez.read(handle)
         return res["IdList"]
 
-    # Ricerca stretta
     ids_strict = run_search(QUERY_STRICT)
     print(f"Ricerca stretta: trovati {len(ids_strict)} PMID")
 
-    # Fallback se zero
     if len(ids_strict) == 0:
         ids_fallback = run_search(QUERY_FALLBACK)
         print(f"Fallback: trovati {len(ids_fallback)} PMID")
@@ -106,30 +134,12 @@ def pubmed_fetch_details(pmids):
             "title": title,
             "abstract": abstract
         })
+
     return articles
 
 
-def filter_new(con, articles):
-    new = []
-    for a in articles:
-        cur = con.execute("SELECT 1 FROM seen WHERE pmid=?", (a["pmid"],))
-        if cur.fetchone() is None:
-            new.append(a)
-    return new
-
-
-def mark_seen(con, articles):
-    now = datetime.utcnow().isoformat()
-    for a in articles:
-        con.execute(
-            "INSERT OR IGNORE INTO seen(pmid, doi, title, first_seen) VALUES (?,?,?,?)",
-            (a["pmid"], a["doi"], a["title"], now)
-        )
-    con.commit()
-
-
 # -----------------------------
-# Utility testo / riassunto gratis
+# Utility testo / riassunto gratis (estrattivo)
 # -----------------------------
 def clean_text(text):
     if not text:
@@ -146,7 +156,6 @@ def split_sentences(text):
 
 
 def pick_best_sentences(text, max_sentences=3):
-    """Riassunto estrattivo gratis: sceglie frasi utili."""
     sents = split_sentences(text)
     if not sents:
         return []
@@ -227,14 +236,12 @@ def europe_pmc_find_pmcid(pmid=None, doi=None):
 
     results = data.get("resultList", {}).get("result", [])
 
-    # Preferisci OA vero
     for rec in results:
         pmcid = rec.get("pmcid")
         is_oa = rec.get("isOpenAccess")
         if pmcid and str(is_oa).upper() == "Y":
             return pmcid
 
-    # fallback (alcuni record hanno pmcid ma flag non chiaro)
     for rec in results:
         pmcid = rec.get("pmcid")
         if pmcid:
@@ -306,67 +313,42 @@ def get_oa_fulltext_summary(pmcid):
 
 
 # -----------------------------
-# Tag semplice: Ponatinib / Asciminib / Entrambi
+# Scoring / buckets strategici
 # -----------------------------
-def tag_topic(title, abstract):
-    txt = f"{title} {abstract}".lower()
-
-    has_pona = any(k in txt for k in ["ponatinib", "iclusig", "ap24534"])
-    has_asci = any(k in txt for k in ["asciminib", "scemblix", "abl001"])
-
-    if has_pona and has_asci:
-        return "Entrambi"
-    elif has_pona:
-        return "Ponatinib"
-    elif has_asci:
-        return "Asciminib"
-    return "Altro"
-
 def detect_study_type(title: str, abstract: str) -> str:
     t = f"{title} {abstract}".lower()
 
-    # guideline / consensus
     if "guideline" in t or "consensus" in t or "recommendation" in t:
         return "Linee guida / consenso"
 
-    # systematic review / meta
     if "systematic review" in t or "meta-analysis" in t or "metaanalysis" in t:
         return "Revisione sistematica / meta-analisi"
 
-    # review
     if "review" in t or "narrative review" in t or "special report" in t:
         return "Review"
 
-    # trial
     if "randomized" in t or "phase ii" in t or "phase iii" in t or "clinical trial" in t or "open-label" in t:
         return "Trial clinico"
 
-    # real-world / observational
     if "real-world" in t or "observational" in t or "cohort" in t or "registry" in t or "routine clinical practice" in t:
         return "Real-world / osservazionale"
 
-    # pharmacovigilance
     if "eudravigilance" in t or "disproportionality" in t or "spontaneous reports" in t:
         return "Farmacovigilanza"
 
-    # preclinico / in vitro
-    if "cell" in t or "cells" in t or "k562" in t or "mouse" in t or "mice" in t or "in vitro" in t:
-        return "Preclinico / laboratorio"
-
-    # case reports
     if "case report" in t or "two cases" in t:
         return "Case report"
+
+    if "cell" in t or "cells" in t or "k562" in t or "mouse" in t or "mice" in t or "in vitro" in t:
+        return "Preclinico / laboratorio"
 
     return "Altro"
 
 
 def impact_score(title: str, abstract: str) -> int:
-    """Punteggio semplice e trasparente: serve per ordinare il Top 5."""
     t = f"{title} {abstract}".lower()
     stype = detect_study_type(title, abstract)
 
-    score = 0
-    # base per tipo studio
     base = {
         "Linee guida / consenso": 8,
         "Trial clinico": 7,
@@ -378,16 +360,15 @@ def impact_score(title: str, abstract: str) -> int:
         "Preclinico / laboratorio": 2,
         "Altro": 3
     }
-    score += base.get(stype, 3)
+    score = base.get(stype, 3)
 
-    # booster "clinicamente strategici"
     boosters = [
         ("tfr", 2), ("treatment-free", 2), ("treatment free", 2),
         ("mr4", 2), ("mr4.5", 2), ("deep molecular", 2),
         ("t315i", 2),
         ("arterial", 2), ("vascular", 2), ("cardio", 2), ("stroke", 2),
         ("anticoagul", 1),
-        ("dose", 1), ("15 mg", 1), ("30 mg", 1), ("reduced dose", 1),
+        ("dose", 1), ("15 mg", 1), ("30 mg", 1), ("reduced dose", 1), ("consolidation", 1),
         ("resistance", 1), ("intoleran", 1),
         ("sequenc", 1), ("switch", 1)
     ]
@@ -395,7 +376,6 @@ def impact_score(title: str, abstract: str) -> int:
         if key in t:
             score += add
 
-    # piccolo malus: troppo preclinico
     if stype == "Preclinico / laboratorio":
         score -= 1
 
@@ -403,7 +383,6 @@ def impact_score(title: str, abstract: str) -> int:
 
 
 def clinical_buckets(title: str, abstract: str) -> list[str]:
-    """Ritorna 1+ categorie cliniche per raggruppare in modo 'strategico'."""
     t = f"{title} {abstract}".lower()
     buckets = []
 
@@ -435,21 +414,15 @@ def clinical_buckets(title: str, abstract: str) -> list[str]:
 
 
 def make_executive_takeaways(articles: list[dict]) -> tuple[list[str], list[str], list[str]]:
-    """
-    Genera 3 takeaway + watchlist + action list, usando semplici conteggi per categoria.
-    """
-    # conteggi per bucket
     bucket_count = {}
     for a in articles:
         for b in clinical_buckets(a["title"], a.get("abstract", "")):
             bucket_count[b] = bucket_count.get(b, 0) + 1
 
-    # ordina bucket per frequenza
     top_buckets = sorted(bucket_count.items(), key=lambda x: x[1], reverse=True)
 
     takeaways = []
     if top_buckets:
-        # takeaway 1: bucket più frequente
         b1, n1 = top_buckets[0]
         takeaways.append(f"Nel periodo emergono soprattutto temi su **{b1}** (n={n1}).")
     if len(top_buckets) > 1:
@@ -462,7 +435,6 @@ def make_executive_takeaways(articles: list[dict]) -> tuple[list[str], list[str]
     while len(takeaways) < 3:
         takeaways.append("Nessun trend dominante: rassegna eterogenea nel periodo.")
 
-    # watchlist (cosa monitorare)
     watchlist = []
     for key in ["TFR / stop terapia", "Safety e comorbidità", "Resistenza / T315I / mutazioni"]:
         if bucket_count.get(key, 0) > 0:
@@ -470,7 +442,6 @@ def make_executive_takeaways(articles: list[dict]) -> tuple[list[str], list[str]
     if not watchlist:
         watchlist = ["Monitorare nuovi dati su efficacia e safety in CP-CML (linee successive)."]
 
-    # action list (azioni pratiche)
     actions = []
     if bucket_count.get("Safety e comorbidità", 0) > 0:
         actions.append("Rivedere/rafforzare **monitoraggio cardiovascolare e interazioni** (es. anticoagulanti) nei pazienti in TKI.")
@@ -482,45 +453,47 @@ def make_executive_takeaways(articles: list[dict]) -> tuple[list[str], list[str]
         actions = ["Nessuna azione immediata: mantenere sorveglianza e aggiornare la rassegna al prossimo ciclo."]
 
     return takeaways[:3], watchlist[:3], actions[:3]
-def build_markdown(articles, days=15):
+
+
+# -----------------------------
+# Report Markdown “strategico”
+# -----------------------------
+def build_markdown(articles, days=30):
     today = datetime.utcnow().strftime("%Y-%m-%d")
     lines = []
-    lines.append(f"# Ponatinib / Asciminib nella LMC – Report strategico quindicinale (ultimi {days} giorni)")
+    lines.append(f"# Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi {days} giorni)")
     lines.append(f"_Generata il: {today}_\n")
 
     if not articles:
         lines.append("✅ Nessun nuovo articolo nel periodo.\n")
         return "\n".join(lines)
 
-    # --- Executive brief ---
     takeaways, watchlist, actions = make_executive_takeaways(articles)
 
-    lines.append("## Executive brief\n")
-    lines.append("**3 takeaway (cosa conta davvero):**")
+    lines.append("## Newsletter interna – sintesi operativa\n")
+    lines.append("**Messaggi chiave (da leggere in 60 secondi):**")
     for t in takeaways:
         lines.append(f"- {t}")
     lines.append("")
-    lines.append("**Watchlist (cosa tenere d’occhio):**")
-    for w in watchlist:
-        lines.append(f"- {w}")
-    lines.append("")
-    lines.append("**Action list (cosa fare in pratica):**")
+    lines.append("**Cosa cambia per noi (azioni pratiche):**")
     for a in actions:
         lines.append(f"- {a}")
+    lines.append("")
+    lines.append("**Safety radar (segnali/interazioni da monitorare):**")
+    for w in watchlist:
+        lines.append(f"- {w}")
     lines.append("\n---\n")
 
-    # --- Top 5 per impatto ---
+    # Top 5
     scored = []
     for a in articles:
         s = impact_score(a["title"], a.get("abstract", ""))
         stype = detect_study_type(a["title"], a.get("abstract", ""))
         scored.append((s, stype, a))
-
     scored.sort(key=lambda x: x[0], reverse=True)
-    top5 = scored[:5]
 
     lines.append("## Top 5 da leggere subito (ordinati per impatto)\n")
-    for rank, (s, stype, a) in enumerate(top5, start=1):
+    for rank, (s, stype, a) in enumerate(scored[:5], start=1):
         pmid = a["pmid"]
         doi = a["doi"] if a["doi"] else "DOI non riportato"
         title = a["title"] if a["title"] else "(Titolo non disponibile)"
@@ -533,26 +506,21 @@ def build_markdown(articles, days=15):
         lines.append(f"- PMID: {pmid} | {doi}")
         lines.append(f"- Link PubMed: {pubmed_link}")
         lines.append("")
-        # mini-riassunto già esistente
-        abs_bullets = summarize_abstract_free(a.get("abstract", ""))
-        for b in abs_bullets:
+        for b in summarize_abstract_free(a.get("abstract", "")):
             lines.append(f"- {b}")
         lines.append("\n---\n")
 
-    # --- Raggruppamento per domande cliniche ---
+    # Evidenze per domande cliniche
     bucket_map = {}
     for a in articles:
         for b in clinical_buckets(a["title"], a.get("abstract", "")):
             bucket_map.setdefault(b, []).append(a)
 
-    # Ordina bucket per numero articoli
     bucket_order = sorted(bucket_map.items(), key=lambda x: len(x[1]), reverse=True)
 
     lines.append("## Evidenze per domande cliniche\n")
     for bucket, items in bucket_order:
         lines.append(f"### {bucket} ({len(items)})\n")
-
-        # ordina gli item del bucket per impatto
         items_sorted = sorted(items, key=lambda x: impact_score(x["title"], x.get("abstract", "")), reverse=True)
 
         for a in items_sorted:
@@ -562,7 +530,6 @@ def build_markdown(articles, days=15):
             abstract = a.get("abstract", "")
             pubmed_link = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 
-            # OA info + riassunti (già nel tuo flusso)
             pmcid = europe_pmc_find_pmcid(pmid=pmid, doi=a.get("doi"))
             oa_bullets = get_oa_fulltext_summary(pmcid) if pmcid else None
 
@@ -590,20 +557,119 @@ def build_markdown(articles, days=15):
     return "\n".join(lines)
 
 
+# -----------------------------
+# HTML (semplice ma leggibile) + fallback sempre stringa
+# -----------------------------
 def markdown_to_simple_html(md_text: str) -> str:
-    """
-    Conversione semplice Markdown -> HTML (senza librerie extra).
-    Non è perfetta, ma è leggibile.
-    """
-    lines = md_text.splitlines()
-    html_lines = []
-    in_ul = False
-    return "<html><body><pre>" + md_text + "</pre></body></html>"
+    try:
+        lines = md_text.splitlines()
+        html_lines = []
+        in_ul = False
+
+        def close_ul():
+            nonlocal in_ul
+            if in_ul:
+                html_lines.append("</ul>")
+                in_ul = False
+
+        for raw in lines:
+            line = raw.rstrip()
+
+            if not line.strip():
+                close_ul()
+                html_lines.append("<p></p>")
+                continue
+
+            if line.strip() == "---":
+                close_ul()
+                html_lines.append("<hr>")
+                continue
+
+            if line.startswith("### "):
+                close_ul()
+                txt = html_lib.escape(line[4:])
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+                html_lines.append(f"<h3>{txt}</h3>")
+                continue
+
+            if line.startswith("## "):
+                close_ul()
+                txt = html_lib.escape(line[3:])
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+                html_lines.append(f"<h2>{txt}</h2>")
+                continue
+
+            if line.startswith("# "):
+                close_ul()
+                txt = html_lib.escape(line[2:])
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+                html_lines.append(f"<h1>{txt}</h1>")
+                continue
+
+            if line.startswith("- "):
+                if not in_ul:
+                    html_lines.append("<ul>")
+                    in_ul = True
+                item = html_lib.escape(line[2:])
+                item = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", item)
+                item = re.sub(
+                    r'(https://pubmed\.ncbi\.nlm\.nih\.gov/\d+/)',
+                    r'<a href="\1" target="_blank">\1</a>',
+                    item
+                )
+                html_lines.append(f"<li>{item}</li>")
+                continue
+
+            close_ul()
+            txt = html_lib.escape(line)
+            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+            html_lines.append(f"<p>{txt}</p>")
+
+        close_ul()
+        body = "\n".join(html_lines)
+
+        return f"""<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Newsletter CML – Ponatinib/Asciminib</title>
+  <style>
+    body {{
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      margin: 24px auto;
+      max-width: 900px;
+      padding: 0 16px;
+      color: #222;
+      background: #fff;
+    }}
+    h1, h2, h3 {{ line-height: 1.2; }}
+    h1 {{ border-bottom: 2px solid #ddd; padding-bottom: 8px; }}
+    h2 {{ margin-top: 28px; border-bottom: 1px solid #eee; padding-bottom: 4px; }}
+    h3 {{ margin-top: 22px; }}
+    ul {{ margin-top: 6px; margin-bottom: 10px; }}
+    li {{ margin-bottom: 6px; }}
+    hr {{ margin: 22px 0; border: none; border-top: 1px solid #ddd; }}
+    a {{ color: #0b57d0; text-decoration: none; }}
+    a:hover {{ text-decoration: underline; }}
+    p {{ margin: 8px 0; }}
+  </style>
+</head>
+<body>
+{body}
+</body>
+</html>
+"""
+    except Exception:
+        # fallback ultra-sicuro
+        return "<html><body><pre>" + html_lib.escape(md_text) + "</pre></body></html>"
+
+
+# -----------------------------
+# PDF (stabile) da Markdown
+# -----------------------------
 def markdown_to_simple_pdf(md_text: str, out_path: Path):
-    """
-    Crea un PDF semplice e leggibile a partire dal testo Markdown.
-    (Stabile su GitHub Actions, senza librerie di sistema.)
-    """
     c = canvas.Canvas(str(out_path), pagesize=A4)
     width, height = A4
 
@@ -619,12 +685,12 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
         y = height - 2 * cm
         c.setFont(font, 11)
 
-    c.setTitle("Newsletter – Evidence Radar")
+    c.setTitle("Newsletter CML – Ponatinib/Asciminib")
+    c.setFont(font, 11)
 
     for raw in md_text.splitlines():
         line = raw.rstrip()
 
-        # Separatore ---
         if line.strip() == "---":
             y -= 6
             c.line(x_left, y, width - x_left, y)
@@ -633,14 +699,12 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
                 new_page()
             continue
 
-        # Riga vuota
         if not line.strip():
             y -= 8
             if y < 3 * cm:
                 new_page()
             continue
 
-        # Titoli Markdown
         if line.startswith("# "):
             c.setFont(font_bold, 18)
             y -= 4
@@ -673,7 +737,6 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
                 new_page()
             continue
 
-        # Bullet "- "
         if line.startswith("- "):
             text = line[2:]
             bullet_indent = x_left + 12
@@ -686,7 +749,6 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
                     new_page()
             continue
 
-        # Testo normale
         wrapped = simpleSplit(line, font, 11, width - 2 * x_left)
         for t in wrapped:
             c.drawString(x_left, y, t)
@@ -695,106 +757,12 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
                 new_page()
 
     c.save()
-    def close_ul():
-        nonlocal in_ul
-        if in_ul:
-            html_lines.append("</ul>")
-            in_ul = False
-
-    for raw in lines:
-        line = raw.rstrip()
-
-        if not line.strip():
-            close_ul()
-            html_lines.append("<p></p>")
-            continue
-
-        if line.strip() == "---":
-            close_ul()
-            html_lines.append("<hr>")
-            continue
-
-        if line.startswith("### "):
-            close_ul()
-            txt = html_lib.escape(line[4:])
-            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-            html_lines.append(f"<h3>{txt}</h3>")
-            continue
-
-        if line.startswith("## "):
-            close_ul()
-            txt = html_lib.escape(line[3:])
-            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-            html_lines.append(f"<h2>{txt}</h2>")
-            continue
-
-        if line.startswith("# "):
-            close_ul()
-            txt = html_lib.escape(line[2:])
-            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-            html_lines.append(f"<h1>{txt}</h1>")
-            continue
-
-        if line.startswith("- "):
-            if not in_ul:
-                html_lines.append("<ul>")
-                in_ul = True
-
-            item = html_lib.escape(line[2:])
-            item = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", item)
-            item = re.sub(
-                r'(https://pubmed\.ncbi\.nlm\.nih\.gov/\d+/)',
-                r'<a href="\1" target="_blank">\1</a>',
-                item
-            )
-            html_lines.append(f"<li>{item}</li>")
-            continue
-
-        close_ul()
-        txt = html_lib.escape(line)
-        txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-        html_lines.append(f"<p>{txt}</p>")
-
-    close_ul()
-
-    body = "\n".join(html_lines)
-
-    return f"""<!doctype html>
-<html lang="it">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rassegna Ponatinib / Asciminib CML</title>
-  <style>
-    body {{
-      font-family: Arial, sans-serif;
-      line-height: 1.5;
-      margin: 24px auto;
-      max-width: 900px;
-      padding: 0 16px;
-      color: #222;
-      background: #fff;
-    }}
-    h1, h2, h3 {{ line-height: 1.2; }}
-    h1 {{ border-bottom: 2px solid #ddd; padding-bottom: 8px; }}
-    h2 {{ margin-top: 28px; border-bottom: 1px solid #eee; padding-bottom: 4px; }}
-    h3 {{ margin-top: 22px; }}
-    ul {{ margin-top: 6px; margin-bottom: 10px; }}
-    li {{ margin-bottom: 6px; }}
-    hr {{ margin: 22px 0; border: none; border-top: 1px solid #ddd; }}
-    a {{ color: #0b57d0; text-decoration: none; }}
-    a:hover {{ text-decoration: underline; }}
-    p {{ margin: 8px 0; }}
-  </style>
-</head>
-<body>
-{body}
-</body>
-</html>
-"""
 
 
-def main(days=15):
+# -----------------------------
+# MAIN
+# -----------------------------
+def main(days=30):
     con = init_db()
 
     pmids = pubmed_search_last_days(days=days)
@@ -810,26 +778,18 @@ def main(days=15):
     OUT_MD.write_text(md, encoding="utf-8")
 
     html_text = markdown_to_simple_html(md)
+    if not isinstance(html_text, str) or not html_text.strip():
+        html_text = "<html><body><pre>" + html_lib.escape(md) + "</pre></body></html>"
+    OUT_HTML.write_text(html_text, encoding="utf-8")
 
-# Paracadute: se per qualsiasi motivo html_text è None, crea HTML minimale
-if not isinstance(html_text, str) or not html_text.strip():
-    html_text = f"""<!doctype html>
-<html lang="it">
-<head><meta charset="utf-8"><title>Newsletter</title></head>
-<body><pre>{md}</pre></body>
-</html>"""
+    markdown_to_simple_pdf(md, OUT_PDF)
 
-OUT_HTML.write_text(html_text, encoding="utf-8")
-    out_pdf = OUT_DIR / "weekly_digest.pdf"
-    markdown_to_simple_pdf(md, out_pdf)
-    print(f"Creato file PDF: {out_pdf}")
     mark_seen(con, new_articles)
 
     print(f"Creato file Markdown: {OUT_MD}")
     print(f"Creato file HTML: {OUT_HTML}")
+    print(f"Creato file PDF: {OUT_PDF}")
 
 
 if __name__ == "__main__":
-    # TEST: 60 giorni per verificare che trovi articoli.
-    # Quando confermi che funziona, rimetti 15.
     main(days=30)
