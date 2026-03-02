@@ -7,7 +7,10 @@ import re
 from html import unescape
 from xml.etree import ElementTree as ET
 import html as html_lib
-
+from reportlab.lib.pagesizes import A4
+from reportlab.lib.units import cm
+from reportlab.pdfgen import canvas
+from reportlab.lib.utils import simpleSplit
 # Metti una tua email vera (consigliato da NCBI)
 Entrez.email = "tuamail@example.com"
 
@@ -595,7 +598,102 @@ def markdown_to_simple_html(md_text: str) -> str:
     lines = md_text.splitlines()
     html_lines = []
     in_ul = False
+def markdown_to_simple_pdf(md_text: str, out_path: Path):
+    """
+    Crea un PDF semplice e leggibile a partire dal testo Markdown.
+    (Stabile su GitHub Actions, senza librerie di sistema.)
+    """
+    c = canvas.Canvas(str(out_path), pagesize=A4)
+    width, height = A4
 
+    x_left = 2 * cm
+    y = height - 2 * cm
+    line_gap = 14
+    font = "Helvetica"
+    font_bold = "Helvetica-Bold"
+
+    def new_page():
+        nonlocal y
+        c.showPage()
+        y = height - 2 * cm
+        c.setFont(font, 11)
+
+    c.setTitle("Newsletter – Evidence Radar")
+
+    for raw in md_text.splitlines():
+        line = raw.rstrip()
+
+        # Separatore ---
+        if line.strip() == "---":
+            y -= 6
+            c.line(x_left, y, width - x_left, y)
+            y -= 10
+            if y < 3 * cm:
+                new_page()
+            continue
+
+        # Riga vuota
+        if not line.strip():
+            y -= 8
+            if y < 3 * cm:
+                new_page()
+            continue
+
+        # Titoli Markdown
+        if line.startswith("# "):
+            c.setFont(font_bold, 18)
+            y -= 4
+            for t in simpleSplit(line[2:], font_bold, 18, width - 2 * x_left):
+                c.drawString(x_left, y, t)
+                y -= 22
+            c.setFont(font, 11)
+            if y < 3 * cm:
+                new_page()
+            continue
+
+        if line.startswith("## "):
+            c.setFont(font_bold, 14)
+            y -= 2
+            for t in simpleSplit(line[3:], font_bold, 14, width - 2 * x_left):
+                c.drawString(x_left, y, t)
+                y -= 18
+            c.setFont(font, 11)
+            if y < 3 * cm:
+                new_page()
+            continue
+
+        if line.startswith("### "):
+            c.setFont(font_bold, 12)
+            for t in simpleSplit(line[4:], font_bold, 12, width - 2 * x_left):
+                c.drawString(x_left, y, t)
+                y -= 16
+            c.setFont(font, 11)
+            if y < 3 * cm:
+                new_page()
+            continue
+
+        # Bullet "- "
+        if line.startswith("- "):
+            text = line[2:]
+            bullet_indent = x_left + 12
+            c.drawString(x_left, y, u"\u2022")
+            wrapped = simpleSplit(text, font, 11, width - bullet_indent - x_left)
+            for t in wrapped:
+                c.drawString(bullet_indent, y, t)
+                y -= line_gap
+                if y < 3 * cm:
+                    new_page()
+            continue
+
+        # Testo normale
+        wrapped = simpleSplit(line, font, 11, width - 2 * x_left)
+        for t in wrapped:
+            c.drawString(x_left, y, t)
+            y -= line_gap
+            if y < 3 * cm:
+                new_page()
+
+    c.save()
     def close_ul():
         nonlocal in_ul
         if in_ul:
@@ -712,7 +810,9 @@ def main(days=15):
 
     html_text = markdown_to_simple_html(md)
     OUT_HTML.write_text(html_text, encoding="utf-8")
-
+    out_pdf = OUT_DIR / "weekly_digest.pdf"
+    markdown_to_simple_pdf(md, out_pdf)
+    print(f"Creato file PDF: {out_pdf}")
     mark_seen(con, new_articles)
 
     print(f"Creato file Markdown: {OUT_MD}")
