@@ -41,7 +41,10 @@ jobs:
           if [ -f output/weekly_digest.html ]; then
             cp output/weekly_digest.html reports/latest_digest.html
           fi
-          cp output/weekly_digest.pdf reports/latest_digest.pdf
+          if [ -f output/weekly_digest.pdf ]; then
+            cp output/weekly_digest.pdf reports/latest_digest.pdf
+          fi
+
       - name: Send email with report
         uses: dawidd6/action-send-mail@v3
         with:
@@ -54,25 +57,32 @@ jobs:
           from: ${{ secrets.EMAIL_FROM }}
           body: |
             Ciao,
-            
+
             in allegato trovi la newsletter (ultimi 30 giorni).
-            
-            - File HTML: aprilo e leggi come una pagina web
-            - File MD: versione testuale
-            
+
+            - PDF: pronto da inoltrare/stampare
+            - HTML: leggibile come pagina web
+            - MD: versione testuale
+
             (Generato automaticamente da GitHub Actions)
           attachments: |
+            reports/latest_digest.pdf
             reports/latest_digest.html
             reports/latest_digest.md
-            reports/latest_digest.pdf
+
       - name: Commit report files
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           git add reports/latest_digest.md
+
           if [ -f reports/latest_digest.html ]; then
             git add reports/latest_digest.html
+          fi
+
+          if [ -f reports/latest_digest.pdf ]; then
+            git add reports/latest_digest.pdf
           fi
 
           if git diff --cached --quiet; then
@@ -81,9 +91,8 @@ jobs:
           fi
 
           git commit -m "Update reports [skip ci]"
-
-          # Prova il push; se fallisce non bloccare il workflow
           git push origin main || echo "Push non riuscito (continuo comunque)"
+
       - name: Upload report artifact
         uses: actions/upload-artifact@v4
         with:
