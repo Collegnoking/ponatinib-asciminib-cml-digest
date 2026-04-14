@@ -10,8 +10,14 @@ import html as html_lib
 
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import cm
-from reportlab.pdfgen import canvas
-from reportlab.lib.utils import simpleSplit
+from reportlab.lib import colors
+from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.enums import TA_LEFT, TA_CENTER, TA_RIGHT
+from reportlab.platypus import (
+    SimpleDocTemplate, Paragraph, Spacer, HRFlowable,
+    Table, TableStyle, KeepTogether
+)
+from reportlab.platypus.flowables import HRFlowable
 
 
 # =========================
@@ -87,7 +93,7 @@ def pubmed_search_last_days(days=15, retmax=300):
             term=term,
             mindate=mindate,
             maxdate=maxdate,
-            datetype="edat",  # entry date: ideale per rassegna periodica
+            datetype="edat",
             retmax=retmax,
             sort="pub+date"
         )
@@ -547,7 +553,7 @@ def build_markdown(articles, days=15):
 
 
 # =========================
-# HTML (con badge)
+# HTML – Design raffinato
 # =========================
 def markdown_to_simple_html(md_text: str) -> str:
     try:
@@ -566,36 +572,34 @@ def markdown_to_simple_html(md_text: str) -> str:
 
             if not line.strip():
                 close_ul()
-                html_lines.append("<p></p>")
                 continue
 
             if line.strip() == "---":
                 close_ul()
-                html_lines.append("<hr>")
+                html_lines.append('<div class="divider"></div>')
                 continue
 
             if line.startswith("### "):
                 close_ul()
                 txt = html_lib.escape(line[4:])
-                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-                html_lines.append(f"<h3>{txt}</h3>")
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", txt)
+                html_lines.append(f'<h3>{txt}</h3>')
                 continue
 
             if line.startswith("## "):
                 close_ul()
                 txt = html_lib.escape(line[3:])
-                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-                html_lines.append(f"<h2>{txt}</h2>")
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", txt)
+                html_lines.append(f'<h2>{txt}</h2>')
                 continue
 
             if line.startswith("# "):
                 close_ul()
                 txt = html_lib.escape(line[2:])
-                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-                html_lines.append(f"<h1>{txt}</h1>")
+                html_lines.append(f'<h1>{txt}</h1>')
                 continue
 
-            # Meta badges: "- **Rivista**: ... | **Tipo**: ..."
+            # Badge rivista / tipo
             if line.startswith("- **Rivista**:"):
                 close_ul()
                 m = re.search(r"\*\*Rivista\*\*:\s*(.*?)\s*\|\s*\*\*Tipo\*\*:\s*(.*)$", line)
@@ -604,182 +608,804 @@ def markdown_to_simple_html(md_text: str) -> str:
                     stype_raw = m.group(2).strip().lower()
 
                     if "trial" in stype_raw:
-                        cls = "badge-trial"; label = "TRIAL"
+                        cls, label, icon = "badge-trial", "Trial clinico", "🔬"
                     elif "real-world" in stype_raw or "osserv" in stype_raw:
-                        cls = "badge-rwe"; label = "REAL-WORLD"
+                        cls, label, icon = "badge-rwe", "Real-world", "🏥"
                     elif "farmacovigil" in stype_raw or "safety" in stype_raw:
-                        cls = "badge-safety"; label = "SAFETY"
-                    elif "review" in stype_raw or "meta" in stype_raw:
-                        cls = "badge-review"; label = "REVIEW"
+                        cls, label, icon = "badge-safety", "Farmacovigilanza", "⚠️"
+                    elif "meta" in stype_raw:
+                        cls, label, icon = "badge-meta", "Meta-analisi", "📊"
+                    elif "review" in stype_raw:
+                        cls, label, icon = "badge-review", "Review", "📖"
+                    elif "linee guida" in stype_raw or "consenso" in stype_raw:
+                        cls, label, icon = "badge-guideline", "Linee guida", "📋"
+                    elif "case report" in stype_raw:
+                        cls, label, icon = "badge-case", "Case Report", "📝"
                     else:
-                        cls = "badge-other"; label = "ALTRO"
+                        cls, label, icon = "badge-other", "Altro", "📄"
 
                     html_lines.append(
-                        f'<div class="meta">'
-                        f'<span class="badge {cls}">{label}</span>'
-                        f'<span class="badge badge-other">{journal}</span>'
+                        f'<div class="meta-row">'
+                        f'<span class="badge {cls}">{icon} {label}</span>'
+                        f'<span class="journal-name">📰 {journal}</span>'
                         f'</div>'
                     )
                     continue
 
             if line.startswith("- "):
                 if not in_ul:
-                    html_lines.append("<ul>")
+                    html_lines.append('<ul>')
                     in_ul = True
                 item = html_lib.escape(line[2:])
-                item = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", item)
+                item = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", item)
                 item = re.sub(
                     r'(https://pubmed\.ncbi\.nlm\.nih\.gov/\d+/)',
-                    r'<a href="\1" target="_blank">\1</a>',
+                    r'<a href="\1" target="_blank" rel="noopener">\1</a>',
                     item
                 )
-                html_lines.append(f"<li>{item}</li>")
+                # Evidenzia etichette tipo "Risultato chiave:", "Tipo di studio:"
+                item = re.sub(
+                    r'^(Tipo di studio/popolazione|Risultato chiave|Rilevanza clinica|'
+                    r'Metodi \(full text OA\)|Risultato principale \(full text OA\)|'
+                    r'Dettaglio utile \(full text OA\)|Messaggio clinico \(full text OA\))'
+                    r'(:)',
+                    r'<span class="bullet-label">\1\2</span>',
+                    item
+                )
+                html_lines.append(f'<li>{item}</li>')
                 continue
 
             close_ul()
             txt = html_lib.escape(line)
-            txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-            html_lines.append(f"<p>{txt}</p>")
+            txt = re.sub(r"\*\*(.*?)\*\*", r"<strong>\1</strong>", txt)
+            # Gestione corsivo "_testo_"
+            txt = re.sub(r"_(.*?)_", r"<em>\1</em>", txt)
+            html_lines.append(f'<p>{txt}</p>')
 
         close_ul()
         body = "\n".join(html_lines)
+
+        today_str = datetime.utcnow().strftime("%d %B %Y")
 
         return f"""<!doctype html>
 <html lang="it">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Newsletter</title>
+  <title>LMC Newsletter – Ponatinib / Asciminib</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
-    body {{
-      font-family: Arial, sans-serif;
-      line-height: 1.5;
-      margin: 24px auto;
-      max-width: 900px;
-      padding: 0 16px;
-      color: #222;
-      background: #fff;
-    }}
-    h1, h2, h3 {{ line-height: 1.2; }}
-    h1 {{ border-bottom: 2px solid #ddd; padding-bottom: 8px; }}
-    h2 {{ margin-top: 28px; border-bottom: 1px solid #eee; padding-bottom: 4px; }}
-    h3 {{ margin-top: 22px; }}
-    ul {{ margin-top: 6px; margin-bottom: 10px; }}
-    li {{ margin-bottom: 6px; }}
-    hr {{ margin: 22px 0; border: none; border-top: 1px solid #ddd; }}
-    a {{ color: #0b57d0; text-decoration: none; }}
-    a:hover {{ text-decoration: underline; }}
-    p {{ margin: 8px 0; }}
+    /* ── Reset & base ── */
+    *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 
-    .badge {{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; margin-right:6px; }}
-    .badge-trial {{ background:#e8f0fe; }}
-    .badge-rwe {{ background:#e6f4ea; }}
-    .badge-safety {{ background:#fce8e6; }}
-    .badge-review {{ background:#fef7e0; }}
-    .badge-other {{ background:#f1f3f4; }}
-    .meta {{ color:#555; font-size:13px; margin:6px 0 10px; }}
+    :root {{
+      --ink:        #1a1a2e;
+      --ink-light:  #4a4a6a;
+      --accent:     #1b4f72;
+      --accent2:    #0e6655;
+      --surface:    #f8f9fb;
+      --card:       #ffffff;
+      --border:     #dde3ec;
+      --red:        #922b21;
+      --amber:      #7d6608;
+      --green:      #0e6655;
+      --blue:       #1a5276;
+      --purple:     #6c3483;
+      --teal:       #0e7490;
+      --radius:     10px;
+      --shadow:     0 2px 12px rgba(27,79,114,.10);
+    }}
+
+    body {{
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink);
+      background: var(--surface);
+      padding: 0;
+    }}
+
+    /* ── Header banner ── */
+    .site-header {{
+      background: var(--accent);
+      color: #fff;
+      padding: 36px 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }}
+    .site-header::after {{
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
+    }}
+    .site-header .label {{
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      opacity: .75;
+      margin-bottom: 8px;
+    }}
+    .site-header h1 {{
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.3;
+      border: none;
+      padding: 0;
+      color: #fff;
+    }}
+    .site-header .date-badge {{
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 12px;
+      letter-spacing: .04em;
+    }}
+
+    /* ── Layout ── */
+    .wrapper {{
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }}
+
+    /* ── Section headings ── */
+    h2 {{
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 44px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+      letter-spacing: -.01em;
+    }}
+    h3 {{
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 28px 0 10px;
+      line-height: 1.4;
+    }}
+
+    /* ── Callout box (sintesi operativa) ── */
+    .wrapper > h2:first-of-type + * {{ }}  /* override se serve */
+
+    /* Rileva il blocco sintesi avvolto nel div "callout" via JS → no JS, usiamo stili diretti */
+    /* Usiamo una classe aggiunta nel rendering */
+    .callout {{
+      background: #eaf3fb;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 24px;
+      margin: 16px 0 28px;
+    }}
+    .callout-warning {{
+      background: #fef9e7;
+      border-left-color: #d4ac0d;
+    }}
+    .callout-danger {{
+      background: #fdf2f0;
+      border-left-color: var(--red);
+    }}
+    .callout p {{
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }}
+    .callout-warning p {{ color: var(--amber); }}
+    .callout-danger p {{ color: var(--red); }}
+
+    /* ── Cards articolo ── */
+    .article-card {{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px 18px;
+      margin: 0 0 20px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s;
+    }}
+    .article-card:hover {{
+      box-shadow: 0 4px 20px rgba(27,79,114,.16);
+    }}
+
+    /* ── Meta row (badge + journal) ── */
+    .meta-row {{
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 12px;
+    }}
+    .badge {{
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }}
+    .badge-trial    {{ background: #dbeafe; color: #1e3a8a; }}
+    .badge-rwe      {{ background: #d1fae5; color: #064e3b; }}
+    .badge-safety   {{ background: #fee2e2; color: #7f1d1d; }}
+    .badge-meta     {{ background: #ede9fe; color: #4c1d95; }}
+    .badge-review   {{ background: #fef3c7; color: #78350f; }}
+    .badge-guideline{{ background: #e0f2fe; color: #0c4a6e; }}
+    .badge-case     {{ background: #f3e8ff; color: #581c87; }}
+    .badge-other    {{ background: #f1f5f9; color: #475569; }}
+    .journal-name {{
+      font-size: 12px;
+      color: var(--ink-light);
+      font-style: italic;
+    }}
+
+    /* ── Lists ── */
+    ul {{
+      padding-left: 20px;
+      margin: 8px 0 14px;
+    }}
+    li {{
+      margin-bottom: 7px;
+      color: var(--ink);
+      font-size: 14px;
+    }}
+    .bullet-label {{
+      font-weight: 600;
+      color: var(--accent);
+    }}
+
+    /* ── Links ── */
+    a {{
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      word-break: break-all;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12.5px;
+    }}
+    a:hover {{ color: var(--accent2); }}
+
+    /* ── Divider ── */
+    .divider {{
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+      margin: 28px 0;
+    }}
+
+    /* ── Paragraphs ── */
+    p {{
+      margin: 8px 0;
+      font-size: 14.5px;
+      color: var(--ink);
+    }}
+    em {{ color: var(--ink-light); font-size: 13px; }}
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {{
+      .site-header {{ padding: 24px 18px; }}
+      .site-header h1 {{ font-size: 20px; }}
+      .wrapper {{ padding: 20px 14px 40px; }}
+    }}
   </style>
 </head>
 <body>
+
+<header class="site-header">
+  <div class="label">Newsletter Oncologica Interna</div>
+  <h1>Ponatinib / Asciminib nella LMC</h1>
+  <span class="date-badge">📅 Aggiornamento del {today_str}</span>
+</header>
+
+<div class="wrapper">
 {body}
+</div>
+
 </body>
 </html>
 """
-    except Exception:
+    except Exception as e:
         return "<html><body><pre>" + html_lib.escape(md_text) + "</pre></body></html>"
 
 
 # =========================
-# PDF
+# PDF – ReportLab Platypus
 # =========================
+
+# Palette colori
+C_ACCENT   = colors.HexColor("#1b4f72")
+C_ACCENT2  = colors.HexColor("#0e6655")
+C_SURFACE  = colors.HexColor("#f0f4f8")
+C_BORDER   = colors.HexColor("#dde3ec")
+C_INK      = colors.HexColor("#1a1a2e")
+C_INK_LIGHT= colors.HexColor("#4a4a6a")
+C_RED      = colors.HexColor("#922b21")
+C_AMBER    = colors.HexColor("#7d6608")
+C_WHITE    = colors.white
+
+# Badge type → color
+BADGE_COLORS = {
+    "trial":       colors.HexColor("#dbeafe"),
+    "real-world":  colors.HexColor("#d1fae5"),
+    "osserv":      colors.HexColor("#d1fae5"),
+    "farmacovigil":colors.HexColor("#fee2e2"),
+    "safety":      colors.HexColor("#fee2e2"),
+    "meta":        colors.HexColor("#ede9fe"),
+    "review":      colors.HexColor("#fef3c7"),
+    "linee guida": colors.HexColor("#e0f2fe"),
+    "consenso":    colors.HexColor("#e0f2fe"),
+    "case report": colors.HexColor("#f3e8ff"),
+}
+
+def stype_badge_color(stype_raw: str):
+    s = stype_raw.lower()
+    for k, c in BADGE_COLORS.items():
+        if k in s:
+            return c
+    return colors.HexColor("#f1f5f9")
+
+
+def build_pdf_styles():
+    base = getSampleStyleSheet()
+
+    styles = {}
+
+    styles["Title"] = ParagraphStyle(
+        "Title",
+        fontName="Helvetica-Bold",
+        fontSize=22,
+        leading=28,
+        textColor=C_WHITE,
+        spaceAfter=4,
+    )
+    styles["Subtitle"] = ParagraphStyle(
+        "Subtitle",
+        fontName="Helvetica",
+        fontSize=11,
+        leading=14,
+        textColor=colors.HexColor("#cce0f5"),
+        spaceAfter=0,
+    )
+    styles["H2"] = ParagraphStyle(
+        "H2",
+        fontName="Helvetica-Bold",
+        fontSize=14,
+        leading=18,
+        textColor=C_ACCENT,
+        spaceBefore=24,
+        spaceAfter=8,
+        borderPadding=(0, 0, 4, 0),
+    )
+    styles["H3"] = ParagraphStyle(
+        "H3",
+        fontName="Helvetica-Bold",
+        fontSize=11,
+        leading=15,
+        textColor=C_INK,
+        spaceBefore=14,
+        spaceAfter=4,
+    )
+    styles["Body"] = ParagraphStyle(
+        "Body",
+        fontName="Helvetica",
+        fontSize=10,
+        leading=14,
+        textColor=C_INK,
+        spaceAfter=4,
+    )
+    styles["BulletItem"] = ParagraphStyle(
+        "BulletItem",
+        fontName="Helvetica",
+        fontSize=9.5,
+        leading=13,
+        textColor=C_INK,
+        leftIndent=12,
+        spaceAfter=3,
+        bulletIndent=0,
+        bulletFontName="Helvetica",
+        bulletFontSize=9,
+        bulletText="•",
+    )
+    styles["BulletLabel"] = ParagraphStyle(
+        "BulletLabel",
+        fontName="Helvetica-Bold",
+        fontSize=9.5,
+        leading=13,
+        textColor=C_ACCENT,
+        leftIndent=12,
+        spaceAfter=3,
+    )
+    styles["Meta"] = ParagraphStyle(
+        "Meta",
+        fontName="Helvetica-Oblique",
+        fontSize=8.5,
+        leading=12,
+        textColor=C_INK_LIGHT,
+        spaceAfter=6,
+    )
+    styles["CalloutTitle"] = ParagraphStyle(
+        "CalloutTitle",
+        fontName="Helvetica-Bold",
+        fontSize=9,
+        leading=12,
+        textColor=C_ACCENT,
+        spaceAfter=4,
+    )
+    styles["CalloutBody"] = ParagraphStyle(
+        "CalloutBody",
+        fontName="Helvetica",
+        fontSize=9,
+        leading=13,
+        textColor=C_INK,
+        leftIndent=8,
+    )
+    styles["Link"] = ParagraphStyle(
+        "Link",
+        fontName="Courier",
+        fontSize=8,
+        leading=11,
+        textColor=C_ACCENT,
+        spaceAfter=2,
+    )
+
+    return styles
+
+
+def make_callout_table(title: str, items: list[str], color=None):
+    """Crea un box colorato con titolo e bullet list."""
+    bg = color or colors.HexColor("#eaf3fb")
+    styles = build_pdf_styles()
+
+    content = [Paragraph(title, styles["CalloutTitle"])]
+    for item in items:
+        item_clean = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", item)
+        content.append(Paragraph(f"• {item_clean}", styles["CalloutBody"]))
+
+    inner = Table([[c] for c in content], colWidths=["100%"])
+    inner.setStyle(TableStyle([
+        ("BACKGROUND", (0, 0), (-1, -1), bg),
+        ("LEFTPADDING",  (0, 0), (-1, -1), 14),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 10),
+        ("TOPPADDING",   (0, 0), (0, 0), 10),
+        ("BOTTOMPADDING",(0, -1),(-1,-1),  10),
+        ("TOPPADDING",   (0, 1), (-1, -1), 2),
+        ("BOTTOMPADDING",(0, 0), (-1, -2), 2),
+        ("LINEAFTER",    (0, 0), (0, -1), 4, C_ACCENT),
+        ("BOX",          (0, 0), (-1, -1), 0.5, C_BORDER),
+        ("ROWBACKGROUNDS",(0,0),(-1,-1),[bg]),
+    ]))
+    return inner
+
+
+def make_article_card(title: str, journal: str, stype: str, score: int,
+                      meta_lines: list[str], bullet_lines: list[str],
+                      styles: dict) -> Table:
+    """Crea una card PDF per un singolo articolo."""
+    badge_bg = stype_badge_color(stype)
+
+    rows = []
+
+    # Riga titolo
+    rows.append([Paragraph(f"<b>{html_lib.escape(title)}</b>", styles["H3"])])
+
+    # Riga badge
+    badge_cell = Table(
+        [[
+            Paragraph(f"<b>{html_lib.escape(stype)}</b>", ParagraphStyle(
+                "Badge",
+                fontName="Helvetica-Bold", fontSize=8,
+                leading=10, textColor=C_INK,
+                backColor=badge_bg,
+                borderPadding=(2, 6, 2, 6),
+            )),
+            Paragraph(f"<i>{html_lib.escape(journal)}</i>", styles["Meta"]),
+            Paragraph(f"Score: <b>{score}</b>", styles["Meta"]),
+        ]],
+        colWidths=[None, None, 60],
+    )
+    badge_cell.setStyle(TableStyle([
+        ("VALIGN",       (0,0), (-1,-1), "MIDDLE"),
+        ("LEFTPADDING",  (0,0), (-1,-1), 4),
+        ("RIGHTPADDING", (0,0), (-1,-1), 4),
+        ("TOPPADDING",   (0,0), (-1,-1), 0),
+        ("BOTTOMPADDING",(0,0), (-1,-1), 0),
+    ]))
+    rows.append([badge_cell])
+
+    # Meta (PMID, DOI, link)
+    for ml in meta_lines:
+        ml_clean = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", html_lib.escape(ml))
+        if "pubmed" in ml.lower():
+            rows.append([Paragraph(ml_clean, styles["Link"])])
+        else:
+            rows.append([Paragraph(ml_clean, styles["Meta"])])
+
+    # Bullets abstract
+    for bl in bullet_lines:
+        bl_clean = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", html_lib.escape(bl))
+        # Evidenzia etichetta
+        bl_clean = re.sub(
+            r'^(Tipo di studio/popolazione|Risultato chiave|Rilevanza clinica'
+            r'|Metodi \(full text OA\)|Risultato principale \(full text OA\)'
+            r'|Dettaglio utile \(full text OA\)|Messaggio clinico \(full text OA\))(:)',
+            r'<b><font color="#1b4f72">\1\2</font></b>',
+            bl_clean
+        )
+        rows.append([Paragraph(f"• {bl_clean}", styles["BulletItem"])])
+
+    card = Table([[r[0]] for r in rows], colWidths=["100%"])
+    card.setStyle(TableStyle([
+        ("BACKGROUND",   (0, 0), (-1, -1), colors.white),
+        ("BOX",          (0, 0), (-1, -1), 0.8, C_BORDER),
+        ("LINEAFTER",    (0, 0), (0, -1),  3,   C_ACCENT),
+        ("LEFTPADDING",  (0, 0), (-1, -1), 14),
+        ("RIGHTPADDING", (0, 0), (-1, -1), 12),
+        ("TOPPADDING",   (0, 0), (0,  0),  10),
+        ("BOTTOMPADDING",(0,-1), (-1,-1),  10),
+        ("TOPPADDING",   (0, 1), (-1, -1), 3),
+        ("BOTTOMPADDING",(0, 0), (-1, -2), 3),
+        ("ROUNDEDCORNERS", [6]),
+    ]))
+    return card
+
+
+def _header_footer(canvas_obj, doc):
+    """Intestazione e piè di pagina su ogni pagina."""
+    w, h = A4
+    canvas_obj.saveState()
+
+    # Header strip
+    canvas_obj.setFillColor(C_ACCENT)
+    canvas_obj.rect(0, h - 28, w, 28, fill=1, stroke=0)
+    canvas_obj.setFont("Helvetica-Bold", 9)
+    canvas_obj.setFillColor(C_WHITE)
+    canvas_obj.drawString(1.8*cm, h - 18, "LMC Newsletter  ·  Ponatinib / Asciminib")
+    canvas_obj.setFont("Helvetica", 9)
+    canvas_obj.drawRightString(w - 1.8*cm, h - 18,
+        datetime.utcnow().strftime("%d/%m/%Y"))
+
+    # Footer
+    canvas_obj.setFillColor(C_BORDER)
+    canvas_obj.rect(0, 0, w, 20, fill=1, stroke=0)
+    canvas_obj.setFont("Helvetica", 8)
+    canvas_obj.setFillColor(C_INK_LIGHT)
+    canvas_obj.drawCentredString(w/2, 6,
+        f"Pagina {doc.page}  ·  Uso interno riservato  ·  Generata automaticamente da PubMed/EuropePMC")
+
+    canvas_obj.restoreState()
+
+
 def markdown_to_simple_pdf(md_text: str, out_path: Path):
-    c = canvas.Canvas(str(out_path), pagesize=A4)
-    width, height = A4
+    styles = build_pdf_styles()
 
-    x_left = 2 * cm
-    y = height - 2 * cm
-    line_gap = 14
-    font = "Helvetica"
-    font_bold = "Helvetica-Bold"
+    doc = SimpleDocTemplate(
+        str(out_path),
+        pagesize=A4,
+        leftMargin=1.8*cm, rightMargin=1.8*cm,
+        topMargin=2.2*cm,  bottomMargin=1.8*cm,
+        title="LMC Newsletter – Ponatinib / Asciminib",
+        author="Sistema automatico",
+    )
 
-    def new_page():
-        nonlocal y
-        c.showPage()
-        y = height - 2 * cm
-        c.setFont(font, 11)
+    story = []
+    lines = md_text.splitlines()
 
-    c.setTitle("Newsletter")
-    c.setFont(font, 11)
+    # Stato del parsing
+    in_bullet_block = False
+    bullet_buffer   = []
+    current_section = None   # "messaggi" | "azioni" | "radar" | None
+    in_card         = False
+    card_title      = ""
+    card_journal    = ""
+    card_stype      = ""
+    card_score      = 0
+    card_meta       = []
+    card_bullets    = []
+    in_top5         = False
+    article_rank    = 0
 
-    for raw in md_text.splitlines():
+    SECTION_HEADERS = {
+        "messaggi chiave": ("messaggi",  "📌 Messaggi chiave (da leggere in 60 secondi)", colors.HexColor("#eaf3fb")),
+        "cosa cambia":     ("azioni",    "⚡ Cosa cambia per noi (azioni pratiche)",       colors.HexColor("#fef9e7")),
+        "safety radar":    ("radar",     "⚠️ Safety radar (segnali da monitorare)",        colors.HexColor("#fdf2f0")),
+    }
+
+    def flush_bullets():
+        nonlocal bullet_buffer, current_section, in_bullet_block
+        if bullet_buffer and current_section:
+            for key, (sid, title, col) in SECTION_HEADERS.items():
+                if current_section == sid:
+                    story.append(make_callout_table(title, bullet_buffer, col))
+                    story.append(Spacer(1, 8))
+                    break
+        elif bullet_buffer:
+            for b in bullet_buffer:
+                b_clean = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", html_lib.escape(b))
+                story.append(Paragraph(f"• {b_clean}", styles["BulletItem"]))
+        bullet_buffer = []
+        in_bullet_block = False
+        current_section = None
+
+    def flush_card():
+        nonlocal in_card, card_title, card_journal, card_stype, card_score, card_meta, card_bullets
+        if in_card and card_title:
+            card = make_article_card(
+                card_title, card_journal, card_stype, card_score,
+                card_meta, card_bullets, styles
+            )
+            story.append(KeepTogether([card, Spacer(1, 10)]))
+        in_card = False
+        card_title = card_journal = card_stype = ""
+        card_score = 0
+        card_meta = []
+        card_bullets = []
+
+    for raw in lines:
         line = raw.rstrip()
 
-        if line.strip() == "---":
-            y -= 6
-            c.line(x_left, y, width - x_left, y)
-            y -= 10
-            if y < 3 * cm:
-                new_page()
-            continue
-
+        # Riga vuota
         if not line.strip():
-            y -= 8
-            if y < 3 * cm:
-                new_page()
+            if in_bullet_block:
+                pass  # continua ad accumulare
             continue
 
+        # Separatore
+        if line.strip() == "---":
+            flush_bullets()
+            flush_card()
+            story.append(HRFlowable(width="100%", thickness=0.5,
+                                    color=C_BORDER, spaceAfter=6, spaceBefore=6))
+            continue
+
+        # H1
         if line.startswith("# "):
-            c.setFont(font_bold, 18)
-            y -= 4
-            for t in simpleSplit(line[2:], font_bold, 18, width - 2 * x_left):
-                c.drawString(x_left, y, t)
-                y -= 22
-            c.setFont(font, 11)
-            if y < 3 * cm:
-                new_page()
+            flush_bullets()
+            flush_card()
+            title_text = html_lib.escape(line[2:])
+            # Titolo come banner colorato
+            title_para = Paragraph(title_text, styles["Title"])
+            sub_para   = Paragraph(
+                f"Generata il {datetime.utcnow().strftime('%d/%m/%Y')}",
+                styles["Subtitle"]
+            )
+            banner = Table(
+                [[title_para], [sub_para]],
+                colWidths=["100%"],
+            )
+            banner.setStyle(TableStyle([
+                ("BACKGROUND",   (0,0),(-1,-1), C_ACCENT),
+                ("LEFTPADDING",  (0,0),(-1,-1), 20),
+                ("RIGHTPADDING", (0,0),(-1,-1), 20),
+                ("TOPPADDING",   (0,0),(0,0),   18),
+                ("BOTTOMPADDING",(0,-1),(-1,-1),18),
+                ("TOPPADDING",   (0,1),(-1,-1),  4),
+            ]))
+            story.append(banner)
+            story.append(Spacer(1, 18))
             continue
 
+        # H2
         if line.startswith("## "):
-            c.setFont(font_bold, 14)
-            y -= 2
-            for t in simpleSplit(line[3:], font_bold, 14, width - 2 * x_left):
-                c.drawString(x_left, y, t)
-                y -= 18
-            c.setFont(font, 11)
-            if y < 3 * cm:
-                new_page()
+            flush_bullets()
+            flush_card()
+            txt = line[3:]
+            story.append(Paragraph(html_lib.escape(txt), styles["H2"]))
+            story.append(HRFlowable(width="100%", thickness=1.5,
+                                    color=C_ACCENT, spaceAfter=6, spaceBefore=0))
+            in_top5 = "top 5" in txt.lower()
             continue
 
+        # H3
         if line.startswith("### "):
-            c.setFont(font_bold, 12)
-            for t in simpleSplit(line[4:], font_bold, 12, width - 2 * x_left):
-                c.drawString(x_left, y, t)
-                y -= 16
-            c.setFont(font, 11)
-            if y < 3 * cm:
-                new_page()
+            flush_bullets()
+            flush_card()
+            txt = html_lib.escape(line[4:])
+            # Se inizia con numero → titolo articolo top5
+            if in_top5 and re.match(r'^\d+\)', txt):
+                in_card = True
+                card_title  = line[4:]
+                card_meta   = []
+                card_bullets= []
+                card_journal = ""
+                card_stype  = ""
+                card_score  = 0
+            elif not in_top5:
+                # Bucket header o articolo nelle sezioni per domanda clinica
+                in_card = True
+                card_title  = line[4:]
+                card_meta   = []
+                card_bullets= []
+                card_journal = ""
+                card_stype  = ""
+                card_score  = 0
+            else:
+                story.append(Paragraph(txt, styles["H3"]))
             continue
 
+        # Bullet item
         if line.startswith("- "):
-            text = line[2:]
-            bullet_indent = x_left + 12
-            c.drawString(x_left, y, u"\u2022")
-            wrapped = simpleSplit(text, font, 11, width - bullet_indent - x_left)
-            for t in wrapped:
-                c.drawString(bullet_indent, y, t)
-                y -= line_gap
-                if y < 3 * cm:
-                    new_page()
+            item = line[2:]
+
+            # Riconosci sezione callout
+            item_lower = item.lower()
+            for key, (sid, _, _) in SECTION_HEADERS.items():
+                if key in item_lower and item.startswith("**"):
+                    flush_bullets()
+                    current_section = sid
+                    in_bullet_block = True
+                    break
+
+            # Badge rivista/tipo → meta della card
+            if item.startswith("**Rivista**:"):
+                m = re.search(r"\*\*Rivista\*\*:\s*(.*?)\s*\|\s*\*\*Tipo\*\*:\s*(.*)$", item)
+                if m and in_card:
+                    card_journal = m.group(1).strip()
+                    card_stype   = m.group(2).strip()
+                continue
+
+            # Impact score
+            if item.startswith("**Impact score**:") or item.startswith("Impact score:"):
+                m = re.search(r"(\d+)", item)
+                if m and in_card:
+                    card_score = int(m.group(1))
+                continue
+
+            # Focus clinico, PMID, link, OA → meta
+            if any(item.startswith(p) for p in ["**Focus clinico**:", "PMID:", "Link PubMed:", "Open Access"]):
+                if in_card:
+                    card_meta.append(item)
+                continue
+
+            # Mini-riassunto / full text → bullets card
+            if item.startswith("**Mini-riassunto") or item.startswith("**Riassunto aggiuntivo"):
+                continue  # etichetta sezione, saltiamo
+
+            # Righe abstract bullet
+            bullet_labels = [
+                "Tipo di studio", "Risultato chiave", "Rilevanza clinica",
+                "Metodi (full text", "Risultato principale (full text",
+                "Dettaglio utile (full text", "Messaggio clinico (full text"
+            ]
+            if in_card and any(item.startswith(l) for l in bullet_labels):
+                card_bullets.append(item)
+                continue
+
+            # Bullet generico
+            if in_bullet_block:
+                bullet_buffer.append(item)
+            elif in_card:
+                card_bullets.append(item)
+            else:
+                b_clean = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", html_lib.escape(item))
+                story.append(Paragraph(f"• {b_clean}", styles["BulletItem"]))
             continue
 
-        wrapped = simpleSplit(line, font, 11, width - 2 * x_left)
-        for t in wrapped:
-            c.drawString(x_left, y, t)
-            y -= line_gap
-            if y < 3 * cm:
-                new_page()
+        # Paragrafo normale
+        flush_bullets()
+        txt = html_lib.escape(line)
+        txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+        txt = re.sub(r"_(.*?)_", r"<i>\1</i>", txt)
+        story.append(Paragraph(txt, styles["Body"]))
 
-    c.save()
+    # Flush finale
+    flush_bullets()
+    flush_card()
+
+    doc.build(story, onFirstPage=_header_footer, onLaterPages=_header_footer)
 
 
 # =========================
