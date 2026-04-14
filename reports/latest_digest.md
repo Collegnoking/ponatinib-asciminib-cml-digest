@@ -1,12 +1,12 @@
-# Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi 30 giorni)
-_Generata il: 2026-04-01_
+# Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi 15 giorni)
+_Generata il: 2026-04-14_
 
 ## Newsletter interna – sintesi operativa
 
 **Messaggi chiave (da leggere in 60 secondi):**
-- Nel periodo emergono soprattutto temi su **Resistenza / T315I / mutazioni** (n=6).
-- Secondo filone: **Dose strategy / consolidamento** (n=4).
-- Terzo filone: **Altro** (n=4).
+- Nel periodo emergono soprattutto temi su **Resistenza / T315I / mutazioni** (n=3).
+- Secondo filone: **Altro** (n=1).
+- Terzo filone: **TFR / stop terapia** (n=1).
 
 **Cosa cambia per noi (azioni pratiche):**
 - Rivedere/rafforzare **monitoraggio cardiovascolare e interazioni** (es. anticoagulanti) nei pazienti in TKI.
@@ -22,32 +22,9 @@ _Generata il: 2026-04-01_
 
 ## Top 5 da leggere subito (ordinati per impatto)
 
-### 1) [Key points in selecting first-line therapy for chronic myeloid leukemia].
-- **Impact score**: 13 | **Tipo**: Review
-- **Focus clinico**: TFR / stop terapia, Dose strategy / consolidamento, Safety e comorbidità, Sequencing / linee di terapia, Sintesi (review/linee guida)
-- PMID: 41780958 | 10.11406/rinketsu.67.130
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780958/
-
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is driven by the BCR::ABL1 fusion gene, and the introduction of tyrosine kinase inhibitors (TKIs) has dramatically improved long-term survival.
-- Risultato chiave: In Japan, five agents-imatinib (Glivec<sup>®</sup>), dasatinib (Sprycel<sup>®</sup>), nilotinib (Tasigna<sup>®</sup>), bosutinib (Bosulif<sup>®</sup>), and STAMP inhibitor asciminib (Scemblix<sup>®</sup>)-are currently approved for first-line therapy.
-- Rilevanza clinica: Looking forward, immunologic determinants of TFR and novel therapeutic approaches, including targeting CML stem cells with agents such as asciminib or demethylating drugs, may offer prospects for cure.
-
----
-
-### 2) Pharmacokinetics of Asciminib 200 mg in the Presence of a Strong CYP3A4 Inducer, Phenytoin, in Healthy Participants.
-- **Impact score**: 11 | **Tipo**: Trial clinico
-- **Focus clinico**: Resistenza / T315I / mutazioni, Dose strategy / consolidamento, Sequencing / linee di terapia
-- PMID: 41845155 | 10.1007/s40262-026-01629-1
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41845155/
-
-- Tipo di studio/popolazione: Asciminib is indicated for the treatment of adult patients with newly diagnosed or previously treated Philadelphia chromosome-positive chronic myeloid leukemia in chronic phase (Ph+ CML-CP) at a total daily dose of 80 mg, as well as adult patients with Ph+ CML with the T315I mutation at 200 mg twice daily.
-- Risultato chiave: In patients with the T315I mutation, responses have been observed at doses of ≥150 mg twice daily and dose reduction to 160 mg twice daily is permitted for management of adverse reactions.
-- Rilevanza clinica: The objective of this study was to assess the effect of strong CYP3A4 induction, through phenytoin, on the pharmacokinetics (PK) of single dose asciminib 200 mg.
-
----
-
-### 3) Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
-- **Impact score**: 10 | **Tipo**: Real-world / osservazionale
+### 1) Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
+- **Rivista**: International journal of hematology | **Tipo**: Real-world / osservazionale
+- **Impact score**: 10
 - **Focus clinico**: Resistenza / T315I / mutazioni, TFR / stop terapia, Dose strategy / consolidamento, Safety e comorbidità, Real-world (utilità pratica)
 - PMID: 41917309 | 10.1007/s12185-026-04199-x
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41917309/
@@ -58,49 +35,52 @@ _Generata il: 2026-04-01_
 
 ---
 
-### 4) Tyrosine kinase inhibitors, chronic myeloid leukemia, and pregnancy: pharmacotherapeutic challenges and recommendations.
-- **Impact score**: 10 | **Tipo**: Linee guida / consenso
-- **Focus clinico**: TFR / stop terapia, Sintesi (review/linee guida)
-- PMID: 41874348 | 10.1080/14656566.2026.2651280
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41874348/
+### 2) Targeting leukemic stem and progenitor cells expressing different BCR::ABL1 levels: antileukemic activity of asciminib with or without TKIs.
+- **Rivista**: Frontiers in pharmacology | **Tipo**: Preclinico / laboratorio
+- **Impact score**: 3
+- **Focus clinico**: Resistenza / T315I / mutazioni
+- PMID: 41948718 | 10.3389/fphar.2026.1780054
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41948718/
 
-- Tipo di studio/popolazione: The annual incidence of Philadelphia chromosome-positive chronic myeloid leukemia (CML) is 1 per 100,000 pregnancies.
-- Risultato chiave: In this review, we discuss the possible fetotoxicity of CML therapies during pregnancy, including TKIs and non TKI-based regimens and the treatment strategies for pregnant patients.
-- Rilevanza clinica: Clinicians should always counsel women on pregnancy risks during therapy while reassuring male patients of TKI safety when fathering children.
+- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) targeting ABL1 catalytic activity have markedly improved Chronic Myeloid Leukemia (CML) outcomes, inducing unprecedented and durable therapeutic responses.
+- Risultato chiave: High BCR::ABL1 transcripts at diagnosis confer a proliferative and survival advantage and are associated with a higher risk of CML progression to the acute phase.
+- Rilevanza clinica: ASC is FDA-approved for patients who have failed one or more TKIs, and its efficacy has been evaluated as monotherapy, and in combination with different TKIs, in T315I-positive or advanced-phase CML.
 
 ---
 
-### 5) [Key points in second-line therapy for chronic myeloid leukemia].
-- **Impact score**: 7 | **Tipo**: Review
-- **Focus clinico**: Resistenza / T315I / mutazioni, Sequencing / linee di terapia, Sintesi (review/linee guida)
-- PMID: 41780959 | 10.11406/rinketsu.67.142
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780959/
+### 3) Inhibition of PGK1 enhances sensitivity to tyrosine kinase inhibitor in T315I-mutant leukemia.
+- **Rivista**: Acta pharmaceutica Sinica. B | **Tipo**: Preclinico / laboratorio
+- **Impact score**: 3
+- **Focus clinico**: Resistenza / T315I / mutazioni
+- PMID: 41909749 | 10.1016/j.apsb.2025.12.039
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41909749/
 
-- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) have markedly improved the prognosis of chronic myeloid leukemia (CML).
-- Risultato chiave: Nevertheless, more than 10% of patients treated with asciminib over 48 weeks, and approximately 20-30% of those receiving other TKIs over five years, require second-line therapy because of resistance or intolerance.
-- Rilevanza clinica: This article summarizes the criteria and timing for switching to second-line therapy and key considerations for selecting and managing second-line TKIs, and briefly reviews the evidence for asciminib and ponatinib in second-line and later settings.
+- Tipo di studio/popolazione: Our findings reveal that PGK1 also functions as a protein kinase phosphorylating valosin-containing protein (VCP) at S746, which subsequently reduces Beclin 1 deubiquitination and impairs autophagy.
+- Risultato chiave: Inhibition of PGK1 initiates autophagy in T315I-mutant chronic myeloid leukemia (CML) cells, thereby enhancing their sensitivity to first-generation Tyrosine Kinase Inhibitor (TKI) imatinib and third-generation TKI ponatinib.
+- Rilevanza clinica: Notably, CPU-216 induces autophagy <i>via</i> VCP and Beclin 1 in CML-T315I cells, enhancing their responsiveness to TKIs.
+
+---
+
+### 4) Ponatinib inhibits LCK and PI3K signaling and promotes CD8<sup>+</sup> T stem cell memory cell development.
+- **Rivista**: Nature communications | **Tipo**: Preclinico / laboratorio
+- **Impact score**: 1
+- **Focus clinico**: Altro
+- PMID: 41946709 | 10.1038/s41467-026-71375-2
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41946709/
+
+- Tipo di studio/popolazione: Ponatinib is a tyrosine kinase inhibitor primarily targeting BCR-ABL1 and used for the treatment of chronic myeloid leukemia.
+- Risultato chiave: In mouse tumor models, ponatinib treatment exhibits antitumor efficacy alone and in combination with PD-1 blockade.
+- Rilevanza clinica: Our results thus implicate ponatinib as therapeutic immunomodulator, inducing T<sub>SCM</sub> cells for improved antitumor T cell activity.
 
 ---
 
 ## Evidenze per domande cliniche
 
-### Resistenza / T315I / mutazioni (6)
+### Resistenza / T315I / mutazioni (3)
 
-#### Pharmacokinetics of Asciminib 200 mg in the Presence of a Strong CYP3A4 Inducer, Phenytoin, in Healthy Participants.
-- Impact score: 11 | Tipo: Trial clinico
-- PMID: 41845155 | 10.1007/s40262-026-01629-1
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41845155/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Asciminib is indicated for the treatment of adult patients with newly diagnosed or previously treated Philadelphia chromosome-positive chronic myeloid leukemia in chronic phase (Ph+ CML-CP) at a total daily dose of 80 mg, as well as adult patients with Ph+ CML with the T315I mutation at 200 mg twice daily.
-- Risultato chiave: In patients with the T315I mutation, responses have been observed at doses of ≥150 mg twice daily and dose reduction to 160 mg twice daily is permitted for management of adverse reactions.
-- Rilevanza clinica: The objective of this study was to assess the effect of strong CYP3A4 induction, through phenytoin, on the pharmacokinetics (PK) of single dose asciminib 200 mg.
-
----
-
-#### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
-- Impact score: 10 | Tipo: Real-world / osservazionale
+### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
+- **Rivista**: International journal of hematology | **Tipo**: Real-world / osservazionale
+- Impact score: 10
 - PMID: 41917309 | 10.1007/s12185-026-04199-x
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41917309/
 - Open Access (Europe PMC/PMC): non rilevato
@@ -112,47 +92,29 @@ _Generata il: 2026-04-01_
 
 ---
 
-#### [Key points in second-line therapy for chronic myeloid leukemia].
-- Impact score: 7 | Tipo: Review
-- PMID: 41780959 | 10.11406/rinketsu.67.142
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780959/
-- Open Access (Europe PMC/PMC): non rilevato
+### Targeting leukemic stem and progenitor cells expressing different BCR::ABL1 levels: antileukemic activity of asciminib with or without TKIs.
+- **Rivista**: Frontiers in pharmacology | **Tipo**: Preclinico / laboratorio
+- Impact score: 3
+- PMID: 41948718 | 10.3389/fphar.2026.1780054
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41948718/
+- Open Access (Europe PMC/PMC): sì (PMC13051198)
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) have markedly improved the prognosis of chronic myeloid leukemia (CML).
-- Risultato chiave: Nevertheless, more than 10% of patients treated with asciminib over 48 weeks, and approximately 20-30% of those receiving other TKIs over five years, require second-line therapy because of resistance or intolerance.
-- Rilevanza clinica: This article summarizes the criteria and timing for switching to second-line therapy and key considerations for selecting and managing second-line TKIs, and briefly reviews the evidence for asciminib and ponatinib in second-line and later settings.
+- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) targeting ABL1 catalytic activity have markedly improved Chronic Myeloid Leukemia (CML) outcomes, inducing unprecedented and durable therapeutic responses.
+- Risultato chiave: High BCR::ABL1 transcripts at diagnosis confer a proliferative and survival advantage and are associated with a higher risk of CML progression to the acute phase.
+- Rilevanza clinica: ASC is FDA-approved for patients who have failed one or more TKIs, and its efficacy has been evaluated as monotherapy, and in combination with different TKIs, in T315I-positive or advanced-phase CML.
+
+**Riassunto aggiuntivo (full text Open Access, estrattivo):**
+- Metodi (full text OA): Chronic phase CML patients, selected from previously published cohort (Massimino et al., 2023), were stratified based on their BCR::ABL1/GUS IS (GUS: glucuronidase-β, IS: International Standard Scale) levels at diagnosis into low (<10%, n = 8) and high (>20%, n = 9) groups, as determined by real-time PCR according to an internationally-established protocol (Vigneri et al., 2017).
+- Risultato principale (full text OA): In-cell Western analysis performed on CD34-positive leukemic cells from CML patients expressing low (<10%, black columns; n = 7) or high (>20%, grey columns; n = 7) BCR::ABL1/GUSIS.
+- Dettaglio utile (full text OA): (A–D) Long-term culture-initiating cells (LTC-ICs) were obtained from CML patients expressing low (<10%, black circles; n = 8 for A, n = 7 for (B–D) or high (>20%, grey squares; n = 7) BCR::ABL1/GUSIS levels.
+- Messaggio clinico (full text OA): LTC-IC division rates (He et al., 2009) showed that only ASC + NIL reduced stem cell division in both CD34BALow and CD34BAHigh populations, likely reflecting the greater kinase inhibitory potency of NIL.
 
 ---
 
-#### T315I-mutated chronic myeloid leukemia with blast crisis relapse 10 years after allo-HSCT: A case report of second transplantation combined with olverembatinib maintenance therapy.
-- Impact score: 6 | Tipo: Case report
-- PMID: 41861965 | 10.1016/j.trim.2026.102381
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41861965/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is a myeloproliferative neoplasm characterized by the presence of the Philadelphia chromosome and the resulting fusion proteins with abnormal tyrosine kinase activity.
-- Risultato chiave: The BCR::ABL1 T315I mutation in CML leads to resistance to first- and second-generation tyrosine kinase inhibitors (TKIs), but is sensitive to two third-generation TKIs, olverembatinib and ponatinib.
-- Rilevanza clinica: Here, we present a case of a CML patient with the T315I mutation who experienced late relapse with blast crisis 10 years after allo-HSCT.
-
----
-
-#### Dual-specificity phosphatase 21 enhances the sensitivity of imatinib-resistant chronic myeloid leukemia cells to ponatinib through GATA-1-mediated erythroid differentiation.
-- Impact score: 4 | Tipo: Preclinico / laboratorio
-- PMID: 41865468 | 10.1016/j.bbrc.2026.153646
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41865468/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: BCR-ABL tyrosine kinase inhibitors (TKIs) effectively treat chronic myeloid leukemia (CML), but drug resistance remains a challenge.
-- Risultato chiave: GATA-1 knockdown eliminated DUSP21's effects on erythroid differentiation and ponatinib sensitivity in K562 and K562R cells.
-- Rilevanza clinica: Collectively, these findings suggest that DUSP21 acts as a positive regulator of erythroid differentiation in CML cells, and its overexpression sensitizes imatinib-resistant CML cells to ponatinib via GATA-1-mediated erythroid differentiation.
-
----
-
-#### Inhibition of PGK1 enhances sensitivity to tyrosine kinase inhibitor in T315I-mutant leukemia.
-- Impact score: 3 | Tipo: Preclinico / laboratorio
+### Inhibition of PGK1 enhances sensitivity to tyrosine kinase inhibitor in T315I-mutant leukemia.
+- **Rivista**: Acta pharmaceutica Sinica. B | **Tipo**: Preclinico / laboratorio
+- Impact score: 3
 - PMID: 41909749 | 10.1016/j.apsb.2025.12.039
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41909749/
 - Open Access (Europe PMC/PMC): sì (PMC13031150)
@@ -170,36 +132,27 @@ _Generata il: 2026-04-01_
 
 ---
 
-### Dose strategy / consolidamento (4)
+### Altro (1)
 
-#### [Key points in selecting first-line therapy for chronic myeloid leukemia].
-- Impact score: 13 | Tipo: Review
-- PMID: 41780958 | 10.11406/rinketsu.67.130
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780958/
+### Ponatinib inhibits LCK and PI3K signaling and promotes CD8<sup>+</sup> T stem cell memory cell development.
+- **Rivista**: Nature communications | **Tipo**: Preclinico / laboratorio
+- Impact score: 1
+- PMID: 41946709 | 10.1038/s41467-026-71375-2
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41946709/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is driven by the BCR::ABL1 fusion gene, and the introduction of tyrosine kinase inhibitors (TKIs) has dramatically improved long-term survival.
-- Risultato chiave: In Japan, five agents-imatinib (Glivec<sup>®</sup>), dasatinib (Sprycel<sup>®</sup>), nilotinib (Tasigna<sup>®</sup>), bosutinib (Bosulif<sup>®</sup>), and STAMP inhibitor asciminib (Scemblix<sup>®</sup>)-are currently approved for first-line therapy.
-- Rilevanza clinica: Looking forward, immunologic determinants of TFR and novel therapeutic approaches, including targeting CML stem cells with agents such as asciminib or demethylating drugs, may offer prospects for cure.
+- Tipo di studio/popolazione: Ponatinib is a tyrosine kinase inhibitor primarily targeting BCR-ABL1 and used for the treatment of chronic myeloid leukemia.
+- Risultato chiave: In mouse tumor models, ponatinib treatment exhibits antitumor efficacy alone and in combination with PD-1 blockade.
+- Rilevanza clinica: Our results thus implicate ponatinib as therapeutic immunomodulator, inducing T<sub>SCM</sub> cells for improved antitumor T cell activity.
 
 ---
 
-#### Pharmacokinetics of Asciminib 200 mg in the Presence of a Strong CYP3A4 Inducer, Phenytoin, in Healthy Participants.
-- Impact score: 11 | Tipo: Trial clinico
-- PMID: 41845155 | 10.1007/s40262-026-01629-1
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41845155/
-- Open Access (Europe PMC/PMC): non rilevato
+### TFR / stop terapia (1)
 
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Asciminib is indicated for the treatment of adult patients with newly diagnosed or previously treated Philadelphia chromosome-positive chronic myeloid leukemia in chronic phase (Ph+ CML-CP) at a total daily dose of 80 mg, as well as adult patients with Ph+ CML with the T315I mutation at 200 mg twice daily.
-- Risultato chiave: In patients with the T315I mutation, responses have been observed at doses of ≥150 mg twice daily and dose reduction to 160 mg twice daily is permitted for management of adverse reactions.
-- Rilevanza clinica: The objective of this study was to assess the effect of strong CYP3A4 induction, through phenytoin, on the pharmacokinetics (PK) of single dose asciminib 200 mg.
-
----
-
-#### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
-- Impact score: 10 | Tipo: Real-world / osservazionale
+### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
+- **Rivista**: International journal of hematology | **Tipo**: Real-world / osservazionale
+- Impact score: 10
 - PMID: 41917309 | 10.1007/s12185-026-04199-x
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41917309/
 - Open Access (Europe PMC/PMC): non rilevato
@@ -211,102 +164,11 @@ _Generata il: 2026-04-01_
 
 ---
 
-#### T315I-mutated chronic myeloid leukemia with blast crisis relapse 10 years after allo-HSCT: A case report of second transplantation combined with olverembatinib maintenance therapy.
-- Impact score: 6 | Tipo: Case report
-- PMID: 41861965 | 10.1016/j.trim.2026.102381
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41861965/
-- Open Access (Europe PMC/PMC): non rilevato
+### Dose strategy / consolidamento (1)
 
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is a myeloproliferative neoplasm characterized by the presence of the Philadelphia chromosome and the resulting fusion proteins with abnormal tyrosine kinase activity.
-- Risultato chiave: The BCR::ABL1 T315I mutation in CML leads to resistance to first- and second-generation tyrosine kinase inhibitors (TKIs), but is sensitive to two third-generation TKIs, olverembatinib and ponatinib.
-- Rilevanza clinica: Here, we present a case of a CML patient with the T315I mutation who experienced late relapse with blast crisis 10 years after allo-HSCT.
-
----
-
-### Altro (4)
-
-#### From Molecular Silence to Lymphoid Blast Phase: Diagnostic and Therapeutic Challenges in a Young Female Patient With Chronic Myeloid Leukemia.
-- Impact score: 4 | Tipo: Altro
-- PMID: 41869197 | 10.7759/cureus.103856
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41869197/
-- Open Access (Europe PMC/PMC): sì (PMC13004583)
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is a triphasic myeloproliferative neoplasm characterized by the breakpoint cluster region-Abelson BCR::ABL1 fusion gene, typically detected by reverse transcription-quantitative polymerase chain reaction (RT-qPCR).
-- Risultato chiave: We present a case of a 20-year-old female patient who presented with non-specific constitutional symptoms and was diagnosed with CML based upon detection of the Philadelphia (Ph) chromosome by fluorescence in situ hybridization (FISH), while repeated molecular testing remained negative.
-- Rilevanza clinica: Importantly, it underscores the persistent molecular silence despite repeated RT-qPCR testing and the successful introduction of asciminib as a novel therapeutic alternative.
-
-**Riassunto aggiuntivo (full text Open Access, estrattivo):**
-- Metodi (full text OA): non riportato.
-- Risultato principale (full text OA): non riportato.
-- Dettaglio utile (full text OA): non riportato.
-- Messaggio clinico (full text OA): A recent case reported successful use of asciminib 200 mg BID in the consolidation phase after ponatinib failure and induction chemotherapy, resulting in complete molecular response in a patient with myeloid blast crisis harbouring the T315I mutation [12].
-
----
-
-#### Chemotherapy-associated Optic Neuropathy in a Patient with Chronic Myeloid Leukemia and Hepatitis B: A Diagnostic Challenge.
-- Impact score: 3 | Tipo: Altro
-- PMID: 41889355 | 10.4103/aam.aam_781_25
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41889355/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: We describe the case of a 32-year-old man diagnosed with chronic myeloid leukemia (CML) and chronic hepatitis B, who developed acute, painless visual loss in the left eye during treatment with a combination of intrathecal methotrexate and cytarabine, vincristine, bortezomib, and ponatinib.
-- Risultato chiave: On examination, he had only light perception in the affected eye, a Grade 3 relative afferent pupillary defect, and optic disc swelling.
-- Rilevanza clinica: This case underscores the need to recognize neurotoxic optic neuropathy as a potential adverse effect in patients receiving multiple chemotherapeutic agents.
-
----
-
-#### Beyond ATP: asciminib and the allosteric path in CML.
-- Impact score: 3 | Tipo: Altro
-- PMID: 41885854 | 10.1182/blood.2025032327
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41885854/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: non riportato (abstract non disponibile).
-- Risultato chiave: non riportato.
-- Rilevanza clinica: non valutabile senza abstract.
-
----
-
-#### Painful fissured plaques on the palms and soles in a patient with chronic myeloid leukemia.
-- Impact score: 3 | Tipo: Altro
-- PMID: 41798159 | 10.1016/j.jdcr.2026.01.020
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41798159/
-- Open Access (Europe PMC/PMC): sì (PMC12966876)
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: non riportato (abstract non disponibile).
-- Risultato chiave: non riportato.
-- Rilevanza clinica: non valutabile senza abstract.
-
-**Riassunto aggiuntivo (full text Open Access, estrattivo):**
-- Metodi (full text OA): non riportato.
-- Risultato principale (full text OA): non riportato.
-- Dettaglio utile (full text OA): non riportato.
-- Messaggio clinico (full text OA): It was approved by the Food and Drug Administration in October 2021 following the phase III ASCEMBL trial, which demonstrated superior efficacy compared to bosutinib in patients with CML.5 Notably, this patient’s eruption extended to the shins, a distribution not typical of classic HFSR.1
-
----
-
-### TFR / stop terapia (3)
-
-#### [Key points in selecting first-line therapy for chronic myeloid leukemia].
-- Impact score: 13 | Tipo: Review
-- PMID: 41780958 | 10.11406/rinketsu.67.130
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780958/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is driven by the BCR::ABL1 fusion gene, and the introduction of tyrosine kinase inhibitors (TKIs) has dramatically improved long-term survival.
-- Risultato chiave: In Japan, five agents-imatinib (Glivec<sup>®</sup>), dasatinib (Sprycel<sup>®</sup>), nilotinib (Tasigna<sup>®</sup>), bosutinib (Bosulif<sup>®</sup>), and STAMP inhibitor asciminib (Scemblix<sup>®</sup>)-are currently approved for first-line therapy.
-- Rilevanza clinica: Looking forward, immunologic determinants of TFR and novel therapeutic approaches, including targeting CML stem cells with agents such as asciminib or demethylating drugs, may offer prospects for cure.
-
----
-
-#### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
-- Impact score: 10 | Tipo: Real-world / osservazionale
+### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
+- **Rivista**: International journal of hematology | **Tipo**: Real-world / osservazionale
+- Impact score: 10
 - PMID: 41917309 | 10.1007/s12185-026-04199-x
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41917309/
 - Open Access (Europe PMC/PMC): non rilevato
@@ -318,118 +180,11 @@ _Generata il: 2026-04-01_
 
 ---
 
-#### Tyrosine kinase inhibitors, chronic myeloid leukemia, and pregnancy: pharmacotherapeutic challenges and recommendations.
-- Impact score: 10 | Tipo: Linee guida / consenso
-- PMID: 41874348 | 10.1080/14656566.2026.2651280
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41874348/
-- Open Access (Europe PMC/PMC): non rilevato
+### Safety e comorbidità (1)
 
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: The annual incidence of Philadelphia chromosome-positive chronic myeloid leukemia (CML) is 1 per 100,000 pregnancies.
-- Risultato chiave: In this review, we discuss the possible fetotoxicity of CML therapies during pregnancy, including TKIs and non TKI-based regimens and the treatment strategies for pregnant patients.
-- Rilevanza clinica: Clinicians should always counsel women on pregnancy risks during therapy while reassuring male patients of TKI safety when fathering children.
-
----
-
-### Sintesi (review/linee guida) (3)
-
-#### [Key points in selecting first-line therapy for chronic myeloid leukemia].
-- Impact score: 13 | Tipo: Review
-- PMID: 41780958 | 10.11406/rinketsu.67.130
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780958/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is driven by the BCR::ABL1 fusion gene, and the introduction of tyrosine kinase inhibitors (TKIs) has dramatically improved long-term survival.
-- Risultato chiave: In Japan, five agents-imatinib (Glivec<sup>®</sup>), dasatinib (Sprycel<sup>®</sup>), nilotinib (Tasigna<sup>®</sup>), bosutinib (Bosulif<sup>®</sup>), and STAMP inhibitor asciminib (Scemblix<sup>®</sup>)-are currently approved for first-line therapy.
-- Rilevanza clinica: Looking forward, immunologic determinants of TFR and novel therapeutic approaches, including targeting CML stem cells with agents such as asciminib or demethylating drugs, may offer prospects for cure.
-
----
-
-#### Tyrosine kinase inhibitors, chronic myeloid leukemia, and pregnancy: pharmacotherapeutic challenges and recommendations.
-- Impact score: 10 | Tipo: Linee guida / consenso
-- PMID: 41874348 | 10.1080/14656566.2026.2651280
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41874348/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: The annual incidence of Philadelphia chromosome-positive chronic myeloid leukemia (CML) is 1 per 100,000 pregnancies.
-- Risultato chiave: In this review, we discuss the possible fetotoxicity of CML therapies during pregnancy, including TKIs and non TKI-based regimens and the treatment strategies for pregnant patients.
-- Rilevanza clinica: Clinicians should always counsel women on pregnancy risks during therapy while reassuring male patients of TKI safety when fathering children.
-
----
-
-#### [Key points in second-line therapy for chronic myeloid leukemia].
-- Impact score: 7 | Tipo: Review
-- PMID: 41780959 | 10.11406/rinketsu.67.142
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780959/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) have markedly improved the prognosis of chronic myeloid leukemia (CML).
-- Risultato chiave: Nevertheless, more than 10% of patients treated with asciminib over 48 weeks, and approximately 20-30% of those receiving other TKIs over five years, require second-line therapy because of resistance or intolerance.
-- Rilevanza clinica: This article summarizes the criteria and timing for switching to second-line therapy and key considerations for selecting and managing second-line TKIs, and briefly reviews the evidence for asciminib and ponatinib in second-line and later settings.
-
----
-
-### Sequencing / linee di terapia (3)
-
-#### [Key points in selecting first-line therapy for chronic myeloid leukemia].
-- Impact score: 13 | Tipo: Review
-- PMID: 41780958 | 10.11406/rinketsu.67.130
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780958/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is driven by the BCR::ABL1 fusion gene, and the introduction of tyrosine kinase inhibitors (TKIs) has dramatically improved long-term survival.
-- Risultato chiave: In Japan, five agents-imatinib (Glivec<sup>®</sup>), dasatinib (Sprycel<sup>®</sup>), nilotinib (Tasigna<sup>®</sup>), bosutinib (Bosulif<sup>®</sup>), and STAMP inhibitor asciminib (Scemblix<sup>®</sup>)-are currently approved for first-line therapy.
-- Rilevanza clinica: Looking forward, immunologic determinants of TFR and novel therapeutic approaches, including targeting CML stem cells with agents such as asciminib or demethylating drugs, may offer prospects for cure.
-
----
-
-#### Pharmacokinetics of Asciminib 200 mg in the Presence of a Strong CYP3A4 Inducer, Phenytoin, in Healthy Participants.
-- Impact score: 11 | Tipo: Trial clinico
-- PMID: 41845155 | 10.1007/s40262-026-01629-1
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41845155/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Asciminib is indicated for the treatment of adult patients with newly diagnosed or previously treated Philadelphia chromosome-positive chronic myeloid leukemia in chronic phase (Ph+ CML-CP) at a total daily dose of 80 mg, as well as adult patients with Ph+ CML with the T315I mutation at 200 mg twice daily.
-- Risultato chiave: In patients with the T315I mutation, responses have been observed at doses of ≥150 mg twice daily and dose reduction to 160 mg twice daily is permitted for management of adverse reactions.
-- Rilevanza clinica: The objective of this study was to assess the effect of strong CYP3A4 induction, through phenytoin, on the pharmacokinetics (PK) of single dose asciminib 200 mg.
-
----
-
-#### [Key points in second-line therapy for chronic myeloid leukemia].
-- Impact score: 7 | Tipo: Review
-- PMID: 41780959 | 10.11406/rinketsu.67.142
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780959/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) have markedly improved the prognosis of chronic myeloid leukemia (CML).
-- Risultato chiave: Nevertheless, more than 10% of patients treated with asciminib over 48 weeks, and approximately 20-30% of those receiving other TKIs over five years, require second-line therapy because of resistance or intolerance.
-- Rilevanza clinica: This article summarizes the criteria and timing for switching to second-line therapy and key considerations for selecting and managing second-line TKIs, and briefly reviews the evidence for asciminib and ponatinib in second-line and later settings.
-
----
-
-### Safety e comorbidità (2)
-
-#### [Key points in selecting first-line therapy for chronic myeloid leukemia].
-- Impact score: 13 | Tipo: Review
-- PMID: 41780958 | 10.11406/rinketsu.67.130
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41780958/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Chronic myeloid leukemia (CML) is driven by the BCR::ABL1 fusion gene, and the introduction of tyrosine kinase inhibitors (TKIs) has dramatically improved long-term survival.
-- Risultato chiave: In Japan, five agents-imatinib (Glivec<sup>®</sup>), dasatinib (Sprycel<sup>®</sup>), nilotinib (Tasigna<sup>®</sup>), bosutinib (Bosulif<sup>®</sup>), and STAMP inhibitor asciminib (Scemblix<sup>®</sup>)-are currently approved for first-line therapy.
-- Rilevanza clinica: Looking forward, immunologic determinants of TFR and novel therapeutic approaches, including targeting CML stem cells with agents such as asciminib or demethylating drugs, may offer prospects for cure.
-
----
-
-#### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
-- Impact score: 10 | Tipo: Real-world / osservazionale
+### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
+- **Rivista**: International journal of hematology | **Tipo**: Real-world / osservazionale
+- Impact score: 10
 - PMID: 41917309 | 10.1007/s12185-026-04199-x
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41917309/
 - Open Access (Europe PMC/PMC): non rilevato
@@ -443,8 +198,9 @@ _Generata il: 2026-04-01_
 
 ### Real-world (utilità pratica) (1)
 
-#### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
-- Impact score: 10 | Tipo: Real-world / osservazionale
+### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
+- **Rivista**: International journal of hematology | **Tipo**: Real-world / osservazionale
+- Impact score: 10
 - PMID: 41917309 | 10.1007/s12185-026-04199-x
 - Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41917309/
 - Open Access (Europe PMC/PMC): non rilevato
