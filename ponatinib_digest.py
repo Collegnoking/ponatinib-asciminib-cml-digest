@@ -115,7 +115,9 @@ def pubmed_fetch_details(pmids):
         med = art["MedlineCitation"]
         pmid = str(med["PMID"])
         article = med["Article"]
-
+        journal = ""
+        if "Journal" in article and "Title" in article["Journal"]:
+            journal = str(article["Journal"]["Title"]).strip()
         title = str(article.get("ArticleTitle", "")).strip()
 
         abstract = ""
@@ -132,7 +134,8 @@ def pubmed_fetch_details(pmids):
             "pmid": pmid,
             "doi": doi,
             "title": title,
-            "abstract": abstract
+            "abstract": abstract,
+            "journal": journal
         })
 
     return articles
