@@ -566,7 +566,7 @@ def build_markdown(articles, days=30):
 # -----------------------------
 # HTML (semplice ma leggibile) + fallback sempre stringa
 # -----------------------------
-def markdown_to_simple_html(md_text: str) -> str:
+< style>(md_text: str) -> str:
     try:
         lines = md_text.splitlines()
         html_lines = []
@@ -660,6 +660,13 @@ def markdown_to_simple_html(md_text: str) -> str:
     a {{ color: #0b57d0; text-decoration: none; }}
     a:hover {{ text-decoration: underline; }}
     p {{ margin: 8px 0; }}
+    .badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; margin-right:6px; }
+    .badge-trial { background:#e8f0fe; }
+    .badge-rwe { background:#e6f4ea; }
+    .badge-safety { background:#fce8e6; }
+    .badge-review { background:#fef7e0; }
+    .badge-other { background:#f1f3f4; }
+    .meta { color:#555; font-size:13px; margin:6px 0 10px; }
   </style>
 </head>
 <body>
