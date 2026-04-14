@@ -762,7 +762,7 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
 # -----------------------------
 # MAIN
 # -----------------------------
-def main(days=30):
+def main(days=15):
     con = init_db()
 
     pmids = pubmed_search_last_days(days=days)
