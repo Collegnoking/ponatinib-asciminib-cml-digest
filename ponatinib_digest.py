@@ -590,7 +590,32 @@ def build_markdown(articles, days=30):
                 close_ul()
                 html_lines.append("<hr>")
                 continue
+            # RIGA META: "- **Rivista**: ... | **Tipo**: ..."
+            if line.startswith("- **Rivista**:"):
+                close_ul()
+                m = re.search(r"\*\*Rivista\*\*:\s*(.*?)\s*\|\s*\*\*Tipo\*\*:\s*(.*)$", line)
+                if m:
+                    journal = html_lib.escape(m.group(1).strip())
+                    stype_raw = m.group(2).strip().lower()
 
+                    if "trial" in stype_raw:
+                        cls = "badge-trial"; label = "TRIAL"
+                    elif "real-world" in stype_raw or "osserv" in stype_raw:
+                        cls = "badge-rwe"; label = "REAL-WORLD"
+                    elif "farmacovigil" in stype_raw or "safety" in stype_raw:
+                        cls = "badge-safety"; label = "SAFETY"
+                    elif "review" in stype_raw or "meta" in stype_raw:
+                        cls = "badge-review"; label = "REVIEW"
+                    else:
+                        cls = "badge-other"; label = "ALTRO"
+
+                    html_lines.append(
+                        f'<div class="meta">'
+                        f'<span class="badge {cls}">{label}</span>'
+                        f'<span class="badge badge-other">{journal}</span>'
+                        f'</div>'
+                    )
+                    continue
             if line.startswith("### "):
                 close_ul()
                 txt = html_lib.escape(line[4:])
