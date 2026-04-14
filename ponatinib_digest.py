@@ -504,6 +504,9 @@ def build_markdown(articles, days=30):
         buckets = ", ".join(clinical_buckets(title, a.get("abstract", "")))
 
         lines.append(f"### {rank}) {title}")
+        journal = a.get("journal", "").strip() or "Rivista non riportata"
+        stype = detect_study_type(title, abstract)
+        lines.append(f"- **Rivista**: {journal} | **Tipo**: {stype}")
         lines.append(f"- **Impact score**: {s} | **Tipo**: {stype}")
         lines.append(f"- **Focus clinico**: {buckets}")
         lines.append(f"- PMID: {pmid} | {doi}")
