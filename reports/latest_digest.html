@@ -3,308 +3,467 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Newsletter</title>
+  <title>LMC Newsletter – Ponatinib / Asciminib</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono&display=swap" rel="stylesheet">
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      line-height: 1.5;
-      margin: 24px auto;
-      max-width: 900px;
-      padding: 0 16px;
-      color: #222;
-      background: #fff;
-    }
-    h1, h2, h3 { line-height: 1.2; }
-    h1 { border-bottom: 2px solid #ddd; padding-bottom: 8px; }
-    h2 { margin-top: 28px; border-bottom: 1px solid #eee; padding-bottom: 4px; }
-    h3 { margin-top: 22px; }
-    ul { margin-top: 6px; margin-bottom: 10px; }
-    li { margin-bottom: 6px; }
-    hr { margin: 22px 0; border: none; border-top: 1px solid #ddd; }
-    a { color: #0b57d0; text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    p { margin: 8px 0; }
+    /* ── Reset & base ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    .badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; margin-right:6px; }
-    .badge-trial { background:#e8f0fe; }
-    .badge-rwe { background:#e6f4ea; }
-    .badge-safety { background:#fce8e6; }
-    .badge-review { background:#fef7e0; }
-    .badge-other { background:#f1f3f4; }
-    .meta { color:#555; font-size:13px; margin:6px 0 10px; }
+    :root {
+      --ink:        #1a1a2e;
+      --ink-light:  #4a4a6a;
+      --accent:     #1b4f72;
+      --accent2:    #0e6655;
+      --surface:    #f8f9fb;
+      --card:       #ffffff;
+      --border:     #dde3ec;
+      --red:        #922b21;
+      --amber:      #7d6608;
+      --green:      #0e6655;
+      --blue:       #1a5276;
+      --purple:     #6c3483;
+      --teal:       #0e7490;
+      --radius:     10px;
+      --shadow:     0 2px 12px rgba(27,79,114,.10);
+    }
+
+    body {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 15px;
+      line-height: 1.7;
+      color: var(--ink);
+      background: var(--surface);
+      padding: 0;
+    }
+
+    /* ── Header banner ── */
+    .site-header {
+      background: var(--accent);
+      color: #fff;
+      padding: 36px 40px 32px;
+      position: relative;
+      overflow: hidden;
+    }
+    .site-header::after {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.06);
+    }
+    .site-header .label {
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      opacity: .75;
+      margin-bottom: 8px;
+    }
+    .site-header h1 {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 26px;
+      font-weight: 600;
+      line-height: 1.3;
+      border: none;
+      padding: 0;
+      color: #fff;
+    }
+    .site-header .date-badge {
+      display: inline-block;
+      margin-top: 14px;
+      background: rgba(255,255,255,.18);
+      border: 1px solid rgba(255,255,255,.3);
+      border-radius: 999px;
+      padding: 4px 14px;
+      font-size: 12px;
+      letter-spacing: .04em;
+    }
+
+    /* ── Layout ── */
+    .wrapper {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 32px 20px 60px;
+    }
+
+    /* ── Section headings ── */
+    h2 {
+      font-family: 'IBM Plex Serif', serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--accent);
+      margin: 44px 0 16px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid var(--accent);
+      letter-spacing: -.01em;
+    }
+    h3 {
+      font-family: 'IBM Plex Sans', sans-serif;
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--ink);
+      margin: 28px 0 10px;
+      line-height: 1.4;
+    }
+
+    /* ── Callout box (sintesi operativa) ── */
+    .wrapper > h2:first-of-type + * { }  /* override se serve */
+
+    /* Rileva il blocco sintesi avvolto nel div "callout" via JS → no JS, usiamo stili diretti */
+    /* Usiamo una classe aggiunta nel rendering */
+    .callout {
+      background: #eaf3fb;
+      border-left: 4px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      padding: 20px 24px;
+      margin: 16px 0 28px;
+    }
+    .callout-warning {
+      background: #fef9e7;
+      border-left-color: #d4ac0d;
+    }
+    .callout-danger {
+      background: #fdf2f0;
+      border-left-color: var(--red);
+    }
+    .callout p {
+      font-weight: 600;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: var(--accent);
+      margin-bottom: 10px;
+    }
+    .callout-warning p { color: var(--amber); }
+    .callout-danger p { color: var(--red); }
+
+    /* ── Cards articolo ── */
+    .article-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px 22px 18px;
+      margin: 0 0 20px;
+      box-shadow: var(--shadow);
+      transition: box-shadow .2s;
+    }
+    .article-card:hover {
+      box-shadow: 0 4px 20px rgba(27,79,114,.16);
+    }
+
+    /* ── Meta row (badge + journal) ── */
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 8px 0 12px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 600;
+      letter-spacing: .03em;
+      white-space: nowrap;
+    }
+    .badge-trial    { background: #dbeafe; color: #1e3a8a; }
+    .badge-rwe      { background: #d1fae5; color: #064e3b; }
+    .badge-safety   { background: #fee2e2; color: #7f1d1d; }
+    .badge-meta     { background: #ede9fe; color: #4c1d95; }
+    .badge-review   { background: #fef3c7; color: #78350f; }
+    .badge-guideline{ background: #e0f2fe; color: #0c4a6e; }
+    .badge-case     { background: #f3e8ff; color: #581c87; }
+    .badge-other    { background: #f1f5f9; color: #475569; }
+    .journal-name {
+      font-size: 12px;
+      color: var(--ink-light);
+      font-style: italic;
+    }
+
+    /* ── Lists ── */
+    ul {
+      padding-left: 20px;
+      margin: 8px 0 14px;
+    }
+    li {
+      margin-bottom: 7px;
+      color: var(--ink);
+      font-size: 14px;
+    }
+    .bullet-label {
+      font-weight: 600;
+      color: var(--accent);
+    }
+
+    /* ── Links ── */
+    a {
+      color: var(--accent);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+      word-break: break-all;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 12.5px;
+    }
+    a:hover { color: var(--accent2); }
+
+    /* ── Divider ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(to right, var(--border), transparent);
+      margin: 28px 0;
+    }
+
+    /* ── Paragraphs ── */
+    p {
+      margin: 8px 0;
+      font-size: 14.5px;
+      color: var(--ink);
+    }
+    em { color: var(--ink-light); font-size: 13px; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      .site-header { padding: 24px 18px; }
+      .site-header h1 { font-size: 20px; }
+      .wrapper { padding: 20px 14px 40px; }
+    }
   </style>
 </head>
 <body>
+
+<header class="site-header">
+  <div class="label">Newsletter Oncologica Interna</div>
+  <h1>Ponatinib / Asciminib nella LMC</h1>
+  <span class="date-badge">📅 Aggiornamento del 14 April 2026</span>
+</header>
+
+<div class="wrapper">
 <h1>Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi 15 giorni)</h1>
-<p>_Generata il: 2026-04-14_</p>
-<p></p>
+<p><em>Generata il: 2026-04-14</em></p>
 <h2>Newsletter interna – sintesi operativa</h2>
-<p></p>
-<p><b>Messaggi chiave (da leggere in 60 secondi):</b></p>
+<p><strong>Messaggi chiave (da leggere in 60 secondi):</strong></p>
 <ul>
-<li>Nel periodo emergono soprattutto temi su <b>Resistenza / T315I / mutazioni</b> (n=3).</li>
-<li>Secondo filone: <b>Altro</b> (n=1).</li>
-<li>Terzo filone: <b>TFR / stop terapia</b> (n=1).</li>
+<li>Nel periodo emergono soprattutto temi su <strong>Resistenza / T315I / mutazioni</strong> (n=3).</li>
+<li>Secondo filone: <strong>Altro</strong> (n=1).</li>
+<li>Terzo filone: <strong>TFR / stop terapia</strong> (n=1).</li>
 </ul>
-<p></p>
-<p><b>Cosa cambia per noi (azioni pratiche):</b></p>
+<p><strong>Cosa cambia per noi (azioni pratiche):</strong></p>
 <ul>
-<li>Rivedere/rafforzare <b>monitoraggio cardiovascolare e interazioni</b> (es. anticoagulanti) nei pazienti in TKI.</li>
-<li>Valutare criteri interni per <b>consolidamento / de-escalation / TFR</b> nei pazienti in deep response.</li>
-<li>Verificare percorso di <b>test mutazionale</b> e criteri di switch nelle resistenze (incl. T315I).</li>
+<li>Rivedere/rafforzare <strong>monitoraggio cardiovascolare e interazioni</strong> (es. anticoagulanti) nei pazienti in TKI.</li>
+<li>Valutare criteri interni per <strong>consolidamento / de-escalation / TFR</strong> nei pazienti in deep response.</li>
+<li>Verificare percorso di <strong>test mutazionale</strong> e criteri di switch nelle resistenze (incl. T315I).</li>
 </ul>
-<p></p>
-<p><b>Safety radar (segnali/interazioni da monitorare):</b></p>
+<p><strong>Safety radar (segnali/interazioni da monitorare):</strong></p>
 <ul>
-<li>Monitorare evoluzione su <b>TFR / stop terapia</b> (nuovi segnali/dati).</li>
-<li>Monitorare evoluzione su <b>Safety e comorbidità</b> (nuovi segnali/dati).</li>
-<li>Monitorare evoluzione su <b>Resistenza / T315I / mutazioni</b> (nuovi segnali/dati).</li>
+<li>Monitorare evoluzione su <strong>TFR / stop terapia</strong> (nuovi segnali/dati).</li>
+<li>Monitorare evoluzione su <strong>Safety e comorbidità</strong> (nuovi segnali/dati).</li>
+<li>Monitorare evoluzione su <strong>Resistenza / T315I / mutazioni</strong> (nuovi segnali/dati).</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h2>Top 5 da leggere subito (ordinati per impatto)</h2>
-<p></p>
 <h3>1) Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.</h3>
-<div class="meta"><span class="badge badge-rwe">REAL-WORLD</span><span class="badge badge-other">International journal of hematology</span></div>
+<div class="meta-row"><span class="badge badge-rwe">🏥 Real-world</span><span class="journal-name">📰 International journal of hematology</span></div>
 <ul>
-<li><b>Impact score</b>: 10</li>
-<li><b>Focus clinico</b>: Resistenza / T315I / mutazioni, TFR / stop terapia, Dose strategy / consolidamento, Safety e comorbidità, Real-world (utilità pratica)</li>
+<li><strong>Impact score</strong>: 10</li>
+<li><strong>Focus clinico</strong>: Resistenza / T315I / mutazioni, TFR / stop terapia, Dose strategy / consolidamento, Safety e comorbidità, Real-world (utilità pratica)</li>
 <li>PMID: 41917309 | 10.1007/s12185-026-04199-x</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
 </ul>
-<p></p>
 <ul>
-<li>Tipo di studio/popolazione: Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
-<li>Risultato chiave: Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
-<li>Rilevanza clinica: These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>2) Targeting leukemic stem and progenitor cells expressing different BCR::ABL1 levels: antileukemic activity of asciminib with or without TKIs.</h3>
-<div class="meta"><span class="badge badge-other">ALTRO</span><span class="badge badge-other">Frontiers in pharmacology</span></div>
+<div class="meta-row"><span class="badge badge-other">📄 Altro</span><span class="journal-name">📰 Frontiers in pharmacology</span></div>
 <ul>
-<li><b>Impact score</b>: 3</li>
-<li><b>Focus clinico</b>: Resistenza / T315I / mutazioni</li>
+<li><strong>Impact score</strong>: 3</li>
+<li><strong>Focus clinico</strong>: Resistenza / T315I / mutazioni</li>
 <li>PMID: 41948718 | 10.3389/fphar.2026.1780054</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41948718/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41948718/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41948718/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41948718/</a></li>
 </ul>
-<p></p>
 <ul>
-<li>Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) targeting ABL1 catalytic activity have markedly improved Chronic Myeloid Leukemia (CML) outcomes, inducing unprecedented and durable therapeutic responses.</li>
-<li>Risultato chiave: High BCR::ABL1 transcripts at diagnosis confer a proliferative and survival advantage and are associated with a higher risk of CML progression to the acute phase.</li>
-<li>Rilevanza clinica: ASC is FDA-approved for patients who have failed one or more TKIs, and its efficacy has been evaluated as monotherapy, and in combination with different TKIs, in T315I-positive or advanced-phase CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Tyrosine kinase inhibitors (TKIs) targeting ABL1 catalytic activity have markedly improved Chronic Myeloid Leukemia (CML) outcomes, inducing unprecedented and durable therapeutic responses.</li>
+<li><span class="bullet-label">Risultato chiave:</span> High BCR::ABL1 transcripts at diagnosis confer a proliferative and survival advantage and are associated with a higher risk of CML progression to the acute phase.</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> ASC is FDA-approved for patients who have failed one or more TKIs, and its efficacy has been evaluated as monotherapy, and in combination with different TKIs, in T315I-positive or advanced-phase CML.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>3) Inhibition of PGK1 enhances sensitivity to tyrosine kinase inhibitor in T315I-mutant leukemia.</h3>
-<div class="meta"><span class="badge badge-other">ALTRO</span><span class="badge badge-other">Acta pharmaceutica Sinica. B</span></div>
+<div class="meta-row"><span class="badge badge-other">📄 Altro</span><span class="journal-name">📰 Acta pharmaceutica Sinica. B</span></div>
 <ul>
-<li><b>Impact score</b>: 3</li>
-<li><b>Focus clinico</b>: Resistenza / T315I / mutazioni</li>
+<li><strong>Impact score</strong>: 3</li>
+<li><strong>Focus clinico</strong>: Resistenza / T315I / mutazioni</li>
 <li>PMID: 41909749 | 10.1016/j.apsb.2025.12.039</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41909749/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41909749/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41909749/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41909749/</a></li>
 </ul>
-<p></p>
 <ul>
-<li>Tipo di studio/popolazione: Our findings reveal that PGK1 also functions as a protein kinase phosphorylating valosin-containing protein (VCP) at S746, which subsequently reduces Beclin 1 deubiquitination and impairs autophagy.</li>
-<li>Risultato chiave: Inhibition of PGK1 initiates autophagy in T315I-mutant chronic myeloid leukemia (CML) cells, thereby enhancing their sensitivity to first-generation Tyrosine Kinase Inhibitor (TKI) imatinib and third-generation TKI ponatinib.</li>
-<li>Rilevanza clinica: Notably, CPU-216 induces autophagy &lt;i&gt;via&lt;/i&gt; VCP and Beclin 1 in CML-T315I cells, enhancing their responsiveness to TKIs.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Our findings reveal that PGK1 also functions as a protein kinase phosphorylating valosin-containing protein (VCP) at S746, which subsequently reduces Beclin 1 deubiquitination and impairs autophagy.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Inhibition of PGK1 initiates autophagy in T315I-mutant chronic myeloid leukemia (CML) cells, thereby enhancing their sensitivity to first-generation Tyrosine Kinase Inhibitor (TKI) imatinib and third-generation TKI ponatinib.</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> Notably, CPU-216 induces autophagy &lt;i&gt;via&lt;/i&gt; VCP and Beclin 1 in CML-T315I cells, enhancing their responsiveness to TKIs.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>4) Ponatinib inhibits LCK and PI3K signaling and promotes CD8&lt;sup&gt;+&lt;/sup&gt; T stem cell memory cell development.</h3>
-<div class="meta"><span class="badge badge-other">ALTRO</span><span class="badge badge-other">Nature communications</span></div>
+<div class="meta-row"><span class="badge badge-other">📄 Altro</span><span class="journal-name">📰 Nature communications</span></div>
 <ul>
-<li><b>Impact score</b>: 1</li>
-<li><b>Focus clinico</b>: Altro</li>
+<li><strong>Impact score</strong>: 1</li>
+<li><strong>Focus clinico</strong>: Altro</li>
 <li>PMID: 41946709 | 10.1038/s41467-026-71375-2</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41946709/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41946709/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41946709/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41946709/</a></li>
 </ul>
-<p></p>
 <ul>
-<li>Tipo di studio/popolazione: Ponatinib is a tyrosine kinase inhibitor primarily targeting BCR-ABL1 and used for the treatment of chronic myeloid leukemia.</li>
-<li>Risultato chiave: In mouse tumor models, ponatinib treatment exhibits antitumor efficacy alone and in combination with PD-1 blockade.</li>
-<li>Rilevanza clinica: Our results thus implicate ponatinib as therapeutic immunomodulator, inducing T&lt;sub&gt;SCM&lt;/sub&gt; cells for improved antitumor T cell activity.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Ponatinib is a tyrosine kinase inhibitor primarily targeting BCR-ABL1 and used for the treatment of chronic myeloid leukemia.</li>
+<li><span class="bullet-label">Risultato chiave:</span> In mouse tumor models, ponatinib treatment exhibits antitumor efficacy alone and in combination with PD-1 blockade.</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> Our results thus implicate ponatinib as therapeutic immunomodulator, inducing T&lt;sub&gt;SCM&lt;/sub&gt; cells for improved antitumor T cell activity.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h2>Evidenze per domande cliniche</h2>
-<p></p>
 <h3>Resistenza / T315I / mutazioni (3)</h3>
-<p></p>
 <h3>Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.</h3>
-<div class="meta"><span class="badge badge-rwe">REAL-WORLD</span><span class="badge badge-other">International journal of hematology</span></div>
+<div class="meta-row"><span class="badge badge-rwe">🏥 Real-world</span><span class="journal-name">📰 International journal of hematology</span></div>
 <ul>
 <li>Impact score: 10</li>
 <li>PMID: 41917309 | 10.1007/s12185-026-04199-x</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
 <li>Open Access (Europe PMC/PMC): non rilevato</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
-<li>Risultato chiave: Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
-<li>Rilevanza clinica: These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>Targeting leukemic stem and progenitor cells expressing different BCR::ABL1 levels: antileukemic activity of asciminib with or without TKIs.</h3>
-<div class="meta"><span class="badge badge-other">ALTRO</span><span class="badge badge-other">Frontiers in pharmacology</span></div>
+<div class="meta-row"><span class="badge badge-other">📄 Altro</span><span class="journal-name">📰 Frontiers in pharmacology</span></div>
 <ul>
 <li>Impact score: 3</li>
 <li>PMID: 41948718 | 10.3389/fphar.2026.1780054</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41948718/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41948718/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41948718/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41948718/</a></li>
 <li>Open Access (Europe PMC/PMC): sì (PMC13051198)</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) targeting ABL1 catalytic activity have markedly improved Chronic Myeloid Leukemia (CML) outcomes, inducing unprecedented and durable therapeutic responses.</li>
-<li>Risultato chiave: High BCR::ABL1 transcripts at diagnosis confer a proliferative and survival advantage and are associated with a higher risk of CML progression to the acute phase.</li>
-<li>Rilevanza clinica: ASC is FDA-approved for patients who have failed one or more TKIs, and its efficacy has been evaluated as monotherapy, and in combination with different TKIs, in T315I-positive or advanced-phase CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Tyrosine kinase inhibitors (TKIs) targeting ABL1 catalytic activity have markedly improved Chronic Myeloid Leukemia (CML) outcomes, inducing unprecedented and durable therapeutic responses.</li>
+<li><span class="bullet-label">Risultato chiave:</span> High BCR::ABL1 transcripts at diagnosis confer a proliferative and survival advantage and are associated with a higher risk of CML progression to the acute phase.</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> ASC is FDA-approved for patients who have failed one or more TKIs, and its efficacy has been evaluated as monotherapy, and in combination with different TKIs, in T315I-positive or advanced-phase CML.</li>
 </ul>
-<p></p>
-<p><b>Riassunto aggiuntivo (full text Open Access, estrattivo):</b></p>
+<p><strong>Riassunto aggiuntivo (full text Open Access, estrattivo):</strong></p>
 <ul>
-<li>Metodi (full text OA): Chronic phase CML patients, selected from previously published cohort (Massimino et al., 2023), were stratified based on their BCR::ABL1/GUS IS (GUS: glucuronidase-β, IS: International Standard Scale) levels at diagnosis into low (&lt;10%, n = 8) and high (&gt;20%, n = 9) groups, as determined by real-time PCR according to an internationally-established protocol (Vigneri et al., 2017).</li>
-<li>Risultato principale (full text OA): In-cell Western analysis performed on CD34-positive leukemic cells from CML patients expressing low (&lt;10%, black columns; n = 7) or high (&gt;20%, grey columns; n = 7) BCR::ABL1/GUSIS.</li>
-<li>Dettaglio utile (full text OA): (A–D) Long-term culture-initiating cells (LTC-ICs) were obtained from CML patients expressing low (&lt;10%, black circles; n = 8 for A, n = 7 for (B–D) or high (&gt;20%, grey squares; n = 7) BCR::ABL1/GUSIS levels.</li>
-<li>Messaggio clinico (full text OA): LTC-IC division rates (He et al., 2009) showed that only ASC + NIL reduced stem cell division in both CD34BALow and CD34BAHigh populations, likely reflecting the greater kinase inhibitory potency of NIL.</li>
+<li><span class="bullet-label">Metodi (full text OA):</span> Chronic phase CML patients, selected from previously published cohort (Massimino et al., 2023), were stratified based on their BCR::ABL1/GUS IS (GUS: glucuronidase-β, IS: International Standard Scale) levels at diagnosis into low (&lt;10%, n = 8) and high (&gt;20%, n = 9) groups, as determined by real-time PCR according to an internationally-established protocol (Vigneri et al., 2017).</li>
+<li><span class="bullet-label">Risultato principale (full text OA):</span> In-cell Western analysis performed on CD34-positive leukemic cells from CML patients expressing low (&lt;10%, black columns; n = 7) or high (&gt;20%, grey columns; n = 7) BCR::ABL1/GUSIS.</li>
+<li><span class="bullet-label">Dettaglio utile (full text OA):</span> (A–D) Long-term culture-initiating cells (LTC-ICs) were obtained from CML patients expressing low (&lt;10%, black circles; n = 8 for A, n = 7 for (B–D) or high (&gt;20%, grey squares; n = 7) BCR::ABL1/GUSIS levels.</li>
+<li><span class="bullet-label">Messaggio clinico (full text OA):</span> LTC-IC division rates (He et al., 2009) showed that only ASC + NIL reduced stem cell division in both CD34BALow and CD34BAHigh populations, likely reflecting the greater kinase inhibitory potency of NIL.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>Inhibition of PGK1 enhances sensitivity to tyrosine kinase inhibitor in T315I-mutant leukemia.</h3>
-<div class="meta"><span class="badge badge-other">ALTRO</span><span class="badge badge-other">Acta pharmaceutica Sinica. B</span></div>
+<div class="meta-row"><span class="badge badge-other">📄 Altro</span><span class="journal-name">📰 Acta pharmaceutica Sinica. B</span></div>
 <ul>
 <li>Impact score: 3</li>
 <li>PMID: 41909749 | 10.1016/j.apsb.2025.12.039</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41909749/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41909749/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41909749/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41909749/</a></li>
 <li>Open Access (Europe PMC/PMC): sì (PMC13031150)</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Our findings reveal that PGK1 also functions as a protein kinase phosphorylating valosin-containing protein (VCP) at S746, which subsequently reduces Beclin 1 deubiquitination and impairs autophagy.</li>
-<li>Risultato chiave: Inhibition of PGK1 initiates autophagy in T315I-mutant chronic myeloid leukemia (CML) cells, thereby enhancing their sensitivity to first-generation Tyrosine Kinase Inhibitor (TKI) imatinib and third-generation TKI ponatinib.</li>
-<li>Rilevanza clinica: Notably, CPU-216 induces autophagy &lt;i&gt;via&lt;/i&gt; VCP and Beclin 1 in CML-T315I cells, enhancing their responsiveness to TKIs.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Our findings reveal that PGK1 also functions as a protein kinase phosphorylating valosin-containing protein (VCP) at S746, which subsequently reduces Beclin 1 deubiquitination and impairs autophagy.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Inhibition of PGK1 initiates autophagy in T315I-mutant chronic myeloid leukemia (CML) cells, thereby enhancing their sensitivity to first-generation Tyrosine Kinase Inhibitor (TKI) imatinib and third-generation TKI ponatinib.</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> Notably, CPU-216 induces autophagy &lt;i&gt;via&lt;/i&gt; VCP and Beclin 1 in CML-T315I cells, enhancing their responsiveness to TKIs.</li>
 </ul>
-<p></p>
-<p><b>Riassunto aggiuntivo (full text Open Access, estrattivo):</b></p>
+<p><strong>Riassunto aggiuntivo (full text Open Access, estrattivo):</strong></p>
 <ul>
-<li>Metodi (full text OA): In this study, immunocompromised male NOD/SCID mice (Gempharmatech Co., Ltd., Nanjing, China), aged 6–9 weeks, were subcutaneously inoculated with KBM5-T315I cells (1 × 107 cells/mouse) to establish xenograft models.</li>
-<li>Risultato principale (full text OA): These results provide a molecular basis for the inhibitory mechanism of CPU-216 on PGK1 and suggest a targeted approach for improving therapeutic strategies in the treatment of CML with the T315I mutation (Fig.</li>
-<li>Dettaglio utile (full text OA): (L) Kaplan–Meier survival plots for KBM5-T315I cell-bearing NOD/SCID mice were presented (Error bars: SEM, n ≥3, compared with the control group.</li>
-<li>Messaggio clinico (full text OA): Clinical trial data (NCT01227135) suggest that in CML patients who have been on imatinib for more than 12 months, the addition of autophagy inhibitors to imatinib therapy improves the 24-month survival rate compared to imatinib monotherapy.</li>
+<li><span class="bullet-label">Metodi (full text OA):</span> In this study, immunocompromised male NOD/SCID mice (Gempharmatech Co., Ltd., Nanjing, China), aged 6–9 weeks, were subcutaneously inoculated with KBM5-T315I cells (1 × 107 cells/mouse) to establish xenograft models.</li>
+<li><span class="bullet-label">Risultato principale (full text OA):</span> These results provide a molecular basis for the inhibitory mechanism of CPU-216 on PGK1 and suggest a targeted approach for improving therapeutic strategies in the treatment of CML with the T315I mutation (Fig.</li>
+<li><span class="bullet-label">Dettaglio utile (full text OA):</span> (L) Kaplan–Meier survival plots for KBM5-T315I cell-bearing NOD/SCID mice were presented (Error bars: SEM, n ≥3, compared with the control group.</li>
+<li><span class="bullet-label">Messaggio clinico (full text OA):</span> Clinical trial data (NCT01227135) suggest that in CML patients who have been on imatinib for more than 12 months, the addition of autophagy inhibitors to imatinib therapy improves the 24-month survival rate compared to imatinib monotherapy.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>Altro (1)</h3>
-<p></p>
 <h3>Ponatinib inhibits LCK and PI3K signaling and promotes CD8&lt;sup&gt;+&lt;/sup&gt; T stem cell memory cell development.</h3>
-<div class="meta"><span class="badge badge-other">ALTRO</span><span class="badge badge-other">Nature communications</span></div>
+<div class="meta-row"><span class="badge badge-other">📄 Altro</span><span class="journal-name">📰 Nature communications</span></div>
 <ul>
 <li>Impact score: 1</li>
 <li>PMID: 41946709 | 10.1038/s41467-026-71375-2</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41946709/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41946709/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41946709/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41946709/</a></li>
 <li>Open Access (Europe PMC/PMC): non rilevato</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Ponatinib is a tyrosine kinase inhibitor primarily targeting BCR-ABL1 and used for the treatment of chronic myeloid leukemia.</li>
-<li>Risultato chiave: In mouse tumor models, ponatinib treatment exhibits antitumor efficacy alone and in combination with PD-1 blockade.</li>
-<li>Rilevanza clinica: Our results thus implicate ponatinib as therapeutic immunomodulator, inducing T&lt;sub&gt;SCM&lt;/sub&gt; cells for improved antitumor T cell activity.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Ponatinib is a tyrosine kinase inhibitor primarily targeting BCR-ABL1 and used for the treatment of chronic myeloid leukemia.</li>
+<li><span class="bullet-label">Risultato chiave:</span> In mouse tumor models, ponatinib treatment exhibits antitumor efficacy alone and in combination with PD-1 blockade.</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> Our results thus implicate ponatinib as therapeutic immunomodulator, inducing T&lt;sub&gt;SCM&lt;/sub&gt; cells for improved antitumor T cell activity.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>TFR / stop terapia (1)</h3>
-<p></p>
 <h3>Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.</h3>
-<div class="meta"><span class="badge badge-rwe">REAL-WORLD</span><span class="badge badge-other">International journal of hematology</span></div>
+<div class="meta-row"><span class="badge badge-rwe">🏥 Real-world</span><span class="journal-name">📰 International journal of hematology</span></div>
 <ul>
 <li>Impact score: 10</li>
 <li>PMID: 41917309 | 10.1007/s12185-026-04199-x</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
 <li>Open Access (Europe PMC/PMC): non rilevato</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
-<li>Risultato chiave: Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
-<li>Rilevanza clinica: These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>Dose strategy / consolidamento (1)</h3>
-<p></p>
 <h3>Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.</h3>
-<div class="meta"><span class="badge badge-rwe">REAL-WORLD</span><span class="badge badge-other">International journal of hematology</span></div>
+<div class="meta-row"><span class="badge badge-rwe">🏥 Real-world</span><span class="journal-name">📰 International journal of hematology</span></div>
 <ul>
 <li>Impact score: 10</li>
 <li>PMID: 41917309 | 10.1007/s12185-026-04199-x</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
 <li>Open Access (Europe PMC/PMC): non rilevato</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
-<li>Risultato chiave: Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
-<li>Rilevanza clinica: These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>Safety e comorbidità (1)</h3>
-<p></p>
 <h3>Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.</h3>
-<div class="meta"><span class="badge badge-rwe">REAL-WORLD</span><span class="badge badge-other">International journal of hematology</span></div>
+<div class="meta-row"><span class="badge badge-rwe">🏥 Real-world</span><span class="journal-name">📰 International journal of hematology</span></div>
 <ul>
 <li>Impact score: 10</li>
 <li>PMID: 41917309 | 10.1007/s12185-026-04199-x</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
 <li>Open Access (Europe PMC/PMC): non rilevato</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
-<li>Risultato chiave: Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
-<li>Rilevanza clinica: These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
 </ul>
-<p></p>
-<hr>
-<p></p>
+<div class="divider"></div>
 <h3>Real-world (utilità pratica) (1)</h3>
-<p></p>
 <h3>Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.</h3>
-<div class="meta"><span class="badge badge-rwe">REAL-WORLD</span><span class="badge badge-other">International journal of hematology</span></div>
+<div class="meta-row"><span class="badge badge-rwe">🏥 Real-world</span><span class="journal-name">📰 International journal of hematology</span></div>
 <ul>
 <li>Impact score: 10</li>
 <li>PMID: 41917309 | 10.1007/s12185-026-04199-x</li>
-<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
+<li>Link PubMed: <a href="https://pubmed.ncbi.nlm.nih.gov/41917309/" target="_blank" rel="noopener">https://pubmed.ncbi.nlm.nih.gov/41917309/</a></li>
 <li>Open Access (Europe PMC/PMC): non rilevato</li>
 </ul>
-<p></p>
-<p><b>Mini-riassunto (da abstract, estrattivo):</b></p>
+<p><strong>Mini-riassunto (da abstract, estrattivo):</strong></p>
 <ul>
-<li>Tipo di studio/popolazione: Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
-<li>Risultato chiave: Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
-<li>Rilevanza clinica: These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
+<li><span class="bullet-label">Tipo di studio/popolazione:</span> Following asciminib&#x27;s initial approval in Japan for chronic myeloid leukemia (CML) resistant or intolerant to previous therapy, this all-patient, postmarketing surveillance study was initiated.</li>
+<li><span class="bullet-label">Risultato chiave:</span> Predefined safety specifications, overall safety, and effectiveness were assessed for 48 weeks from asciminib initiation (safety analysis set, n = 523).</li>
+<li><span class="bullet-label">Rilevanza clinica:</span> These real-world outcomes support the safety and effectiveness of asciminib for patients with resistant/intolerant CML.</li>
 </ul>
-<p></p>
-<hr>
+<div class="divider"></div>
+</div>
+
 </body>
 </html>
