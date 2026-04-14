@@ -14,15 +14,17 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.utils import simpleSplit
 
 
-# Metti una tua email vera (consigliato da NCBI)
-Entrez.email = "nbattaglia@incyte.com"
+# =========================
+# CONFIG
+# =========================
+Entrez.email = "nicola.battaglia71@gmail.com"  # <-- CAMBIA QUI
 
-# Query: stretta + fallback
 QUERY_STRICT = '((ponatinib OR iclusig OR AP24534) OR (asciminib OR scemblix OR ABL001)) AND (("chronic myeloid leukemia") OR CML OR ("chronic myelogenous leukemia"))'
 QUERY_FALLBACK = '(ponatinib OR asciminib) AND (CML OR "chronic myeloid leukemia")'
 
 BASE_DIR = Path(__file__).parent
 DB_PATH = BASE_DIR / "ponatinib_digest.sqlite"
+
 OUT_DIR = BASE_DIR / "output"
 OUT_DIR.mkdir(exist_ok=True)
 
@@ -34,9 +36,9 @@ EUROPE_PMC_SEARCH = "https://www.ebi.ac.uk/europepmc/webservices/rest/search"
 EUROPE_PMC_FULLTEXT_XML = "https://www.ebi.ac.uk/europepmc/webservices/rest/{pmcid}/fullTextXML"
 
 
-# -----------------------------
-# DB (deduplica)
-# -----------------------------
+# =========================
+# DB
+# =========================
 def init_db():
     con = sqlite3.connect(DB_PATH)
     con.execute("""
@@ -70,10 +72,10 @@ def mark_seen(con, articles):
     con.commit()
 
 
-# -----------------------------
+# =========================
 # PubMed
-# -----------------------------
-def pubmed_search_last_days(days=30, retmax=300):
+# =========================
+def pubmed_search_last_days(days=15, retmax=300):
     today = datetime.utcnow().date()
     start = today - timedelta(days=days)
     mindate = start.strftime("%Y/%m/%d")
@@ -85,7 +87,7 @@ def pubmed_search_last_days(days=30, retmax=300):
             term=term,
             mindate=mindate,
             maxdate=maxdate,
-            datetype="edat",   # entry date: ottimo per rassegne periodiche
+            datetype="edat",  # entry date: ideale per rassegna periodica
             retmax=retmax,
             sort="pub+date"
         )
@@ -115,9 +117,7 @@ def pubmed_fetch_details(pmids):
         med = art["MedlineCitation"]
         pmid = str(med["PMID"])
         article = med["Article"]
-        journal = ""
-        if "Journal" in article and "Title" in article["Journal"]:
-            journal = str(article["Journal"]["Title"]).strip()
+
         title = str(article.get("ArticleTitle", "")).strip()
 
         abstract = ""
@@ -130,6 +130,13 @@ def pubmed_fetch_details(pmids):
                 if getattr(eloc, "attributes", {}).get("EIdType") == "doi":
                     doi = str(eloc)
 
+        journal = ""
+        try:
+            if "Journal" in article and "Title" in article["Journal"]:
+                journal = str(article["Journal"]["Title"]).strip()
+        except Exception:
+            journal = ""
+
         articles.append({
             "pmid": pmid,
             "doi": doi,
@@ -141,9 +148,9 @@ def pubmed_fetch_details(pmids):
     return articles
 
 
-# -----------------------------
-# Utility testo / riassunto gratis (estrattivo)
-# -----------------------------
+# =========================
+# Text utilities
+# =========================
 def clean_text(text):
     if not text:
         return ""
@@ -196,12 +203,8 @@ def summarize_abstract_free(abstract):
         ]
 
     chosen = pick_best_sentences(abstract, max_sentences=3)
+    labels = ["Tipo di studio/popolazione", "Risultato chiave", "Rilevanza clinica"]
 
-    labels = [
-        "Tipo di studio/popolazione",
-        "Risultato chiave",
-        "Rilevanza clinica"
-    ]
     bullets = []
     for i in range(3):
         if i < len(chosen):
@@ -211,9 +214,9 @@ def summarize_abstract_free(abstract):
     return bullets
 
 
-# -----------------------------
-# Europe PMC OA full-text (gratis)
-# -----------------------------
+# =========================
+# Europe PMC OA full-text
+# =========================
 def europe_pmc_find_pmcid(pmid=None, doi=None):
     query_parts = []
     if pmid:
@@ -224,11 +227,7 @@ def europe_pmc_find_pmcid(pmid=None, doi=None):
     if not query_parts:
         return None
 
-    params = {
-        "query": " OR ".join(query_parts),
-        "format": "json",
-        "pageSize": 5
-    }
+    params = {"query": " OR ".join(query_parts), "format": "json", "pageSize": 5}
 
     try:
         r = requests.get(EUROPE_PMC_SEARCH, params=params, timeout=20)
@@ -291,7 +290,6 @@ def get_oa_fulltext_summary(pmcid):
     discussion_sections = extract_section_text_from_nxml(root, ["discussion", "conclusion"])
 
     bullets = []
-
     if methods_sections:
         picks = pick_best_sentences(methods_sections[0][1], max_sentences=1)
         bullets.append(f"Metodi (full text OA): {picks[0] if picks else 'non riportato.'}")
@@ -315,33 +313,26 @@ def get_oa_fulltext_summary(pmcid):
     return bullets[:4]
 
 
-# -----------------------------
-# Scoring / buckets strategici
-# -----------------------------
+# =========================
+# Scoring / buckets
+# =========================
 def detect_study_type(title: str, abstract: str) -> str:
     t = f"{title} {abstract}".lower()
 
     if "guideline" in t or "consensus" in t or "recommendation" in t:
         return "Linee guida / consenso"
-
     if "systematic review" in t or "meta-analysis" in t or "metaanalysis" in t:
         return "Revisione sistematica / meta-analisi"
-
     if "review" in t or "narrative review" in t or "special report" in t:
         return "Review"
-
     if "randomized" in t or "phase ii" in t or "phase iii" in t or "clinical trial" in t or "open-label" in t:
         return "Trial clinico"
-
     if "real-world" in t or "observational" in t or "cohort" in t or "registry" in t or "routine clinical practice" in t:
         return "Real-world / osservazionale"
-
     if "eudravigilance" in t or "disproportionality" in t or "spontaneous reports" in t:
         return "Farmacovigilanza"
-
     if "case report" in t or "two cases" in t:
         return "Case report"
-
     if "cell" in t or "cells" in t or "k562" in t or "mouse" in t or "mice" in t or "in vitro" in t:
         return "Preclinico / laboratorio"
 
@@ -391,28 +382,21 @@ def clinical_buckets(title: str, abstract: str) -> list[str]:
 
     if "t315i" in t or "mutation" in t or "resistance" in t:
         buckets.append("Resistenza / T315I / mutazioni")
-
     if "tfr" in t or "treatment-free" in t or "treatment free" in t or "discontinu" in t or "stop" in t:
         buckets.append("TFR / stop terapia")
-
     if "dose" in t or "15 mg" in t or "30 mg" in t or "reduced dose" in t or "consolidation" in t:
         buckets.append("Dose strategy / consolidamento")
-
     if "vascular" in t or "arterial" in t or "cardio" in t or "stroke" in t or "pulmonary" in t or "thrombo" in t or "anticoagul" in t:
         buckets.append("Safety e comorbidità")
-
     if "first-line" in t or "second-line" in t or "third-line" in t or "sequenc" in t or "switch" in t:
         buckets.append("Sequencing / linee di terapia")
-
     if "real-world" in t or "routine clinical practice" in t or "registry" in t:
         buckets.append("Real-world (utilità pratica)")
-
     if "review" in t or "guideline" in t or "consensus" in t:
         buckets.append("Sintesi (review/linee guida)")
 
     if not buckets:
         buckets.append("Altro")
-
     return buckets
 
 
@@ -434,7 +418,6 @@ def make_executive_takeaways(articles: list[dict]) -> tuple[list[str], list[str]
     if len(top_buckets) > 2:
         b3, n3 = top_buckets[2]
         takeaways.append(f"Terzo filone: **{b3}** (n={n3}).")
-
     while len(takeaways) < 3:
         takeaways.append("Nessun trend dominante: rassegna eterogenea nel periodo.")
 
@@ -458,10 +441,10 @@ def make_executive_takeaways(articles: list[dict]) -> tuple[list[str], list[str]
     return takeaways[:3], watchlist[:3], actions[:3]
 
 
-# -----------------------------
-# Report Markdown “strategico”
-# -----------------------------
-def build_markdown(articles, days=30):
+# =========================
+# Report Markdown
+# =========================
+def build_markdown(articles, days=15):
     today = datetime.utcnow().strftime("%Y-%m-%d")
     lines = []
     lines.append(f"# Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi {days} giorni)")
@@ -487,7 +470,6 @@ def build_markdown(articles, days=30):
         lines.append(f"- {w}")
     lines.append("\n---\n")
 
-    # Top 5
     scored = []
     for a in articles:
         s = impact_score(a["title"], a.get("abstract", ""))
@@ -503,11 +485,11 @@ def build_markdown(articles, days=30):
         pubmed_link = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
         buckets = ", ".join(clinical_buckets(title, a.get("abstract", "")))
 
-        lines.append(f"### {rank}) {title}")
         journal = a.get("journal", "").strip() or "Rivista non riportata"
-        stype = detect_study_type(title, abstract)
+
+        lines.append(f"### {rank}) {title}")
         lines.append(f"- **Rivista**: {journal} | **Tipo**: {stype}")
-        lines.append(f"- **Impact score**: {s} | **Tipo**: {stype}")
+        lines.append(f"- **Impact score**: {s}")
         lines.append(f"- **Focus clinico**: {buckets}")
         lines.append(f"- PMID: {pmid} | {doi}")
         lines.append(f"- Link PubMed: {pubmed_link}")
@@ -516,7 +498,6 @@ def build_markdown(articles, days=30):
             lines.append(f"- {b}")
         lines.append("\n---\n")
 
-    # Evidenze per domande cliniche
     bucket_map = {}
     for a in articles:
         for b in clinical_buckets(a["title"], a.get("abstract", "")):
@@ -536,14 +517,16 @@ def build_markdown(articles, days=30):
             abstract = a.get("abstract", "")
             pubmed_link = f"https://pubmed.ncbi.nlm.nih.gov/{pmid}/"
 
-            pmcid = europe_pmc_find_pmcid(pmid=pmid, doi=a.get("doi"))
-            oa_bullets = get_oa_fulltext_summary(pmcid) if pmcid else None
-
+            journal = a.get("journal", "").strip() or "Rivista non riportata"
             stype = detect_study_type(title, abstract)
             s = impact_score(title, abstract)
 
-            lines.append(f"#### {title}")
-            lines.append(f"- Impact score: {s} | Tipo: {stype}")
+            pmcid = europe_pmc_find_pmcid(pmid=pmid, doi=a.get("doi"))
+            oa_bullets = get_oa_fulltext_summary(pmcid) if pmcid else None
+
+            lines.append(f"### {title}")
+            lines.append(f"- **Rivista**: {journal} | **Tipo**: {stype}")
+            lines.append(f"- Impact score: {s}")
             lines.append(f"- PMID: {pmid} | {doi}")
             lines.append(f"- Link PubMed: {pubmed_link}")
             lines.append(f"- Open Access (Europe PMC/PMC): {'sì (' + pmcid + ')' if pmcid else 'non rilevato'}")
@@ -563,10 +546,10 @@ def build_markdown(articles, days=30):
     return "\n".join(lines)
 
 
-# -----------------------------
-# HTML (semplice ma leggibile) + fallback sempre stringa
-# -----------------------------
-< style>(md_text: str) -> str:
+# =========================
+# HTML (con badge)
+# =========================
+def markdown_to_simple_html(md_text: str) -> str:
     try:
         lines = md_text.splitlines()
         html_lines = []
@@ -590,7 +573,29 @@ def build_markdown(articles, days=30):
                 close_ul()
                 html_lines.append("<hr>")
                 continue
-            # RIGA META: "- **Rivista**: ... | **Tipo**: ..."
+
+            if line.startswith("### "):
+                close_ul()
+                txt = html_lib.escape(line[4:])
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+                html_lines.append(f"<h3>{txt}</h3>")
+                continue
+
+            if line.startswith("## "):
+                close_ul()
+                txt = html_lib.escape(line[3:])
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+                html_lines.append(f"<h2>{txt}</h2>")
+                continue
+
+            if line.startswith("# "):
+                close_ul()
+                txt = html_lib.escape(line[2:])
+                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
+                html_lines.append(f"<h1>{txt}</h1>")
+                continue
+
+            # Meta badges: "- **Rivista**: ... | **Tipo**: ..."
             if line.startswith("- **Rivista**:"):
                 close_ul()
                 m = re.search(r"\*\*Rivista\*\*:\s*(.*?)\s*\|\s*\*\*Tipo\*\*:\s*(.*)$", line)
@@ -616,26 +621,6 @@ def build_markdown(articles, days=30):
                         f'</div>'
                     )
                     continue
-            if line.startswith("### "):
-                close_ul()
-                txt = html_lib.escape(line[4:])
-                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-                html_lines.append(f"<h3>{txt}</h3>")
-                continue
-
-            if line.startswith("## "):
-                close_ul()
-                txt = html_lib.escape(line[3:])
-                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-                html_lines.append(f"<h2>{txt}</h2>")
-                continue
-
-            if line.startswith("# "):
-                close_ul()
-                txt = html_lib.escape(line[2:])
-                txt = re.sub(r"\*\*(.*?)\*\*", r"<b>\1</b>", txt)
-                html_lines.append(f"<h1>{txt}</h1>")
-                continue
 
             if line.startswith("- "):
                 if not in_ul:
@@ -664,7 +649,7 @@ def build_markdown(articles, days=30):
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Newsletter CML – Ponatinib/Asciminib</title>
+  <title>Newsletter</title>
   <style>
     body {{
       font-family: Arial, sans-serif;
@@ -685,13 +670,14 @@ def build_markdown(articles, days=30):
     a {{ color: #0b57d0; text-decoration: none; }}
     a:hover {{ text-decoration: underline; }}
     p {{ margin: 8px 0; }}
-    .badge { display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; margin-right:6px; }
-    .badge-trial { background:#e8f0fe; }
-    .badge-rwe { background:#e6f4ea; }
-    .badge-safety { background:#fce8e6; }
-    .badge-review { background:#fef7e0; }
-    .badge-other { background:#f1f3f4; }
-    .meta { color:#555; font-size:13px; margin:6px 0 10px; }
+
+    .badge {{ display:inline-block; padding:2px 8px; border-radius:999px; font-size:12px; margin-right:6px; }}
+    .badge-trial {{ background:#e8f0fe; }}
+    .badge-rwe {{ background:#e6f4ea; }}
+    .badge-safety {{ background:#fce8e6; }}
+    .badge-review {{ background:#fef7e0; }}
+    .badge-other {{ background:#f1f3f4; }}
+    .meta {{ color:#555; font-size:13px; margin:6px 0 10px; }}
   </style>
 </head>
 <body>
@@ -700,13 +686,12 @@ def build_markdown(articles, days=30):
 </html>
 """
     except Exception:
-        # fallback ultra-sicuro
         return "<html><body><pre>" + html_lib.escape(md_text) + "</pre></body></html>"
 
 
-# -----------------------------
-# PDF (stabile) da Markdown
-# -----------------------------
+# =========================
+# PDF
+# =========================
 def markdown_to_simple_pdf(md_text: str, out_path: Path):
     c = canvas.Canvas(str(out_path), pagesize=A4)
     width, height = A4
@@ -723,7 +708,7 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
         y = height - 2 * cm
         c.setFont(font, 11)
 
-    c.setTitle("Newsletter CML – Ponatinib/Asciminib")
+    c.setTitle("Newsletter")
     c.setFont(font, 11)
 
     for raw in md_text.splitlines():
@@ -797,9 +782,9 @@ def markdown_to_simple_pdf(md_text: str, out_path: Path):
     c.save()
 
 
-# -----------------------------
+# =========================
 # MAIN
-# -----------------------------
+# =========================
 def main(days=15):
     con = init_db()
 
@@ -830,4 +815,4 @@ def main(days=15):
 
 
 if __name__ == "__main__":
-    main(days=30)
+    main(days=15)
