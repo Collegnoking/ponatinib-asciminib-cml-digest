@@ -1,10 +1,10 @@
 # Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi 15 giorni)
-_Generata il: 2026-04-14_
+_Generata il: 2026-04-16_
 
 ## Newsletter interna – sintesi operativa
 
 **Messaggi chiave (da leggere in 60 secondi):**
-- Nel periodo emergono soprattutto temi su **Resistenza / T315I / mutazioni** (n=3).
+- Nel periodo emergono soprattutto temi su **Resistenza / T315I / mutazioni** (n=2).
 - Secondo filone: **Altro** (n=1).
 - Terzo filone: **TFR / stop terapia** (n=1).
 
@@ -48,20 +48,7 @@ _Generata il: 2026-04-14_
 
 ---
 
-### 3) Inhibition of PGK1 enhances sensitivity to tyrosine kinase inhibitor in T315I-mutant leukemia.
-- **Rivista**: Acta pharmaceutica Sinica. B | **Tipo**: Preclinico / laboratorio
-- **Impact score**: 3
-- **Focus clinico**: Resistenza / T315I / mutazioni
-- PMID: 41909749 | 10.1016/j.apsb.2025.12.039
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41909749/
-
-- Tipo di studio/popolazione: Our findings reveal that PGK1 also functions as a protein kinase phosphorylating valosin-containing protein (VCP) at S746, which subsequently reduces Beclin 1 deubiquitination and impairs autophagy.
-- Risultato chiave: Inhibition of PGK1 initiates autophagy in T315I-mutant chronic myeloid leukemia (CML) cells, thereby enhancing their sensitivity to first-generation Tyrosine Kinase Inhibitor (TKI) imatinib and third-generation TKI ponatinib.
-- Rilevanza clinica: Notably, CPU-216 induces autophagy <i>via</i> VCP and Beclin 1 in CML-T315I cells, enhancing their responsiveness to TKIs.
-
----
-
-### 4) Ponatinib inhibits LCK and PI3K signaling and promotes CD8<sup>+</sup> T stem cell memory cell development.
+### 3) Ponatinib inhibits LCK and PI3K signaling and promotes CD8<sup>+</sup> T stem cell memory cell development.
 - **Rivista**: Nature communications | **Tipo**: Preclinico / laboratorio
 - **Impact score**: 1
 - **Focus clinico**: Altro
@@ -76,7 +63,7 @@ _Generata il: 2026-04-14_
 
 ## Evidenze per domande cliniche
 
-### Resistenza / T315I / mutazioni (3)
+### Resistenza / T315I / mutazioni (2)
 
 ### Postmarketing surveillance study of asciminib in patients with resistant/intolerant chronic myeloid leukemia in Japan.
 - **Rivista**: International journal of hematology | **Tipo**: Real-world / osservazionale
@@ -109,26 +96,6 @@ _Generata il: 2026-04-14_
 - Risultato principale (full text OA): In-cell Western analysis performed on CD34-positive leukemic cells from CML patients expressing low (<10%, black columns; n = 7) or high (>20%, grey columns; n = 7) BCR::ABL1/GUSIS.
 - Dettaglio utile (full text OA): (A–D) Long-term culture-initiating cells (LTC-ICs) were obtained from CML patients expressing low (<10%, black circles; n = 8 for A, n = 7 for (B–D) or high (>20%, grey squares; n = 7) BCR::ABL1/GUSIS levels.
 - Messaggio clinico (full text OA): LTC-IC division rates (He et al., 2009) showed that only ASC + NIL reduced stem cell division in both CD34BALow and CD34BAHigh populations, likely reflecting the greater kinase inhibitory potency of NIL.
-
----
-
-### Inhibition of PGK1 enhances sensitivity to tyrosine kinase inhibitor in T315I-mutant leukemia.
-- **Rivista**: Acta pharmaceutica Sinica. B | **Tipo**: Preclinico / laboratorio
-- Impact score: 3
-- PMID: 41909749 | 10.1016/j.apsb.2025.12.039
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/41909749/
-- Open Access (Europe PMC/PMC): sì (PMC13031150)
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Our findings reveal that PGK1 also functions as a protein kinase phosphorylating valosin-containing protein (VCP) at S746, which subsequently reduces Beclin 1 deubiquitination and impairs autophagy.
-- Risultato chiave: Inhibition of PGK1 initiates autophagy in T315I-mutant chronic myeloid leukemia (CML) cells, thereby enhancing their sensitivity to first-generation Tyrosine Kinase Inhibitor (TKI) imatinib and third-generation TKI ponatinib.
-- Rilevanza clinica: Notably, CPU-216 induces autophagy <i>via</i> VCP and Beclin 1 in CML-T315I cells, enhancing their responsiveness to TKIs.
-
-**Riassunto aggiuntivo (full text Open Access, estrattivo):**
-- Metodi (full text OA): In this study, immunocompromised male NOD/SCID mice (Gempharmatech Co., Ltd., Nanjing, China), aged 6–9 weeks, were subcutaneously inoculated with KBM5-T315I cells (1 × 107 cells/mouse) to establish xenograft models.
-- Risultato principale (full text OA): These results provide a molecular basis for the inhibitory mechanism of CPU-216 on PGK1 and suggest a targeted approach for improving therapeutic strategies in the treatment of CML with the T315I mutation (Fig.
-- Dettaglio utile (full text OA): (L) Kaplan–Meier survival plots for KBM5-T315I cell-bearing NOD/SCID mice were presented (Error bars: SEM, n ≥3, compared with the control group.
-- Messaggio clinico (full text OA): Clinical trial data (NCT01227135) suggest that in CML patients who have been on imatinib for more than 12 months, the addition of autophagy inhibitors to imatinib therapy improves the 24-month survival rate compared to imatinib monotherapy.
 
 ---
 
