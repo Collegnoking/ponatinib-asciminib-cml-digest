@@ -1,12 +1,12 @@
 # Ponatinib / Asciminib nella LMC – Newsletter interna (ultimi 15 giorni)
-_Generata il: 2026-08-01_
+_Generata il: 2026-08-16_
 
 ## Newsletter interna – sintesi operativa
 
 **Messaggi chiave (da leggere in 60 secondi):**
-- Nel periodo emergono soprattutto temi su **Safety e comorbidità** (n=3).
-- Secondo filone: **Resistenza / T315I / mutazioni** (n=2).
-- Terzo filone: **TFR / stop terapia** (n=2).
+- Nel periodo emergono soprattutto temi su **TFR / stop terapia** (n=3).
+- Secondo filone: **Dose strategy / consolidamento** (n=2).
+- Terzo filone: **Safety e comorbidità** (n=2).
 
 **Cosa cambia per noi (azioni pratiche):**
 - Rivedere/rafforzare **monitoraggio cardiovascolare e interazioni** (es. anticoagulanti) nei pazienti in TKI.
@@ -22,237 +22,208 @@ _Generata il: 2026-08-01_
 
 ## Top 5 da leggere subito (ordinati per impatto)
 
-### 1) Five-year follow-up of OPTIC: long-term efficacy, safety, and mutation analyses of ponatinib in chronic-phase chronic myeloid leukemia from a randomized phase 2 trial.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- **Impact score**: 12
-- **Focus clinico**: Resistenza / T315I / mutazioni, Dose strategy / consolidamento, Safety e comorbidità, Sequencing / linee di terapia
-- PMID: 42498834 | 10.1038/s41375-026-03009-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42498834/
+### 1) Nilotinib in chronic myeloid leukemia: clinical value, real-world challenges, and the potential of nilotinib tablets to improve therapeutic outcomes.
+- **Rivista**: Expert review of hematology | **Tipo**: Trial clinico
+- **Impact score**: 19
+- **Focus clinico**: TFR / stop terapia, Dose strategy / consolidamento, Safety e comorbidità, Real-world (utilità pratica)
+- PMID: 42584922 | 10.1080/17474086.2026.2715450
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42584922/
 
-- Tipo di studio/popolazione: The primary analysis of the phase 2 OPTIC trial (NCT02467270) demonstrated optimal benefit:risk with response-based ponatinib dosing (45 mg once daily (QD) reduced to 15 mg QD) upon achieving ≤1% BCR::ABL1<sup>IS</sup> in patients with tyrosine kinase inhibitor-resistant or T315I-positive chronic-phase chronic myeloid leukemia (CP-CML).
-- Risultato chiave: Overall, 283 patients were randomized to 45-mg, 30-mg, or 15-mg QD starting doses (n = 94, 95, and 94, respectively), with dose reduction to 15 mg QD upon response in the 45-mg and 30-mg cohorts.
-- Rilevanza clinica: Exposure-adjusted rates of adjudicated arterial occlusive events were 4.1, 3.8, and 2.0 patients per 100 patient-years, respectively, by cohort; results were comparable in T315I-positive patients.
-
----
-
-### 2) Ponatinib Safety Profile: An Analysis of 10 Years of Real-World Experience.
-- **Rivista**: Drug safety | **Tipo**: Real-world / osservazionale
-- **Impact score**: 10
-- **Focus clinico**: Safety e comorbidità, Real-world (utilità pratica)
-- PMID: 42471499 | 10.1007/s40264-026-01695-1
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42471499/
-
-- Tipo di studio/popolazione: Following its initial commercial availability in the USA on 14 December 2012, safety concerns, notably vascular occlusive events, led to the implementation of post-approval risk-management measures (RMMs).
-- Risultato chiave: This retrospective study assessed the impact of these measures on adverse event (AE) reporting rates for ponatinib's important identified risks (IIRs).
-- Rilevanza clinica: AEs related to ponatinib's IIRs were identified from the Incyte Global Safety Database for the period 14 December 2012 to 13 December 2022, using a Medical Dictionary for Regulatory Activities-based search of postmarketing reports.
+- Tipo di studio/popolazione: Nilotinib has been shown to be highly effective for the treatment of chronic myeloid leukemia (CML) and advancing patients to treatment-free remission (TFR).
+- Risultato chiave: However, its efficacy and safety may be compromised by nonadherence due to its twice-daily fasting requirement.
+- Rilevanza clinica: PubMed search (1966 to July 2026) for papers related to the pathology, etiology, and treatment of CML, pivotal clinical trials and real-world studies for tyrosine kinase inhibitors (TKI) focusing on nilotinib, and recent pharmacokinetic and adherence research, including data on the nilotinib tablet.
 
 ---
 
-### 3) Asciminib monotherapy in patients with BCR::ABL1 T315I-mutated chronic-phase chronic myeloid leukemia: phase 1 trial final results.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- **Impact score**: 10
-- **Focus clinico**: Resistenza / T315I / mutazioni, TFR / stop terapia
-- PMID: 42463944 | 10.1038/s41375-026-02972-9
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42463944/
+### 2) Targeted nanoparticle-mediated Co-delivery of IFITM3 KO and ponatinib reverses TKI resistance in chronic myeloid leukemia.
+- **Rivista**: Frontiers in pharmacology | **Tipo**: Preclinico / laboratorio
+- **Impact score**: 5
+- **Focus clinico**: Resistenza / T315I / mutazioni, Dose strategy / consolidamento
+- PMID: 42582078 | 10.3389/fphar.2026.1852978
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42582078/
 
-- Tipo di studio/popolazione: We report final long-term safety, tolerability, and efficacy results with asciminib in 48 patients with T315I-mutated CML-CP who received asciminib 200 mg twice daily in the phase 1, nonrandomized trial (NCT02081378).
-- Risultato chiave: After a median exposure of 3.5 years, 52.1% of patients continued to receive asciminib via posttrial access.
-- Rilevanza clinica: With up to approximately 6 years of exposure, this final analysis confirms asciminib as a treatment option for patients with T315I-mutated CML-CP.
+- Tipo di studio/popolazione: Although ponatinib can cover the T315I mutation, its clinical application is limited by severe adverse reactions at high doses.
+- Risultato chiave: <i>In vitro</i> experiments confirmed that the optimal ratio (2.5 μg IFITM3-sg3 + 5 μM ponatinib) significantly reversed the drug resistance of K562R cells, promoted apoptosis and inhibited proliferation.
+- Rilevanza clinica: Mechanistically, this study revealed that IFITM3 mediates CML resistance by interacting with HSPA9 to activate the MET/AKT/BCL2 pathway and that IFITM3 KO can block this pathway and exert a synergistic antiresistance effect with ponatinib.
 
 ---
 
-### 4) Tyrosine kinase inhibitor-associated cerebral vasculopathy with a distinct non-enhancing vessel wall phenotype: a case report.
-- **Rivista**: BMC neurology | **Tipo**: Case report
-- **Impact score**: 6
+### 3) [Sexual and reproductive life of men and women with chronic myeloid leukemia: Opinion and practical considerations of the Fi-LMC group].
+- **Rivista**: Bulletin du cancer | **Tipo**: Altro
+- **Impact score**: 5
 - **Focus clinico**: TFR / stop terapia, Safety e comorbidità
-- PMID: 42477610 | 10.1186/s12883-026-05192-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42477610/
+- PMID: 42557142 | 10.1016/j.bulcan.2026.04.002
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42557142/
 
-- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) are associated with adverse vascular events, including cerebrovascular stenosis.
-- Risultato chiave: A 47-year-old man with chronic myeloid leukemia developed recurrent transient ischemic attacks during long-term exposure to multiple tyrosine kinase inhibitors, including sequential treatment with nilotinib and ponatinib.
-- Rilevanza clinica: Following discontinuation of ponatinib and transition to alternative therapy, cerebral perfusion improved at two months, and the patient remained clinically stable without recurrent ischemic events.
+- Tipo di studio/popolazione: In order to ensure safe outcomes for male and female patients with chronic myeloid leukemia (CML) and their children, the Fi-LMC group (France intergroupe de la LMC) discusses strategies regarding sexuality, contraception, fertility, procreation and breastfeeding.
+- Risultato chiave: Data on bosutinib, ponatinib and asciminib remain insufficient.
+- Rilevanza clinica: For patients wishing to breastfeed, TKIs must be discontinued sufficiently prior to delivery.
 
 ---
 
-### 5) Connecting asciminib tolerability to long-term treatment persistence. Comment on: "Favorable tolerability of asciminib versus ATP-competitive tyrosine kinase inhibitors in the ASC4FIRST study of newly diagnosed patients with chronic-phase chronic myeloid leukemia".
-- **Rivista**: Haematologica | **Tipo**: Altro
+### 4) Matching-adjusted indirect comparison between asciminib and flumatinib as first-line treatment for chronic myeloid leukemia in China.
+- **Rivista**: Translational cancer research | **Tipo**: Altro
 - **Impact score**: 3
-- **Focus clinico**: Altro
-- PMID: 42489056 | 10.3324/haematol.2026.301608
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42489056/
+- **Focus clinico**: TFR / stop terapia, Sequencing / linee di terapia
+- PMID: 42591375 | 10.21037/tcr-2026-1659
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42591375/
 
-- Tipo di studio/popolazione: non riportato (abstract non disponibile).
-- Risultato chiave: non riportato.
-- Rilevanza clinica: non valutabile senza abstract.
+- Tipo di studio/popolazione: Asciminib, a novel BCR::ABL1 inhibitor that functions by specifically targeting the myristoyl pocket, has shown superior efficacy and favorable safety and tolerability compared with adenosine triphosphate-competitive tyrosine kinase inhibitors (TKIs) in patients with newly diagnosed chronic myeloid leukemia in chronic phase (CML-CP).
+- Risultato chiave: Safety analysis showed fewer discontinuations due to AEs at 48 weeks with asciminib (5.5%) than with flumatinib (10.2%), corresponding to a significantly lower risk of discontinuation due AEs (risk ratio: 0.29; 95% CI: 0.10-0.84; P=0.02).
+- Rilevanza clinica: A robust statistical model indicated that asciminib provides consistently superior efficacy and safety over flumatinib, supporting its value as a first-line treatment option for patients with CML-CP.
 
 ---
 
 ## Evidenze per domande cliniche
 
-### Safety e comorbidità (3)
+### TFR / stop terapia (3)
 
-### Five-year follow-up of OPTIC: long-term efficacy, safety, and mutation analyses of ponatinib in chronic-phase chronic myeloid leukemia from a randomized phase 2 trial.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- Impact score: 12
-- PMID: 42498834 | 10.1038/s41375-026-03009-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42498834/
+### Nilotinib in chronic myeloid leukemia: clinical value, real-world challenges, and the potential of nilotinib tablets to improve therapeutic outcomes.
+- **Rivista**: Expert review of hematology | **Tipo**: Trial clinico
+- Impact score: 19
+- PMID: 42584922 | 10.1080/17474086.2026.2715450
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42584922/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: The primary analysis of the phase 2 OPTIC trial (NCT02467270) demonstrated optimal benefit:risk with response-based ponatinib dosing (45 mg once daily (QD) reduced to 15 mg QD) upon achieving ≤1% BCR::ABL1<sup>IS</sup> in patients with tyrosine kinase inhibitor-resistant or T315I-positive chronic-phase chronic myeloid leukemia (CP-CML).
-- Risultato chiave: Overall, 283 patients were randomized to 45-mg, 30-mg, or 15-mg QD starting doses (n = 94, 95, and 94, respectively), with dose reduction to 15 mg QD upon response in the 45-mg and 30-mg cohorts.
-- Rilevanza clinica: Exposure-adjusted rates of adjudicated arterial occlusive events were 4.1, 3.8, and 2.0 patients per 100 patient-years, respectively, by cohort; results were comparable in T315I-positive patients.
+- Tipo di studio/popolazione: Nilotinib has been shown to be highly effective for the treatment of chronic myeloid leukemia (CML) and advancing patients to treatment-free remission (TFR).
+- Risultato chiave: However, its efficacy and safety may be compromised by nonadherence due to its twice-daily fasting requirement.
+- Rilevanza clinica: PubMed search (1966 to July 2026) for papers related to the pathology, etiology, and treatment of CML, pivotal clinical trials and real-world studies for tyrosine kinase inhibitors (TKI) focusing on nilotinib, and recent pharmacokinetic and adherence research, including data on the nilotinib tablet.
 
 ---
 
-### Ponatinib Safety Profile: An Analysis of 10 Years of Real-World Experience.
-- **Rivista**: Drug safety | **Tipo**: Real-world / osservazionale
-- Impact score: 10
-- PMID: 42471499 | 10.1007/s40264-026-01695-1
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42471499/
+### [Sexual and reproductive life of men and women with chronic myeloid leukemia: Opinion and practical considerations of the Fi-LMC group].
+- **Rivista**: Bulletin du cancer | **Tipo**: Altro
+- Impact score: 5
+- PMID: 42557142 | 10.1016/j.bulcan.2026.04.002
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42557142/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Following its initial commercial availability in the USA on 14 December 2012, safety concerns, notably vascular occlusive events, led to the implementation of post-approval risk-management measures (RMMs).
-- Risultato chiave: This retrospective study assessed the impact of these measures on adverse event (AE) reporting rates for ponatinib's important identified risks (IIRs).
-- Rilevanza clinica: AEs related to ponatinib's IIRs were identified from the Incyte Global Safety Database for the period 14 December 2012 to 13 December 2022, using a Medical Dictionary for Regulatory Activities-based search of postmarketing reports.
+- Tipo di studio/popolazione: In order to ensure safe outcomes for male and female patients with chronic myeloid leukemia (CML) and their children, the Fi-LMC group (France intergroupe de la LMC) discusses strategies regarding sexuality, contraception, fertility, procreation and breastfeeding.
+- Risultato chiave: Data on bosutinib, ponatinib and asciminib remain insufficient.
+- Rilevanza clinica: For patients wishing to breastfeed, TKIs must be discontinued sufficiently prior to delivery.
 
 ---
 
-### Tyrosine kinase inhibitor-associated cerebral vasculopathy with a distinct non-enhancing vessel wall phenotype: a case report.
-- **Rivista**: BMC neurology | **Tipo**: Case report
-- Impact score: 6
-- PMID: 42477610 | 10.1186/s12883-026-05192-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42477610/
+### Matching-adjusted indirect comparison between asciminib and flumatinib as first-line treatment for chronic myeloid leukemia in China.
+- **Rivista**: Translational cancer research | **Tipo**: Altro
+- Impact score: 3
+- PMID: 42591375 | 10.21037/tcr-2026-1659
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42591375/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) are associated with adverse vascular events, including cerebrovascular stenosis.
-- Risultato chiave: A 47-year-old man with chronic myeloid leukemia developed recurrent transient ischemic attacks during long-term exposure to multiple tyrosine kinase inhibitors, including sequential treatment with nilotinib and ponatinib.
-- Rilevanza clinica: Following discontinuation of ponatinib and transition to alternative therapy, cerebral perfusion improved at two months, and the patient remained clinically stable without recurrent ischemic events.
+- Tipo di studio/popolazione: Asciminib, a novel BCR::ABL1 inhibitor that functions by specifically targeting the myristoyl pocket, has shown superior efficacy and favorable safety and tolerability compared with adenosine triphosphate-competitive tyrosine kinase inhibitors (TKIs) in patients with newly diagnosed chronic myeloid leukemia in chronic phase (CML-CP).
+- Risultato chiave: Safety analysis showed fewer discontinuations due to AEs at 48 weeks with asciminib (5.5%) than with flumatinib (10.2%), corresponding to a significantly lower risk of discontinuation due AEs (risk ratio: 0.29; 95% CI: 0.10-0.84; P=0.02).
+- Rilevanza clinica: A robust statistical model indicated that asciminib provides consistently superior efficacy and safety over flumatinib, supporting its value as a first-line treatment option for patients with CML-CP.
 
 ---
 
-### Resistenza / T315I / mutazioni (2)
+### Dose strategy / consolidamento (2)
 
-### Five-year follow-up of OPTIC: long-term efficacy, safety, and mutation analyses of ponatinib in chronic-phase chronic myeloid leukemia from a randomized phase 2 trial.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- Impact score: 12
-- PMID: 42498834 | 10.1038/s41375-026-03009-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42498834/
+### Nilotinib in chronic myeloid leukemia: clinical value, real-world challenges, and the potential of nilotinib tablets to improve therapeutic outcomes.
+- **Rivista**: Expert review of hematology | **Tipo**: Trial clinico
+- Impact score: 19
+- PMID: 42584922 | 10.1080/17474086.2026.2715450
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42584922/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: The primary analysis of the phase 2 OPTIC trial (NCT02467270) demonstrated optimal benefit:risk with response-based ponatinib dosing (45 mg once daily (QD) reduced to 15 mg QD) upon achieving ≤1% BCR::ABL1<sup>IS</sup> in patients with tyrosine kinase inhibitor-resistant or T315I-positive chronic-phase chronic myeloid leukemia (CP-CML).
-- Risultato chiave: Overall, 283 patients were randomized to 45-mg, 30-mg, or 15-mg QD starting doses (n = 94, 95, and 94, respectively), with dose reduction to 15 mg QD upon response in the 45-mg and 30-mg cohorts.
-- Rilevanza clinica: Exposure-adjusted rates of adjudicated arterial occlusive events were 4.1, 3.8, and 2.0 patients per 100 patient-years, respectively, by cohort; results were comparable in T315I-positive patients.
+- Tipo di studio/popolazione: Nilotinib has been shown to be highly effective for the treatment of chronic myeloid leukemia (CML) and advancing patients to treatment-free remission (TFR).
+- Risultato chiave: However, its efficacy and safety may be compromised by nonadherence due to its twice-daily fasting requirement.
+- Rilevanza clinica: PubMed search (1966 to July 2026) for papers related to the pathology, etiology, and treatment of CML, pivotal clinical trials and real-world studies for tyrosine kinase inhibitors (TKI) focusing on nilotinib, and recent pharmacokinetic and adherence research, including data on the nilotinib tablet.
 
 ---
 
-### Asciminib monotherapy in patients with BCR::ABL1 T315I-mutated chronic-phase chronic myeloid leukemia: phase 1 trial final results.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- Impact score: 10
-- PMID: 42463944 | 10.1038/s41375-026-02972-9
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42463944/
+### Targeted nanoparticle-mediated Co-delivery of IFITM3 KO and ponatinib reverses TKI resistance in chronic myeloid leukemia.
+- **Rivista**: Frontiers in pharmacology | **Tipo**: Preclinico / laboratorio
+- Impact score: 5
+- PMID: 42582078 | 10.3389/fphar.2026.1852978
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42582078/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: We report final long-term safety, tolerability, and efficacy results with asciminib in 48 patients with T315I-mutated CML-CP who received asciminib 200 mg twice daily in the phase 1, nonrandomized trial (NCT02081378).
-- Risultato chiave: After a median exposure of 3.5 years, 52.1% of patients continued to receive asciminib via posttrial access.
-- Rilevanza clinica: With up to approximately 6 years of exposure, this final analysis confirms asciminib as a treatment option for patients with T315I-mutated CML-CP.
+- Tipo di studio/popolazione: Although ponatinib can cover the T315I mutation, its clinical application is limited by severe adverse reactions at high doses.
+- Risultato chiave: <i>In vitro</i> experiments confirmed that the optimal ratio (2.5 μg IFITM3-sg3 + 5 μM ponatinib) significantly reversed the drug resistance of K562R cells, promoted apoptosis and inhibited proliferation.
+- Rilevanza clinica: Mechanistically, this study revealed that IFITM3 mediates CML resistance by interacting with HSPA9 to activate the MET/AKT/BCL2 pathway and that IFITM3 KO can block this pathway and exert a synergistic antiresistance effect with ponatinib.
 
 ---
 
-### TFR / stop terapia (2)
+### Safety e comorbidità (2)
 
-### Asciminib monotherapy in patients with BCR::ABL1 T315I-mutated chronic-phase chronic myeloid leukemia: phase 1 trial final results.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- Impact score: 10
-- PMID: 42463944 | 10.1038/s41375-026-02972-9
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42463944/
+### Nilotinib in chronic myeloid leukemia: clinical value, real-world challenges, and the potential of nilotinib tablets to improve therapeutic outcomes.
+- **Rivista**: Expert review of hematology | **Tipo**: Trial clinico
+- Impact score: 19
+- PMID: 42584922 | 10.1080/17474086.2026.2715450
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42584922/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: We report final long-term safety, tolerability, and efficacy results with asciminib in 48 patients with T315I-mutated CML-CP who received asciminib 200 mg twice daily in the phase 1, nonrandomized trial (NCT02081378).
-- Risultato chiave: After a median exposure of 3.5 years, 52.1% of patients continued to receive asciminib via posttrial access.
-- Rilevanza clinica: With up to approximately 6 years of exposure, this final analysis confirms asciminib as a treatment option for patients with T315I-mutated CML-CP.
+- Tipo di studio/popolazione: Nilotinib has been shown to be highly effective for the treatment of chronic myeloid leukemia (CML) and advancing patients to treatment-free remission (TFR).
+- Risultato chiave: However, its efficacy and safety may be compromised by nonadherence due to its twice-daily fasting requirement.
+- Rilevanza clinica: PubMed search (1966 to July 2026) for papers related to the pathology, etiology, and treatment of CML, pivotal clinical trials and real-world studies for tyrosine kinase inhibitors (TKI) focusing on nilotinib, and recent pharmacokinetic and adherence research, including data on the nilotinib tablet.
 
 ---
 
-### Tyrosine kinase inhibitor-associated cerebral vasculopathy with a distinct non-enhancing vessel wall phenotype: a case report.
-- **Rivista**: BMC neurology | **Tipo**: Case report
-- Impact score: 6
-- PMID: 42477610 | 10.1186/s12883-026-05192-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42477610/
+### [Sexual and reproductive life of men and women with chronic myeloid leukemia: Opinion and practical considerations of the Fi-LMC group].
+- **Rivista**: Bulletin du cancer | **Tipo**: Altro
+- Impact score: 5
+- PMID: 42557142 | 10.1016/j.bulcan.2026.04.002
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42557142/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Tyrosine kinase inhibitors (TKIs) are associated with adverse vascular events, including cerebrovascular stenosis.
-- Risultato chiave: A 47-year-old man with chronic myeloid leukemia developed recurrent transient ischemic attacks during long-term exposure to multiple tyrosine kinase inhibitors, including sequential treatment with nilotinib and ponatinib.
-- Rilevanza clinica: Following discontinuation of ponatinib and transition to alternative therapy, cerebral perfusion improved at two months, and the patient remained clinically stable without recurrent ischemic events.
-
----
-
-### Dose strategy / consolidamento (1)
-
-### Five-year follow-up of OPTIC: long-term efficacy, safety, and mutation analyses of ponatinib in chronic-phase chronic myeloid leukemia from a randomized phase 2 trial.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- Impact score: 12
-- PMID: 42498834 | 10.1038/s41375-026-03009-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42498834/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: The primary analysis of the phase 2 OPTIC trial (NCT02467270) demonstrated optimal benefit:risk with response-based ponatinib dosing (45 mg once daily (QD) reduced to 15 mg QD) upon achieving ≤1% BCR::ABL1<sup>IS</sup> in patients with tyrosine kinase inhibitor-resistant or T315I-positive chronic-phase chronic myeloid leukemia (CP-CML).
-- Risultato chiave: Overall, 283 patients were randomized to 45-mg, 30-mg, or 15-mg QD starting doses (n = 94, 95, and 94, respectively), with dose reduction to 15 mg QD upon response in the 45-mg and 30-mg cohorts.
-- Rilevanza clinica: Exposure-adjusted rates of adjudicated arterial occlusive events were 4.1, 3.8, and 2.0 patients per 100 patient-years, respectively, by cohort; results were comparable in T315I-positive patients.
+- Tipo di studio/popolazione: In order to ensure safe outcomes for male and female patients with chronic myeloid leukemia (CML) and their children, the Fi-LMC group (France intergroupe de la LMC) discusses strategies regarding sexuality, contraception, fertility, procreation and breastfeeding.
+- Risultato chiave: Data on bosutinib, ponatinib and asciminib remain insufficient.
+- Rilevanza clinica: For patients wishing to breastfeed, TKIs must be discontinued sufficiently prior to delivery.
 
 ---
 
 ### Sequencing / linee di terapia (1)
 
-### Five-year follow-up of OPTIC: long-term efficacy, safety, and mutation analyses of ponatinib in chronic-phase chronic myeloid leukemia from a randomized phase 2 trial.
-- **Rivista**: Leukemia | **Tipo**: Trial clinico
-- Impact score: 12
-- PMID: 42498834 | 10.1038/s41375-026-03009-x
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42498834/
-- Open Access (Europe PMC/PMC): non rilevato
-
-**Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: The primary analysis of the phase 2 OPTIC trial (NCT02467270) demonstrated optimal benefit:risk with response-based ponatinib dosing (45 mg once daily (QD) reduced to 15 mg QD) upon achieving ≤1% BCR::ABL1<sup>IS</sup> in patients with tyrosine kinase inhibitor-resistant or T315I-positive chronic-phase chronic myeloid leukemia (CP-CML).
-- Risultato chiave: Overall, 283 patients were randomized to 45-mg, 30-mg, or 15-mg QD starting doses (n = 94, 95, and 94, respectively), with dose reduction to 15 mg QD upon response in the 45-mg and 30-mg cohorts.
-- Rilevanza clinica: Exposure-adjusted rates of adjudicated arterial occlusive events were 4.1, 3.8, and 2.0 patients per 100 patient-years, respectively, by cohort; results were comparable in T315I-positive patients.
-
----
-
-### Altro (1)
-
-### Connecting asciminib tolerability to long-term treatment persistence. Comment on: "Favorable tolerability of asciminib versus ATP-competitive tyrosine kinase inhibitors in the ASC4FIRST study of newly diagnosed patients with chronic-phase chronic myeloid leukemia".
-- **Rivista**: Haematologica | **Tipo**: Altro
+### Matching-adjusted indirect comparison between asciminib and flumatinib as first-line treatment for chronic myeloid leukemia in China.
+- **Rivista**: Translational cancer research | **Tipo**: Altro
 - Impact score: 3
-- PMID: 42489056 | 10.3324/haematol.2026.301608
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42489056/
+- PMID: 42591375 | 10.21037/tcr-2026-1659
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42591375/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: non riportato (abstract non disponibile).
-- Risultato chiave: non riportato.
-- Rilevanza clinica: non valutabile senza abstract.
+- Tipo di studio/popolazione: Asciminib, a novel BCR::ABL1 inhibitor that functions by specifically targeting the myristoyl pocket, has shown superior efficacy and favorable safety and tolerability compared with adenosine triphosphate-competitive tyrosine kinase inhibitors (TKIs) in patients with newly diagnosed chronic myeloid leukemia in chronic phase (CML-CP).
+- Risultato chiave: Safety analysis showed fewer discontinuations due to AEs at 48 weeks with asciminib (5.5%) than with flumatinib (10.2%), corresponding to a significantly lower risk of discontinuation due AEs (risk ratio: 0.29; 95% CI: 0.10-0.84; P=0.02).
+- Rilevanza clinica: A robust statistical model indicated that asciminib provides consistently superior efficacy and safety over flumatinib, supporting its value as a first-line treatment option for patients with CML-CP.
 
 ---
 
 ### Real-world (utilità pratica) (1)
 
-### Ponatinib Safety Profile: An Analysis of 10 Years of Real-World Experience.
-- **Rivista**: Drug safety | **Tipo**: Real-world / osservazionale
-- Impact score: 10
-- PMID: 42471499 | 10.1007/s40264-026-01695-1
-- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42471499/
+### Nilotinib in chronic myeloid leukemia: clinical value, real-world challenges, and the potential of nilotinib tablets to improve therapeutic outcomes.
+- **Rivista**: Expert review of hematology | **Tipo**: Trial clinico
+- Impact score: 19
+- PMID: 42584922 | 10.1080/17474086.2026.2715450
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42584922/
 - Open Access (Europe PMC/PMC): non rilevato
 
 **Mini-riassunto (da abstract, estrattivo):**
-- Tipo di studio/popolazione: Following its initial commercial availability in the USA on 14 December 2012, safety concerns, notably vascular occlusive events, led to the implementation of post-approval risk-management measures (RMMs).
-- Risultato chiave: This retrospective study assessed the impact of these measures on adverse event (AE) reporting rates for ponatinib's important identified risks (IIRs).
-- Rilevanza clinica: AEs related to ponatinib's IIRs were identified from the Incyte Global Safety Database for the period 14 December 2012 to 13 December 2022, using a Medical Dictionary for Regulatory Activities-based search of postmarketing reports.
+- Tipo di studio/popolazione: Nilotinib has been shown to be highly effective for the treatment of chronic myeloid leukemia (CML) and advancing patients to treatment-free remission (TFR).
+- Risultato chiave: However, its efficacy and safety may be compromised by nonadherence due to its twice-daily fasting requirement.
+- Rilevanza clinica: PubMed search (1966 to July 2026) for papers related to the pathology, etiology, and treatment of CML, pivotal clinical trials and real-world studies for tyrosine kinase inhibitors (TKI) focusing on nilotinib, and recent pharmacokinetic and adherence research, including data on the nilotinib tablet.
+
+---
+
+### Resistenza / T315I / mutazioni (1)
+
+### Targeted nanoparticle-mediated Co-delivery of IFITM3 KO and ponatinib reverses TKI resistance in chronic myeloid leukemia.
+- **Rivista**: Frontiers in pharmacology | **Tipo**: Preclinico / laboratorio
+- Impact score: 5
+- PMID: 42582078 | 10.3389/fphar.2026.1852978
+- Link PubMed: https://pubmed.ncbi.nlm.nih.gov/42582078/
+- Open Access (Europe PMC/PMC): non rilevato
+
+**Mini-riassunto (da abstract, estrattivo):**
+- Tipo di studio/popolazione: Although ponatinib can cover the T315I mutation, its clinical application is limited by severe adverse reactions at high doses.
+- Risultato chiave: <i>In vitro</i> experiments confirmed that the optimal ratio (2.5 μg IFITM3-sg3 + 5 μM ponatinib) significantly reversed the drug resistance of K562R cells, promoted apoptosis and inhibited proliferation.
+- Rilevanza clinica: Mechanistically, this study revealed that IFITM3 mediates CML resistance by interacting with HSPA9 to activate the MET/AKT/BCL2 pathway and that IFITM3 KO can block this pathway and exert a synergistic antiresistance effect with ponatinib.
 
 ---
